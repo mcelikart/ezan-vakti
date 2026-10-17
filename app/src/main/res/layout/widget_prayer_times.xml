@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_widget_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_widget" />
+
+    <LinearLayout
+        android:id="@+id/widget_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- Header Section: City and Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_widget_city"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="KONUM YÜKLENİYOR"
+                android:textColor="#1DE9B6"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/tv_widget_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bugün"
+                android:textColor="#B2DFDB"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+        <!-- Active Prayer & Countdown Banner Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start">
+
+            <!-- Active Vakit & Next Vakit Info Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_widget_current_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="İÇİNDE OLUNAN VAKİT"
+                        android:textColor="#80CBC4"
+                        android:textSize="9sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:id="@+id/tv_widget_next_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Öğle Vakti"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+
+                <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+
+                <!-- Countdown and Next Time -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="end">
+
+                    <TextView
+                        android:id="@+id/tv_widget_next_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sonraki: İkindi • 16:30"
+                        android:textColor="#E0F2F1"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <Chronometer
+                        android:id="@+id/widget_chronometer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#00E676"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout android:layout_width="match_parent" android:layout_height="6dp" />
+
+            <ProgressBar
+                android:id="@+id/widget_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:progressDrawable="@drawable/widget_progress_apple"
+                android:max="1000"
+                android:progress="0" />
+        </LinearLayout>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+        <FrameLayout android:layout_width="match_parent" android:layout_height="6dp" />
+
+        <!-- 6 Columns Prayer Times Grid -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_0" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="İmsak" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="12sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_1" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Güneş" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="12sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_2" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Öğle" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="12sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_3" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="İkindi" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="12sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_4" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_4" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Akşam" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="12sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginHorizontal="1dp">
+                <ImageView android:id="@+id/img_widget_item_5" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitXY" android:src="@drawable/bg_widget_normal" />
+                <LinearLayout android:id="@+id/ll_widget_5" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:paddingVertical="4dp">
+                    <TextView android:id="@+id/tv_widget_name_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Yatsı" android:textColor="#B2DFDB" android:textSize="10sp" android:fontFamily="sans-serif-medium" android:singleLine="true" />
+                    <TextView android:id="@+id/tv_widget_time_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:--" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="13sp" android:fontFamily="sans-serif" android:layout_marginTop="2dp" android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

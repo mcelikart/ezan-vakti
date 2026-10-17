@@ -1,0 +1,492 @@
+package com.example.data
+
+object QuranMiraclesDeepEsrarTafsir {
+    val list: List<MiracleItem> = listOf(
+        MiracleItem(id = "zulumat_cogul_nur_tekil_optik",
+        title = "Karanlıklar Çoğul (Zulumât) - Nur Tekil: Optik ve Kuantum Hakikati",
+        subtitle = "Kur'an'da nurun daima tekil, karanlıkların daima çoğul zikredilmesindeki ilmi derinlik",
+        category = MiracleCategory.RUMUZAT_ESRAR,
+        surahName = "En'âm",
+        verseNumber = "1",
+        surahIndex = 6,
+        verseIndex = 1,
+        arabicVerse = "اَلْحَمْدُ لِلّٰهِ الَّذٖي خَلَقَ السَّمٰوَاتِ وَالْاَرْضَ وَجَعَلَ الظُّلُمَاتِ وَالنُّورَۜ ثُمَّ الَّذٖينَ كَفَرُوا بِرَبِّهِمْ يَعْدِلُونَ",
+        verseTranslation = "Hamd, gökleri ve yeri yaratan, karanlıkları (zulumât) ve aydınlığı (nûr) var eden Allah'a mahsustur. Sonra da inkâr edenler, Rablerine başkalarını denk tutuyorlar.",
+        scientificDiscoveryTitle = "Optik Spektrum, Foton Birliği ve Karanlığın Katmanları",
+        discoveryCentury = "Klasik Belâgat (İşârâtü'l-İ'câz) & Modern Kuantum Optiği",
+        scientificExplanation = "Kur'ân-ı Kerîm'in tamamında 'Nur' (ışık) kelimesi daima tekil (نُور), 'Zulmet' (karanlık) kelimesi ise daima çoğul (ظُلُمَات - Zulumât) olarak kullanılır. Bediüzzaman Said Nursi'nin İşârâtü'l-İ'câz ve Rumuzat-ı Semaniye'de bildirdiği üzere; hakiki ışık ve hidayet kaynağı teklikte birleşen tek bir hakikattir. Fiziksel açıdan da fotonlar ve elektromanyetik spektrum bir bütündür; fakat karanlık, ışığın farklı dalga boylarında (morötesi, kızılötesi, radyo, mikrodalga, okyanus derinlikleri, uzay boşlukları) eksikliğinden kaynaklanan sayısız derece ve katmana (çoğul) sahiptir.",
+        keyScientificFacts = listOf(
+        "Kur'an'da 'Zulumât' tam 23 yerde geçer ve istisnasız tamamında çoğul formdadır.",
+        "'Nur' kelimesi ise Kur'an'da daima tekil formda kullanılmıştır.",
+        "Fizikte ışık tek bir elektromanyetik dalga/foton teorisiyle açıklanırken, karanlık ışığın olmama derecelerine göre sonsuz sayıda karanlık tabakası üretir.",
+        "Rumuzat-ı Semaniye'de bu lafız intizamının hem fizik hem metafizik âlemler için mutlak bir kural olduğu izah edilir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, İşârâtü'l-İ'câz fî Mazânni'l-Îcâz, Fatiha ve Bakara Girişi",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Nur ve Zulümat Nükteleri",
+        "Fahruddin er-Razi, Mefatihu'l-Gayb, En'am 1 Tefsiri",
+        "Prof. Dr. Richard Feynman, QED: The Strange Theory of Light and Matter"
+        ),
+        tags = listOf("Zulumat", "Nur", "Karanlık", "Optik", "Kuantum", "Rumuzat-ı Semaniye", "İşaratü'l-İ'caz")
+        ),
+        MiracleItem(id = "alti_gunde_yaratilis_alti_jeolojik_devir",
+        title = "Semavat ve Arz'ın 6 Devirde Yaratılışı: 6 Jeolojik/Kozmik Çağ",
+        subtitle = "\"Sitteti eyyâm\" ifadesinin 24 saatlik gün değil 6 kozmolojik evreye işaret etmesi",
+        category = MiracleCategory.RUMUZAT_ESRAR,
+        surahName = "A'râf",
+        verseNumber = "54",
+        surahIndex = 7,
+        verseIndex = 54,
+        arabicVerse = "اِنَّ رَبَّكُمُ اللّٰهُ الَّذٖي خَلَقَ السَّمٰوَاتِ وَالْاَرْضَ فٖي سِتَّةِ اَيَّامٍ ثُمَّ اسْتَوٰى عَلَى الْعَرْشِ",
+        verseTranslation = "Şüphesiz Rabbiniz, gökleri ve yeri altı devirde/günde (sitteti eyyâm) yaratan, sonra da Arş'a istiva eden Allah'tır.",
+        scientificDiscoveryTitle = "Jeolojik Zaman Cetveli ve Kozmik Evrim Devirleri",
+        discoveryCentury = "20. Yüzyıl Jeoloji & Astrofizik",
+        scientificExplanation = "Arapça'da 'yevm' kelimesi sadece 24 saatlik günü değil, başlangıcı ve sonu olan geniş bir zaman dilimini, dönemi veya çağı ifade eder. Dünya henüz yaratılmadan önce 24 saatlik Güneş günü mevcut olmadığından ayetteki 6 gün '6 kozmik ve jeolojik evreyi' ifade eder. Modern jeoloji ve astrofizik yerkürenin ve evrenin oluşumunu tam olarak 6 ana devreye ayırır: 1- Hadean (Kozmik gaz ve yerkürenin soğuması), 2- Arkeyan (İlk okyanuslar ve tek hücreli yaşam), 3- Proterozoyik (Oksijen zenginleşmesi ve çok hücreliler), 4- Paleozoyik (Karasal yaşama geçiş), 5- Mezozoyik (Sürüngenler ve bitki çeşitliliği), 6- Senozoyik (Memeliler ve insanın yaratılışı).",
+        keyScientificFacts = listOf(
+        "Arap dilinde 'Yevm' mutlak bir zaman periyodunu ve jeolojik evreyi de kapsar (Hac 47 ve Mearic 4 ayetlerinde 1000 ve 50.000 yıllık yevmler zikredilir).",
+        "Güneş ve Dünya arasındaki dönüşe bağlı 24 saatlik gün, kâinatın yaratılışından çok sonra teşekkül etmiştir.",
+        "Modern jeolojik takvim yer kabuğunun oluşumunu 6 ana çağa böler.",
+        "Rumuzat-ı Semaniye ve 25. Söz'de 'sitteti eyyâm'ın kâinatın 6 büyük tekvin tavrı olduğu vurgulanır."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler (25. Söz, Felsefe ve Hikmet-i Kur'aniye Mukayesesi)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Sitteti Eyyam Risalesi",
+        "İmam Ragıb el-İsfahani, El-Müfredat fî Garibi'l-Kur'an ('Yevm' maddesi)",
+        "USGS (United States Geological Survey - Geologic Time Scale)"
+        ),
+        tags = listOf("6 Gün", "Kozmik Devir", "Jeoloji", "Evrenin Yaratılışı", "Zaman", "Rumuzat-ı Semaniye")
+        ),
+        MiracleItem(id = "gogun_duman_plazma_evresi_duhan",
+        title = "Göğün Gaz (Duhân) Halindeki İlk Evresi",
+        subtitle = "Yıldız ve galaksilerden önce kâinatın sıcak kozmik gaz ve plazma dumanı halinde olması",
+        category = MiracleCategory.COSMOLOGY,
+        surahName = "Fussilet",
+        verseNumber = "11",
+        surahIndex = 41,
+        verseIndex = 11,
+        arabicVerse = "ثُمَّ اسْتَوٰىۤ اِلَى السَّمَاءِ وَهِيَ دُخَانٌ فَقَالَ لَهَا وَلِلْاَرْضِ ائْتِيَا طَوْعًا اَوْ كَرْهًاۜ قَالَتَاۤ اَتَيْنَا طَائِعٖينَ",
+        verseTranslation = "Sonra duman (gaz bulutu/plazma) halinde olan göğe yöneldi; ona ve yere: 'İsteyerek veya istemeyerek gelin!' dedi. İkisi de: 'İsteyerek geldik' dediler.",
+        scientificDiscoveryTitle = "Büyük Patlama Sonrası Kozmik Gaz ve Plazma Bulutu",
+        discoveryCentury = "20. Yüzyıl Astrofiziği (George Gamow / Penzias & Wilson)",
+        scientificExplanation = "Modern astrofizik modellerine göre Büyük Patlama'dan (Big Bang) sonra evren, yıldızlar ve galaksiler henüz oluşmadan önce yüksek sıcaklıkta hidrojen, helyum ve serbest elektronlardan oluşan yoğun, opak bir gaz ve sıcak duman/plazma (nebula) bulutundan ibaretti. Kur'ân-ı Kerîm göğün bu başlangıç evresini tasvir etmek için 'buhar' veya 'hava' değil, sıcak ve parçacıklı gaz kütlesini en mükemmel şekilde ifade eden 'Duhân' (دُخَانٌ - Duman) kelimesini seçmiştir.",
+        keyScientificFacts = listOf(
+        "'Duhân' kelimesi duman, yoğun gaz ve asılı partikül içeren sıcak plazmayı ifade eder.",
+        "Evren ilk birkaç yüz bin yıl boyunca opak, ışığı geçirmeyen sıcak bir kozmik gaz bulutu halindeydi.",
+        "Bu duman bulutunun kütleçekimsel olarak çökelmesiyle ilk yıldızlar ve galaksiler teşekkül etmiştir.",
+        "NASA WMAP ve COBE uyduları erken evrenin bu gaz ve plazma yapısını doğrulamıştır."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Risale-i Nur, 25. Söz (Göklerin Yaratılışı)",
+        "George Gamow, The Creation of the Universe (Kozmik İlkel Gaz)",
+        "Prof. Dr. Yoshihide Kozai (Tokyo Ulusal Astronomi Gözlemevi Direktörü İzahları)",
+        "Steven Weinberg, The First Three Minutes (İlk Üç Dakika)"
+        ),
+        tags = listOf("Duhan", "Kozmik Duman", "Plazma", "Big Bang", "Evrenin Başlangıcı", "Astrofizik")
+        ),
+        MiracleItem(id = "yildizlarin_cokusu_ve_kararmasi_inkedarat",
+        title = "Yıldızların Çöküşü ve Işığının Sönmesi (İnkederat)",
+        subtitle = "Nükleer yakıtı biten yıldızların kütleçekimle büzülüp ışığını kaybetmesi",
+        category = MiracleCategory.COSMOLOGY,
+        surahName = "Tekvîr",
+        verseNumber = "2",
+        surahIndex = 81,
+        verseIndex = 2,
+        arabicVerse = "وَاِذَا النُّجُومُ انْكَدَرَتْۙ",
+        verseTranslation = "Yıldızlar (kararıp, ışığını yitirerek) dökülüp söndüğü zaman.",
+        scientificDiscoveryTitle = "Yıldız Evrimi, Beyaz Cüceler ve Kütleçekimsel Çöküş",
+        discoveryCentury = "20. Yüzyıl (Subrahmanyan Chandrasekhar - Nobel Ödüllü)",
+        scientificExplanation = "Ayet-i kerimede geçen 'İnkedarat' (انْكَدَرَتْ) fiili Arapça'da hem 'ışığını, parlaklığını kaybedip bulanıklaşmak/kararmak' hem de 'ağırlık ve yoğunluk sebebiyle içeriye doğru çökmek/dökülmek' manalarına gelir. Yıldızlar nükleer füzyon yakıtlarını tükettiklerinde kendi kütleçekim kuvvetlerine karşı duramazlar; içeriye doğru şiddetle büzülerek (gravitational collapse) parıltılarını kaybederler ve beyaz cüce, nötron yıldızı veya kara deliğe dönüşürler. 'İnkederat' kelimesi astrofizikteki bu çöküş ve sönüş sürecini harikulade bir vecizlikle resmeder.",
+        keyScientificFacts = listOf(
+        "İnkedarat fiili hem parlaklığın sönmesini hem de içeriye doğru büzülerek çökmeyi tek kelimede birleştirir.",
+        "Güneş ve diğer yıldızlar termonükleer enerjileri bittiğinde parıltılarını kaybedecek ve sönecektir.",
+        "Modern astrofizikte bu süreç 'gravitational collapse' (kütleçekimsel çöküş) olarak adlandırılır.",
+        "Rumuzat-ı Semaniye'de Tekvir suresinin kıyamet kozmolojisine bakan sarsıcı hakikatleri açıklanır."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler (29. Söz, Kıyamet ve Haşir Bahsi)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Sure-i Tekvir Nükteleri",
+        "Subrahmanyan Chandrasekhar, The Mathematical Theory of Black Holes",
+        "Prof. Dr. Stephen Hawking, A Brief History of Time"
+        ),
+        tags = listOf("Tekvir Suresi", "Yıldızların Sönmesi", "İnkederat", "Kütleçekimsel Çöküş", "Astrofizik")
+        ),
+        MiracleItem(id = "gunesin_mustakarriha_solar_apex_akisi",
+        title = "Güneş'in Duraklama Noktasına Doğru Akışı (Müstakarr)",
+        subtitle = "Güneş sisteminin saniyede 220 km hızla Solar Apex rotasında belirlenmiş hedefe akışı",
+        category = MiracleCategory.COSMOLOGY,
+        surahName = "Yâsîn",
+        verseNumber = "38",
+        surahIndex = 36,
+        verseIndex = 38,
+        arabicVerse = "وَالشَّمْسُ تَجْرٖي لِمُسْتَقَرٍّ لَهَاۜ ذٰلِكَ تَقْدٖيرُ الْعَزٖيزِ الْعَلٖيمِۜ",
+        verseTranslation = "Güneş de kendisi için belirlenmiş bir karargâha/duraklama noktasına (müstakarr) doğru akıp gider. Bu, Mutlak Galip ve Her Şeyi Bilen Allah'ın takdiridir.",
+        scientificDiscoveryTitle = "Solar Apex ve Galaktik Güneş Yörüngesi",
+        discoveryCentury = "18. Yüzyıl (William Herschel - 1783) & Modern Astronomi",
+        scientificExplanation = "Eski çağlarda Güneş'in sabit olduğu sanılırdı. Kur'an ise 'Güneş kendisi için tayin edilmiş bir müstakarr (karargâh/duraklama hedefi) için akıp gitmektedir (tecrî)' buyurmuştur. 1783'te Sir William Herschel tarafından keşfedilen ve bugün modern uydularla kesinleşen gerçek şudur: Güneşimiz tüm gezegenleriyle birlikte saniyede yaklaşık 220 km hızla Herkül Takımyıldızı yakınındaki 'Solar Apex' (Güneş Apeksi) adı verilen bir uzay noktasına doğru devasa bir spiral akışla ilerlemektedir.",
+        keyScientificFacts = listOf(
+        "Güneş ve etrafındaki gezegenler uzayda duran değil, saniyede 220 km (saatte 792.000 km) hızla hareket eden bir sistemdir.",
+        "Güneş'in Samanyolu Galaksisi merkezindeki yörüngesi 'Solar Apex' yönünde sabit bir hedefe akar.",
+        "Ayet Güneş'in sadece dönmesini değil, akışkan bir nehir gibi ilerlemesini 'tecrî' (akar) fiiliyle anlatmıştır.",
+        "'Müstakarr' kelimesi hem uzaydaki bu varış hedefini hem de Güneş'in ömrünün son bulacağı durma anını ifade eder."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler (25. Söz, Güneş ve Ay İ'cazı)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Yasin Suresi 38. Ayet Nüktesi",
+        "Sir William Herschel, On the Proper Motion of the Sun and Solar System (1783)",
+        "NASA Solar System Exploration (The Sun's Galactic Orbit & Solar Apex)"
+        ),
+        tags = listOf("Güneş", "Solar Apex", "Yasin Suresi", "Müstakarr", "Astronomi", "Yörünge")
+        ),
+        MiracleItem(id = "hz_yakub_koku_algisi_olfaktor",
+        title = "Koku Moleküllerinin Uzaktan Algılanması: Hz. Yakub ve Gömlek Sırrı",
+        subtitle = "Koku moleküllerinin atmosferik taşınımı ve yüksek olfaktor (koku) algı kapasitesi",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Yûsuf",
+        verseNumber = "94",
+        surahIndex = 12,
+        verseIndex = 94,
+        arabicVerse = "وَلَمَّا فَصَلَتِ الْعٖيرُ قَالَ اَبُوهُمْ اِنّٖي لَاَجِدُ رٖيحَ يُوسُفَ لَوْلَاۤ اَنْ تُفَنِّدُونِ",
+        verseTranslation = "Kervan (Mısır'dan) ayrılınca, babaları dedi ki: 'Eğer bana bunak demezseniz, doğrusu ben Yusuf'un kokusunu alıyorum!'",
+        scientificDiscoveryTitle = "Uçucu Organik Bileşikler (VOC) ve Olfaktor Biyo-İmza",
+        discoveryCentury = "20. & 21. Yüzyıl (Linda Buck & Richard Axel - Nobel Ödülü)",
+        scientificExplanation = "Hz. Yakub (a.s.), Yusuf'un gömleği Mısır'dan yola çıkar çıkmaz yüzlerce kilometre öteden 'Ben Yusuf'un kokusunu duyuyorum' demiştir. 2004 Nobel Tıp Ödülü'nü kazanan Richard Axel ve Linda Buck'ın araştırmaları, her insanın terinde ve derisinde 'uçucu organik bileşikler' (VOC) yoluyla tamamen eşsiz bir koku parmak izi taşıdığını; koku moleküllerinin rüzgar termalleriyle binlerce kilometre taşınabildiğini ve insan beyninde 1 trilyondan fazla kokuyu ayırt edebilecek gizil bir reseptör ağı bulunduğunu ispatlamıştır.",
+        keyScientificFacts = listOf(
+        "Her bireyin genetik ve mikrobiyotik yapısına bağlı eşsiz bir koku kimliği (biyo-imza) vardır.",
+        "Koku molekülleri rüzgâr ve hava akımlarıyla atmosferde çok uzun mesafeler kat edebilir.",
+        "Nobel ödüllü keşifler insan koku alma sisteminin (olfaktör korteks) hafıza ve duyguyla doğrudan bağlı olduğunu göstermiştir.",
+        "Rumuzat-ı Semaniye ve 20. Söz'de bu ayetin gelecekte uzaktan koku nakli ve kablosuz teşhis teknolojilerine bir mucize kapısı açtığı izah edilir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler, 20. Söz (Peygamber Mucizeleri ve Geleceğin Teknolojileri)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Yusuf Suresi İzahları",
+        "Linda B. Buck & Richard Axel, Olfactory Receptors and the Organization of the Olfactory System (Nobel 2004)",
+        "Prof. Dr. Noam Sobel, Human Olfaction and Distance Perception"
+        ),
+        tags = listOf("Yusuf Suresi", "Koku", "Hz. Yakub", "Olfaktör", "Biyoloji", "Rumuzat-ı Semaniye")
+        ),
+        MiracleItem(id = "goz_bebeginin_beyazlasmasi_katarakt_tedavisi",
+        title = "Göz Bebeğinin Beyazlaşması (Katarakt) ve Geri Dönüşü",
+        subtitle = "Kederle beyazlaşan gözün gömlekteki ter amino asitleriyle açılmasının biyokimyasal sırrı",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Yûsuf",
+        verseNumber = "84-96",
+        surahIndex = 12,
+        verseIndex = 84,
+        arabicVerse = "وَتَوَلّٰى عَنْهُمْ وَقَالَ يَاۤ اَسَفٰى عَلٰى يُوسُفَ وَابْيَضَّتْ عَيْنَاهُ مِنَ الْحُزْنِ فَهُوَ كَظٖيمٌ",
+        verseTranslation = "Onlardan yüz çevirdi ve 'Ah Yusuf'um vah!' dedi. Ve kederden gözleri ağardı (beyazlaştı/katarakt oldu); o artık hüznünü içine gömüyordu.",
+        scientificDiscoveryTitle = "Stres Kaynaklı Katarakt ve Üre/Amino Asit Saydamlaşması",
+        discoveryCentury = "20. Yüzyıl Göz Hastalıkları (Oftalmoloji)",
+        scientificExplanation = "Ayet keder ve ağlamaktan gözün görme yetisini kaybedip beyazlaşmasını 'İbyaddat aynâh' (Gözleri beyazlaştı) olarak adlandırır; bu tıpta 'katarakt' (lens opaklaşması) tabiridir. Surenin 96. ayetinde Yusuf'un terini taşıyan gömlek göze sürülünce 'gözün tekrar açıldığı' (fe'rtedde basîrâ) bildirilir. Mısırlı göz doktoru Prof. Dr. Abdülbasit Muhammed Seyyid, insan terinde bulunan üre, laktat ve amino asit türevlerinin kataraktlı mercek proteinlerindeki bulanıklığı çözücü ve saydamlaştırıcı etkisini laboratuvar ortamında kanıtlayarak uluslararası patentli katarakt damlası geliştirmiştir.",
+        keyScientificFacts = listOf(
+        "Aşırı stres, ağlama ve yüksek kortizol seviyeleri göz merceğindeki kristalin proteinlerini çökerterek katarakta yol açar.",
+        "Kur'an katarakt hastalığını 1400 yıl önce tam anatomik görüntüsüyle 'gözlerin beyazlaşması' olarak tasvir etmiştir.",
+        "İnsan terindeki spesifik biyokimyasal bileşikler (üre ve amino asitler) mercek saydamlığını artırıcı etkiye sahiptir.",
+        "Bu Kur'an ayetinden ilham alınarak geliştirilen tedavi formülü Avrupa ve Kanada'da tescillenmiştir."
+        ),
+        quotesAndReferences = listOf(
+        "Prof. Dr. Abdülbasit Muhammed Seyyid (Kahire Ulusal Araştırma Merkezi Göz İlaç Patenti)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Sure-i Yusuf Nükteleri",
+        "Elmalılı Hamdi Yazır, Hak Dini Kur'an Dili, Yusuf 84 ve 96 Tefsirleri",
+        "British Journal of Ophthalmology (Biochemical Factors in Lens Transparency)"
+        ),
+        tags = listOf("Katarakt", "Yusuf Suresi", "Göz Beyazlaşması", "Oftalmoloji", "Biyokimya", "Tıbbi Mucize")
+        ),
+        MiracleItem(id = "parmak_uclari_benaneh_dermatoglif",
+        title = "Parmak Uçlarının Yeniden Yaratılması (Benâneh)",
+        subtitle = "Kıyamette her insanın parmak ucundaki eşsiz izin bile kusursuzca yeniden yaratılacağı ilanı",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Kıyâmet",
+        verseNumber = "4",
+        surahIndex = 75,
+        verseIndex = 4,
+        arabicVerse = "بَلٰى قَادِرٖينَ عَلٰىۤ اَنْ نُسَوِّيَ بَنَانَهُ",
+        verseTranslation = "Evet, Biz onun parmak uçlarını bile (benâneh) aynen yeniden düzenlemeye ve yaratmaya kadiriz!",
+        scientificDiscoveryTitle = "Dermatoglif ve Parmak İzi Eşsizliği",
+        discoveryCentury = "19. Yüzyıl (Sir Francis Galton & Henry Faulds - 1880)",
+        scientificExplanation = "İnkarcılar 'Ölüp kemik olduktan sonra bizi kim toplayacak?' dediklerinde Kur'an, bedenin en zor toplanacağı sanılan yerini değil, her insanda tamamen eşsiz ve benzersiz olan 'parmak uçlarını' (بَنَانَهُ - Benâneh) zikretmiştir. 1880'lerde Sir Francis Galton ve Henry Faulds tarafından keşfedildiği üzere, dünyada yaşamış ve yaşayacak milyarlarca insanın, hatta tek yumurta ikizlerinin bile parmak izleri birbirinin tamamen aynısı değildir. Anne karnında 3. ayda oluşan bu kıvrımlar ömür boyu değişmez.",
+        keyScientificFacts = listOf(
+        "Kur'an insanın dirilişinde en ince ayrıntı olarak kemikleri değil 'parmak uçlarını' (benaneh) vurgulamıştır.",
+        "Parmak izi biyometride her insana özel en kesin kimlik tespit metodudur.",
+        "Tek yumurta ikizleri aynı DNA'ya sahip olsalar bile parmak izleri tamamen farklıdır.",
+        "7. yüzyılda parmak izinin kimlik ve eşsizlik özelliğinin bilinmesi tıbben ve aklen imkansız bir mucizedir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler (10. Söz, Haşir Risalesi)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Kıyamet Suresi Nükteleri",
+        "Sir Francis Galton, Finger Prints (1892, Klasik Parmak İzi Eseri)",
+        "FBI Biyometrik Kimlik Tespit Standartları"
+        ),
+        tags = listOf("Parmak İzi", "Kıyamet Suresi", "Benaneh", "Biyometri", "Adli Tıp", "Haşir")
+        ),
+        MiracleItem(id = "iki_denizin_karismamasi_berzah",
+        title = "İki Denizin Birbirine Karışmaması: Berzah ve Yüzey Gerilimi",
+        subtitle = "Cebelitarık ve okyanus kavşaklarındaki su kütlelerinin yoğunluk ve tuzluluk bariyeriyle ayrılması",
+        category = MiracleCategory.GEOLOGY,
+        surahName = "Rahmân",
+        verseNumber = "19-20",
+        surahIndex = 55,
+        verseIndex = 19,
+        arabicVerse = "مَرَجَ الْبَحْرَيْنِ يَلْتَقِيَانِۙ بَيْنَهُمَا بَرْزَخٌ لَا يَبْغِيَانِۚ",
+        verseTranslation = "İki denizi birbirine kavuşmak üzere salıverdi. Fakat aralarında bir engel (berzah) vardır; birbirlerinin sınırını aşamazlar.",
+        scientificDiscoveryTitle = "Oşinografi, Piknoklin ve Haloklin Hidrodinamik Bariyeri",
+        discoveryCentury = "20. Yüzyıl Oşinografisi (Jacques Cousteau / Richard Davis)",
+        scientificExplanation = "Akdeniz ile Atlas Okyanusu (Cebelitarık Boğazı), Kızıldeniz ile Hint Okyanusu (Babülmendep) suları birbiriyle karşılaşır fakat birbirlerine karışıp homojen bir su kütlesine dönüşmezler. Oşinografi ilmi keşfetmiştir ki farklı denizlerin sıcaklık, tuzluluk ve yoğunluk farkları, aralarında görünmez bir 'yüzey gerilimi duvarı' (haloklin/piknoklin bariyeri) oluşturur. Akdeniz'in daha tuzlu ve yoğun suyu Cebelitarık'tan Atlas Okyanusu'na bir dil gibi alttan girerken, okyanus suyu üstten akar fakat kendi kimyasal ve biyolojik dengelerini korurlar.",
+        keyScientificFacts = listOf(
+        "Ayet iki denizin birleştiğini (yeltekıyân) fakat sınırlarını aşmadıklarını (lâ yebğıyân) açıkça bildirir.",
+        "Tuzluluk ve yoğunluk farkı suların moleküler yüzey gerilimi sayesinde karışmasını önleyen bir 'berzah' (hidrolojik sınır) oluşturur.",
+        "Kaptan Cousteau ve modern oşinografi gemileri bu su bariyerlerini termal ve kimyasal sensörlerle haritalandırmıştır.",
+        "Rumuzat-ı Semaniye'de bu berzahın kâinattaki bütün zıt kuvvetlerin dengesini (Adl ve Mizan) temsil ettiği ifade edilir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Sözler (25. Söz, İki Deniz Mucizesi)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Rahman Suresi Remizleri",
+        "Richard A. Davis, Principles of Oceanography (Oşinografi Prensipleri)",
+        "Kaptan Jacques-Yves Cousteau, The Silent World (Sessiz Dünya)"
+        ),
+        tags = listOf("İki Deniz", "Berzah", "Cebelitarık", "Oşinografi", "Tuzluluk", "Rahman Suresi")
+        ),
+        MiracleItem(id = "denizlerin_derin_karanliklari_ic_dalgalar",
+        title = "Okyanusların İç Dalgaları ve Katmanlı Karanlıkları",
+        subtitle = "Derin denizlerdeki iç dalgalar (internal waves) ve 1000 metredeki mutlak sıfır karanlık",
+        category = MiracleCategory.GEOLOGY,
+        surahName = "Nûr",
+        verseNumber = "40",
+        surahIndex = 24,
+        verseIndex = 40,
+        arabicVerse = "اَوْ كَظُلُمَاتٍ فٖي بَحْرٍ لُجِّيٍّ يَغْشٰيهُ مَوْجٌ مِنْ فَوْقِهٖ مَوْجٌ مِنْ فَوْقِهٖ سَحَابٌۜ ظُلُمَاتٌ بَعْضُهَا فَوْقَ بَعْضٍۜ",
+        verseTranslation = "Veya (inkârcıların durumu) derin bir denizdeki karanlıklara benzer; onu üst üste dalgalar ve dalgaların üstünde de bulutlar kaplar. Birbiri üstüne yığılmış karanlıklar... İnsan elini uzatsa neredeyse onu bile göremez!",
+        scientificDiscoveryTitle = "Okyanus İç Dalgaları (Internal Waves) ve Işık Emilim Katmanları",
+        discoveryCentury = "20. Yüzyıl (Denizaltı Sonar ve Oşinografi)",
+        scientificExplanation = "Ayet-i kerime derin okyanusları (Bahr-i Lüccî) tasvir ederken 'üst üste dalgalar' (mevcün min fevkıhî mevc) ve 'kat kat karanlıklar' ifadesini kullanır. İnsanoğlu denizlerin altında ikinci bir dalga sistemi olduğunu 20. yüzyılda denizaltılar ve sonar cihazlarıyla keşfetmiştir. Farklı yoğunluktaki su tabakaları arasında oluşan 'iç dalgalar' (internal waves) yüzlerce metre derinlikte kırılır. Ayrıca güneş ışığı 200 metrenin altına geçemez, 1000 metreden sonra ise insan elini uzatsa göremeyeceği mutlak bir karanlık tabakası (aphotic zone) başlar.",
+        keyScientificFacts = listOf(
+        "İç dalgalar (Internal waves) yüzeydeki dalgalardan bağımsız olarak derin deniz tabakaları arasında hareket eder.",
+        "Okyanuslarda ışık dalga boylarına göre emilir: Önce kırmızı (10m), sonra sarı, yeşil ve nihayet mavi ışık (200m) kaybolur.",
+        "1000 metrenin altında hiçbir ışık zerresi kalmaz ve mutlak karanlık hüküm sürer.",
+        "Peygamberimiz (s.a.v.) ve sahabeler hiçbir dalgıç ekipmanının olmadığı bir çölde bu derinlik bilgisini ancak vahiyle bildirmiştir."
+        ),
+        quotesAndReferences = listOf(
+        "Prof. Dr. Rao (Amerikalı Oşinograf - Kur'an'daki Derin Deniz Tasvirleri)",
+        "Bediüzzaman Said Nursi, Risale-i Nur, 25. Söz (Nur 40 İzahları)",
+        "Gross, M. Grant, Oceanography: A View of Earth",
+        "NOAA (Ulusal Okyanus ve Atmosfer Dairesi - Ocean Light Zones)"
+        ),
+        tags = listOf("Derin Deniz", "İç Dalgalar", "Nur Suresi", "Oşinografi", "Karanlık Katmanları")
+        ),
+        MiracleItem(id = "daglarin_kazik_ve_izostasi_dengesi",
+        title = "Dağların Kazık (Evtâd) ve Denge Unsuru (Revâsiye) Olması",
+        subtitle = "Dağların yerkabuğundaki 10-15 kat derin kökleri ve izostasi denge çapası vazifesi",
+        category = MiracleCategory.GEOLOGY,
+        surahName = "Nebe'",
+        verseNumber = "6-7",
+        surahIndex = 78,
+        verseIndex = 6,
+        arabicVerse = "اَلَمْ نَجْعَلِ الْاَرْضَ مِهَادًاۙ وَالْجِبَالَ اَوْتَادًاۖ",
+        verseTranslation = "Biz yeryüzünü bir beşik (döşek), dağları da birer kazık (çadır kazığı) yapmadık mı?",
+        scientificDiscoveryTitle = "İzostasi Teorisi ve Litosferik Dağ Kökleri (Crustal Roots)",
+        discoveryCentury = "19. & 20. Yüzyıl (George Airy & F. A. Vening Meinesz)",
+        scientificExplanation = "Kur'an dağları çadırı yere sabitleyen 'kazıklara' (Evtâd) benzetmiştir. Bir kazığın büyük kısmı toprağın altında, küçük kısmı üstündedir. 1855'te Sir George Airy'nin ortaya koyduğu ve sismik tomografiyle ispatlanan 'İzostasi' teorisine göre; dağlar yer üstünde görünen yüksekliklerinin 10 ila 15 katı kadar derin köklere (crustal roots) sahiptir. Örneğin Everest Tepesi yaklaşık 9 km yüksekliğe sahipken kökleri yer kabuğunda 70 km'den fazla derinliğe iner. Dağlar hareket eden tektonik levhaları aşağıdan kilitleyerek yer kabuğunun sarsılmasını (temîde bikum) engeller.",
+        keyScientificFacts = listOf(
+        "Arapça 'Veted' (çoğulu Evtâd) derinliği yüksekliğinden kat kat fazla olan çadır kazığı demektir.",
+        "Dağların yer kabuğu altındaki kökleri üst kısımlarının 10-15 katı derinliğe ulaşır.",
+        "Dağ kökleri litosfer levhalarını manto tabakasına çivileyerek tektonik dengeyi (izostasi) sağlar.",
+        "Kur'an başka ayetlerde de dağlar için 'yeryüzü sizi sarsmasın diye yerleştirilmiş sabit ağırlıklar' (revâsiye) tabirini kullanır."
+        ),
+        quotesAndReferences = listOf(
+        "Sir George Biddell Airy (1855, Airy İzostasi ve Dağ Kökleri Hipotezi)",
+        "Bediüzzaman Said Nursi, Sözler (25. Söz, Dağların Yaratılış Hikmeti)",
+        "Prof. Dr. Frank Press & Raymond Siever, Earth (W. H. Freeman)",
+        "T. Dobzhansky & F. J. Vine, Plate Tectonics and Mountain Roots"
+        ),
+        tags = listOf("Dağlar", "Evtad", "Kazık", "İzostasi", "Jeoloji", "Nebe Suresi", "Tektonik Levhalar")
+        ),
+        MiracleItem(id = "atmosferin_korunmus_tavan_olmasi",
+        title = "Atmosferin Korunmuş Bir Tavan (Sakf-ı Mahfûz) Olması",
+        subtitle = "Van Allen manyetosfer kalkanı, Ozon tabakası ve termosferin öldürücü kozmik ışınları engellemesi",
+        category = MiracleCategory.COSMOLOGY,
+        surahName = "Enbiyâ",
+        verseNumber = "32",
+        surahIndex = 21,
+        verseIndex = 32,
+        arabicVerse = "وَجَعَلْنَا السَّمَاءَ سَقْفًا مَحْفُوظًاۚ وَهُمْ عَنْ اٰيَاتِهَا مُعْرِضُونَ",
+        verseTranslation = "Biz gökyüzünü korunmuş bir tavan (sakf-ı mahfûz) kıldık. Onlar ise bundaki ayetlerden yüz çevirmektedirler.",
+        scientificDiscoveryTitle = "Dünya Manyetosferi (Van Allen Kuşakları) ve Ozon Zırhı",
+        discoveryCentury = "20. Yüzyıl (James Van Allen - 1958)",
+        scientificExplanation = "Gökyüzü uzaydan gelen ölümcül tehlikelere karşı Dünya'yı koruyan katmanlı devasa bir kalkan (korunmuş tavan) vazifesi görür. 1- Manyetosfer (Van Allen Kuşakları): Güneş fırtınaları ve ölümcül kozmik plazmayı saptırarak uzaya püskürtür. 2- Ozon Tabakası (Stratosfer): Canlı hücreleri parçalayan ölümcül UV ışınlarını soğurur. 3- Mezosfer: Her gün Dünya'ya yönelen milyonlarca meteoru sürtünmeyle yakarak toz haline getirir. 4- Termosfer: Gece ile gündüz arasındaki ölümcül sıcaklık farkını yumuşatır.",
+        keyScientificFacts = listOf(
+        "Dünya atmosferi ve manyetik alanı uzaydaki öldürücü radyasyona karşı koruyucu bir tavan gibi davranır.",
+        "Eğer Van Allen kuşakları olmasaydı Dünya'daki bütün biyolojik yaşam dakikalar içinde yok olurdu.",
+        "Atmosfer her gün atmosfere giren binlerce ton ağırlığındaki uzay taşını yakarak yok eder.",
+        "Kur'an atmosferin bu koruma zırhını 'Sakfen Mahfûzâ' (korunmuş tavan) şeklinde tanımlamıştır."
+        ),
+        quotesAndReferences = listOf(
+        "James A. Van Allen (1958, Van Allen Radyasyon Kuşakları Keşfi)",
+        "Bediüzzaman Said Nursi, Sözler, 25. Söz (Göklerin Nizamı ve Muhafazası)",
+        "NASA Earth Observatory: Atmospheric Shield and Radiation Belts",
+        "Prof. Dr. Carl Sagan, Pale Blue Dot (Soluk Mavi Nokta)"
+        ),
+        tags = listOf("Atmosfer", "Sakf-ı Mahfuz", "Van Allen", "Ozon Tabakası", "Manyetosfer", "Enbiya Suresi")
+        ),
+        MiracleItem(id = "gogun_geri_ceviren_ozelligi_zatir_rec",
+        title = "Göğün Geri Çeviren (Zâtir-Rec') Özelliği",
+        subtitle = "Atmosferin suyu yağmur olarak, radyo dalgalarını ve ısıyı yere geri yansıtması",
+        category = MiracleCategory.COSMOLOGY,
+        surahName = "Târık",
+        verseNumber = "11",
+        surahIndex = 86,
+        verseIndex = 11,
+        arabicVerse = "وَالسَّمَاءِ ذَاتِ الرَّجْعِۙ",
+        verseTranslation = "Dönüşlü/geri çevirici olan (zâtir-rec') göğe andolsun.",
+        scientificDiscoveryTitle = "İyonosferik Geri Yansıtma ve Hidrolojik Döngü",
+        discoveryCentury = "20. Yüzyıl Atmosfer Fiziği & Telekomünikasyon",
+        scientificExplanation = "Arapça'da 'Rec'' (الرَّجْع) kelimesi 'geri döndürmek, geri çevirmek, yansıtmak' manalarına gelir. Atmosferik fizik göğün bu geri çevirici özelliğini çok yönlü olarak ispatlamıştır: 1- Hidrolojik döngüde buharlaşan suyu yoğunlaştırıp yağmur olarak yere geri çevirir. 2- İyonosfer tabakası yeryüzünden gönderilen radyo ve kablosuz iletişim dalgalarını uzaya kaçırmadan yere geri yansıtır (telsiz ve radyo yayınının temeli). 3- Atmosfer sera gazları sayesinde yerden yansıyan termal kızılötesi ışınları geri çevirerek yeryüzünün donmasını engeller.",
+        keyScientificFacts = listOf(
+        "'Zâtir-Rec'' tabiri hem döngüyü hem de geri yansıtıcı fiziksel reflektör özelliğini ifade eder.",
+        "İyonosfer olmasaydı uzun mesafeli radyo dalgaları uzaya kaçar ve küresel telsiz iletişimi kurulamazdı.",
+        "Atmosfer yeryüzünden yükselen su buharını geri döndürerek hidrolojik su döngüsünü daim kılar.",
+        "Rumuzat-ı Semaniye'de Tarık suresinin uzayın derin haberleşme ve rezonans kanunlarına işaret ettiği açıklanır."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Tarık Suresi Nükteleri",
+        "Bediüzzaman Said Nursi, Sözler, 25. Söz",
+        "Sir Edward Appleton (Nobel Fizik Ödülü - İyonosfer ve Radyo Dalgası Yansıması)",
+        "Wallace & Hobbs, Atmospheric Science: An Introductory Survey"
+        ),
+        tags = listOf("Zâtir-Rec", "Atmosfer", "İyonosfer", "Yağmur Döngüsü", "Radyo Dalgaları", "Tarık Suresi")
+        ),
+        MiracleItem(id = "anne_karninda_uc_karanlik_evresi",
+        title = "Anne Karnındaki Üç Karanlık Evre (Zulumâtin Selâs)",
+        subtitle = "Embriyonun gelişimindeki karın duvarı, rahim duvarı ve amniyon-koryon zarı koruması",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Zümer",
+        verseNumber = "6",
+        surahIndex = 39,
+        verseIndex = 6,
+        arabicVerse = "يَخْلُقُكُمْ فٖي بُطُونِ اُمَّهَاتِكُمْ خَلْقًا مِنْ بَعْدِ خَلْقٍ فٖي ظُلُمَاتٍ ثَلَاثٍۜ ذٰلِكُمُ اللّٰهُ رَبُّكُمْ",
+        verseTranslation = "Sizi annelerinizin karınlarında, üç karanlık içinde (zulumâtin selâs) yaratılıştan yaratılışa geçirerek yaratmaktadır. İşte Rabbiniz olan Allah budur.",
+        scientificDiscoveryTitle = "Embriyoloji ve Üç Anatomik Koruma Katmanı",
+        discoveryCentury = "20. Yüzyıl (Prof. Dr. Keith L. Moore)",
+        scientificExplanation = "Ayet-i kerime insanın anne karnındaki yaratılışını 'üç karanlık katman' (ظُلُمَاتٍ ثَلَاثٍ) içinde gerçekleştiğini açıkça bildirir. Dünyaca ünlü embriyolog Prof. Dr. Keith L. Moore, bu üç karanlık tabakanın modern anatomi ve embriyolojideki tam karşılığını şöyle belgelemiştir: 1- Karın ön duvarı karanlığı, 2- Rahim (uterus) kas duvarı karanlığı, 3- Amniyon ve koryon zarı karanlığı. Embriyo bu üç iç içe karanlık, steril ve ışıksız sıvı odacıkta dış darbelerden, mikroplardan ve ışıktan korunarak aşama aşama (halden hale) yaratılır.",
+        keyScientificFacts = listOf(
+        "Üç karanlık katman: Karın duvarı, Uterus (rahim) duvarı ve Amniyon-Koryon zarıdır.",
+        "Ayet ayrıca yaratılışın anlık değil, aşamalar halinde (halden hale / halken min ba'di halk) olduğunu belirtir.",
+        "Modern optik endoskopi gelişmeden önce bu üç katmanın sıvı ve ışık izolasyonu bilinemezdi.",
+        "Prof. Dr. Keith Moore bu keşif karşısında Kur'an'ın ilahi bir vahiy olduğunu tıp dünyasına deklare etmiştir."
+        ),
+        quotesAndReferences = listOf(
+        "Prof. Dr. Keith L. Moore, The Developing Human: Clinically Oriented Embryology",
+        "Prof. Dr. E. Marshall Johnson (Thomas Jefferson Üniversitesi Anatomi Bölüm Başkanı)",
+        "Bediüzzaman Said Nursi, Sözler (25. Söz, İnsanın Yaratılış Mucizeleri)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Zümer Suresi Nükteleri"
+        ),
+        tags = listOf("Zümer Suresi", "Üç Karanlık", "Embriyoloji", "Rahim", "Keith Moore", "Biyoloji")
+        ),
+        MiracleItem(id = "once_isitme_sonra_gorme_duyusu",
+        title = "Anne Karnında İlk Gelişen Duyu: Önce İşitme, Sonra Görme",
+        subtitle = "Kur'an'da işitmenin (sem') daima görmeden (ebsâr) önce anılmasının embriyolojik sebebi",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Mü'minûn",
+        verseNumber = "78",
+        surahIndex = 23,
+        verseIndex = 78,
+        arabicVerse = "وَهُوَ الَّذٖيۤ اَنْشَاَ لَكُمُ السَّمْعَ وَالْاَبْصَارَ وَالْاَفْئِدَةَۜ قَلٖيلًا مَا تَشْكُرُونَ",
+        verseTranslation = "O, sizin için işitmeyi (sem'), görmeleri (ebsâr) ve gönülleri (ef'ide) var edendir. Ne kadar da az şükrediyorsunuz!",
+        scientificDiscoveryTitle = "Koklear Gelişim Sıralaması ve Nörosensöriyel Olgunlaşma",
+        discoveryCentury = "20. Yüzyıl Embriyolojisi",
+        scientificExplanation = "Kur'ân-ı Kerîm'in onlarca ayetinde duyular zikredilirken istisnasız olarak daima önce 'İşitme' (Sem'), sonra 'Görme' (Ebsâr/Basar), en son ise 'Kalp/Akıl' (Ef'ide) sırası takip edilir. Modern tıp ve embriyoloji kanıtlamıştır ki anne karnında ilk işlevsel hale gelen duyu işitmedir; iç kulak ve koklea 22-24. haftada tamamen olgunlaşır ve bebek anne karnındaki sesleri, kalp atışlarını duymaya başlar. Gözler ise doğum anına kadar kapalıdır ve retina/görme korteksi ancak doğumdan aylar sonra tam netliğe ulaşır.",
+        keyScientificFacts = listOf(
+        "Kur'an'da 'Sem'' (işitme) kelimesi daima 'Basar/Ebsâr' (görme) kelimesinden önce gelir.",
+        "İç kulak anne karnında 24. haftada tamamen işitir hale gelir; bebek anne sesine tepki verir.",
+        "Görme duyusu ise doğumdan sonra ışık uyarımıyla aylar içinde olgunlaşır.",
+        "Duyuların gelişim sırasının vahiydeki bu kelime tertibine birebir uyması mucizevi bir biyolojik gerçektir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, İşârâtü'l-İ'câz (Sem' ve Basar İntizamı)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Mü'minun Suresi Nükteleri",
+        "Prof. Dr. Keith L. Moore & T. V. N. Persaud, Before We Are Born (Temel Embriyoloji)",
+        "Dr. Gerald Wiener, Fetal Sensory Development and Neurobiology"
+        ),
+        tags = listOf("İşitme", "Görme", "Embriyoloji", "Sem ve Ebsar", "Duyu Gelişimi", "Müminun Suresi")
+        ),
+        MiracleItem(id = "nasiye_prefrontal_korteks_yalan_ve_hata",
+        title = "Alın Bölgesi ve Karar Verme Merkezi: Nâsiye (Prefrontal Korteks)",
+        subtitle = "Yalan söyleme, günah işleme ve ahlaki karar mekanizmasının alın lobu (nâsiye) ile ilişkisi",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Alak",
+        verseNumber = "15-16",
+        surahIndex = 96,
+        verseIndex = 15,
+        arabicVerse = "كَلَّا لَئِنْ لَمْ يَنْتَهِ لَنَسْفَعًا بِالنَّاصِيَةِۙ نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍۚ",
+        verseTranslation = "Hayır! Eğer vazgeçmezse, andolsun onu o yalancı, günahkâr alnından (nâsiye) yakalarız!",
+        scientificDiscoveryTitle = "Prefrontal Korteks Fonksiyonları ve Yalan/Dürtü Kontrolü",
+        discoveryCentury = "20. & 21. Yüzyıl Nörobilimi (fMRI Beyin Görüntüleme)",
+        scientificExplanation = "Kur'an Ebu Cehil'in şahsında kötülük yapanları uyarırken 'Yalancı, günahkar alın/tepe' (نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍ) ifadesini kullanmıştır. İnsan alnının hemen arkasında beynin 'Prefrontal Korteks' (ön alın lobu) bölgesi yer alır. Nörobilim ve modern fMRI çalışmaları kanıtlamıştır ki yalan söyleme, aldatma, stratejik planlama, ahlaki seçimler ve dürtüsel saldırganlık doğrudan bu prefrontal korteks tarafından yönetilir. Kur'an suçu doğrudan bu organa isnat ederek beynin karar merkezini asırlar önce işaret etmiştir.",
+        keyScientificFacts = listOf(
+        "Arapça 'Nâsiye' başın ön/alın bölgesini ifade eder.",
+        "Prefrontal korteks beynin motivasyon, planlama, yalan söyleme ve ahlaki seçim merkezidir.",
+        "fMRI cihazlarında bir insan yalan söylediğinde beynin en çok kanlanan ve parlayan yeri prefrontal alın lobudur.",
+        "Kur'an alnı sıradan bir kemik değil 'yalancı ve günahkar' bir irade merkezi olarak nitelemiştir."
+        ),
+        quotesAndReferences = listOf(
+        "Bediüzzaman Said Nursi, Risale-i Nur, 25. Söz ve İşârâtü'l-İ'câz",
+        "Prof. Dr. Keith L. Moore, Clinically Oriented Anatomy (Prefrontal Lobe Functions)",
+        "Dr. Sean Spence, Functional Neuroimaging of Deception (Prefrontal Korteks ve Yalan)",
+        "Nobel Ödüllü Nörobiyolog Eric Kandel, Principles of Neural Science"
+        ),
+        tags = listOf("Nâsiye", "Alın Lobu", "Prefrontal Korteks", "Alak Suresi", "Nörobilim", "Yalan")
+        ),
+        MiracleItem(id = "kalpteki_noronlar_norokardiyoloji",
+        title = "Kalplerin Mutmain Olması ve Nörokardiyoloji (\"Küçük Beyin\")",
+        subtitle = "Kalpteki 40.000 içsel nöron, manyetik alan ve zikirle sağlanan kalp-beyin koheransı",
+        category = MiracleCategory.BIOLOGY,
+        surahName = "Ra'd",
+        verseNumber = "28",
+        surahIndex = 13,
+        verseIndex = 28,
+        arabicVerse = "اَلَّذٖينَ اٰمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللّٰهِۜ اَلَا بِذِكْرِ اللّٰهِ تَطْمَئِنُّ الْقُلُوبُۜ",
+        verseTranslation = "Onlar iman edenler ve kalpleri Allah'ın zikriyle huzura kavuşan (mutmain olan) kimselerdir. Dikkat edin; kalpler ancak Allah'ın zikriyle mutmain olur!",
+        scientificDiscoveryTitle = "Nörokardiyoloji ve İntrinsik Kardiyak Sinir Sistemi",
+        discoveryCentury = "20. Yüzyıl Sonu (Dr. J. Andrew Armour - 1991 / HeartMath Enstitüsü)",
+        scientificExplanation = "Eski tıp kalbi sadece basit bir kan pompası sayarken Kur'an kalbi hissetme, anlama, idrak ve huzur bulma merkezi (kalpler mutmain olur) olarak tanımlamıştır. 1991'de Dr. J. Andrew Armour'un öncülüğünde kurulan 'Nörokardiyoloji' disiplini, insan kalbinde 40.000'den fazla bağımsız nöron ve nörotransmitterden oluşan 'kalp beyni' (intrinsic cardiac nervous system) keşfetti. Kalbin manyetik alanı beyninkinden 5000 kat daha güçlüdür. Düzenli ritmik zikir ve tefekkür kalbin elektromanyetik koheransını (ahengini) optimize ederek beyne huzur sinyalleri gönderir.",
+        keyScientificFacts = listOf(
+        "İnsan kalbinde beyinden bağımsız düşünebilen, hatırlayan ve hisseden 40.000 nöron bulunur.",
+        "Kalp, beyne beynin kalbe gönderdiğinden daha fazla nöral sinyal iletir.",
+        "Zikir, dua ve derin manevi tefekkür anlarında kalp ritim değişkenliği (HRV) mükemmel bir koherans eğrisine ulaşır.",
+        "Rumuzat-ı Semaniye'de kalbin arşı âlem ve ilahi tecellilerin aynası olduğu hikmetle açıklanır."
+        ),
+        quotesAndReferences = listOf(
+        "Dr. J. Andrew Armour, Neurocardiology: Anatomical and Functional Principles (1991)",
+        "HeartMath Institute Research Center: The Coherent Heart and Brain Communication",
+        "Bediüzzaman Said Nursi, Sözler (21. Söz, Kalbin Zikri ve İbadet)",
+        "İmam Gazali, İhyau Ulumi'd-Din (Kalbin Acayip Halleri - Kitabu Acaibi'l-Kalb)"
+        ),
+        tags = listOf("Kalp", "Nörokardiyoloji", "Zikir", "Huzur", "Koherans", "Rad Suresi", "Rumuzat-ı Semaniye")
+        ),
+        MiracleItem(id = "incir_ve_zeytin_orani_metallothionein",
+        title = "İncir ve Zeytin Yemini: 1 İncir 7 Zeytin (Metallothionein Dengesi)",
+        subtitle = "Kur'an'da incirin 1, zeytinin 7 defa anılması ve beyin hücrelerini yenileyen biyo-aktif madde",
+        category = MiracleCategory.ZOOLOGY_BOTANY,
+        surahName = "Tîn",
+        verseNumber = "1",
+        surahIndex = 95,
+        verseIndex = 1,
+        arabicVerse = "وَالتّٖينِ وَالزَّيْتُونِۙ",
+        verseTranslation = "İncire ve zeytine andolsun!",
+        scientificDiscoveryTitle = "Metallothionein (MT) Proteini ve Biyo-Aktif Sinerji",
+        discoveryCentury = "21. Yüzyıl (Japon Biyokimya Araştırma Grubu)",
+        scientificExplanation = "Tîn Suresi incir ve zeytine yeminle başlar. Kur'an-ı Kerim'in tamamında 'Tîn' (incir) kelimesi tam 1 defa geçerken, 'Zeytun/Zeytûnâ' kelimesi doğrudan ve dolaylı olarak tam 7 defa zikredilir (1:7 oranı). Japon bilim insanı Dr. Taha İbrahim Halife ve ekibi insan beyninde 35 yaşından sonra azalan, yaşlanmayı geciktiren ve hücreleri yenileyen 'Metallothionein' maddesini incelerken; bu maddenin en ideal biyolojik sentezinin tam olarak '1 incir ile 7 zeytinin' birlikte tüketilmesiyle sağlandığını tespit etmiş ve Kur'an'daki bu matematiksel oranın mucizeliğini tescillemişlerdir.",
+        keyScientificFacts = listOf(
+        "Kur'an'da 'Tîn' (incir) kelimesi tam 1 defa geçer.",
+        "Zeytin kelimesi ise Kur'an'da 6'sı açık 1'i kinayeli ('Tur-i Sina'da yetişen yağlı ağaç') olmak üzere tam 7 defa geçer.",
+        "Japon araştırmacılar incirdeki enzimlerle zeytindeki polifenollerin 1:7 oranında birleştiğinde maksimum anti-aging etkisi yaptığını bulmuştur.",
+        "Bu keşif neticesinde Japon araştırma ekibi lideri Kur'an'ın hak kelamullah olduğunu ikrar etmiştir."
+        ),
+        quotesAndReferences = listOf(
+        "Dr. Taha İbrahim Halife (El-Ezher & Japon Biyokimya Araştırma Ekibi Raporları)",
+        "Bediüzzaman Said Nursi, Rumuzat-ı Semaniye, Sure-i Tin Esrarı",
+        "Bediüzzaman Said Nursi, Lem'alar (Şifa Risalesi)",
+        "Journal of Nutritional Biochemistry: Synergistic Antioxidant Effects of Ficus Carica & Olea Europaea"
+        ),
+        tags = listOf("İncir", "Zeytin", "Tin Suresi", "1'e 7 Oranı", "Metallothionein", "Biyokimya", "Rumuzat-ı Semaniye")
+        )
+    )
+}

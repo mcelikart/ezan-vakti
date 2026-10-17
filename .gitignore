@@ -1,0 +1,42 @@
+*.iml
+.gradle
+.kotlin
+/local.properties
+/.idea
+.DS_Store
+/build
+app/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+.env
+debug.keystore
+
+# Build Output & Binaries
+*.apk
+*.aab
+APK Cikti/
+EzanVakti-arm64-debug.apk
+
+# Temporary fix & scrap scripts
+*.py
+__pycache__/
+*.pyc
+*.patch
+*.txt
+*.xml.bak
+*.bak
+test
+tmp/
+get_weather_section.kt
+temp.kt
+repl.txt
+patch.xml
+fix_imports.sh
+
+# Agent / Tooling internal configs
+.agents/
+.opencode/
+metadata.json
+opencode.jsonc
