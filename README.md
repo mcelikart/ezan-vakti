@@ -24,6 +24,39 @@
 
 ---
 
+## 📱 Uygulama Ekran Görüntüleri
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>🕌 Ezan Vakitleri (Selçuklu)</b></td>
+      <td align="center"><b>🧭 Kıble Pusulası</b></td>
+      <td align="center"><b>📿 Akıllı Zikirmatik</b></td>
+      <td align="center"><b>🔬 Kur'an Mucizeleri</b></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="screenshots/01_ana_ekran_selcuklu.png" width="220" alt="Ezan Vakitleri" /></td>
+      <td align="center"><img src="screenshots/02_kible_pusulasi.png" width="220" alt="Kıble Pusulası" /></td>
+      <td align="center"><img src="screenshots/03_zikirmatik.png" width="220" alt="Zikirmatik" /></td>
+      <td align="center"><img src="screenshots/04_kuran_mucizeleri.png" width="220" alt="Kur'an Mucizeleri" /></td>
+    </tr>
+    <tr>
+      <td align="center"><b>🚶‍♂️ Adımsayar & Sağlık</b></td>
+      <td align="center"><b>🤲 Namaz Rehberi</b></td>
+      <td align="center"><b>🌙 Gece Çinisi (Koyu Tema)</b></td>
+      <td align="center"><b>🎨 Zengin Tema Galerisi</b></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="screenshots/05_adimsayar_raporu.png" width="220" alt="Adımsayar Raporu" /></td>
+      <td align="center"><img src="screenshots/06_namaz_ogreniyorum.png" width="220" alt="Namaz Öğreniyorum" /></td>
+      <td align="center"><img src="screenshots/07_ana_ekran_gece_cinisi.png" width="220" alt="Gece Çinisi Koyu Tema" /></td>
+      <td align="center"><img src="screenshots/08_tema_galerisi.png" width="220" alt="Tema Galerisi" /></td>
+    </tr>
+  </table>
+</div>
+
+---
+
 ## ✨ Öne Çıkan Özellikler
 
 ### 1. 🕌 Hassas Ezan ve Namaz Vakitleri

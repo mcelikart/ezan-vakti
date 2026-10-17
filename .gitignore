@@ -27,7 +27,7 @@ __pycache__/
 *.txt
 *.xml.bak
 *.bak
-test
+/test
 tmp/
 get_weather_section.kt
 temp.kt
