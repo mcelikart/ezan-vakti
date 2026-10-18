@@ -10,11 +10,26 @@
   [![AI](https://img.shields.io/badge/AI-Google%20Gemini-orange.svg)](https://ai.google.dev/)
   [![Architecture](https://img.shields.io/badge/Architecture-MVVM-brightgreen.svg)]()
   [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)]()
+  [![Download APK](https://img.shields.io/badge/İndir-APK%20(v1.1.0)-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/mcelikart/ezan-vakti/releases/download/v1.1.0/ezan-vakti-guncellenmis.apk)
 
   <p align="center">
     <b>Modern Jetpack Compose mimarisi ile geliştirilmiş, zengin özellikli, yapay zeka destekli hepsi-bir-arada İslami mobil yaşam asistanı.</b>
   </p>
 </div>
+
+---
+
+## 📥 Uygulamayı İndir (APK)
+
+Güncellenmiş son sürümü Android cihazınıza doğrudan indirip kurabilirsiniz:
+
+<p align="left">
+  <a href="https://github.com/mcelikart/ezan-vakti/releases/download/v1.1.0/ezan-vakti-guncellenmis.apk">
+    <img src="https://img.shields.io/badge/Hemen%20İndir-ezan--vakti--guncellenmis.apk%20(52%20MB)-2ea44f?style=for-the-badge&logo=android&logoColor=white" alt="Ezan Vakti APK İndir" />
+  </a>
+</p>
+
+> 💡 **Not:** APK dosyasını indirdikten sonra cihazınızda açarak yüklemeyi onaylayınız. Tüm sürümler ve sürüm notları için [GitHub Releases](https://github.com/mcelikart/ezan-vakti/releases) sayfasını ziyaret edebilirsiniz.
 
 ---
 
@@ -44,9 +59,9 @@
 <div align="center">
   <table>
     <tr>
-      <td align="center"><b>🕌 Ezan Vakitleri (Yeni Sayaç)</b></td>
-      <td align="center"><b>🧭 Kıble Pusulası</b></td>
-      <td align="center"><b>📿 Akıllı Zikirmatik</b></td>
+      <td align="center"><b>🕌 Ezan Vakitleri (44 sp Yeni Sayaç)</b></td>
+      <td align="center"><b>🧭 Kıble Pusulası (Hassas Sensör)</b></td>
+      <td align="center"><b>📿 Akıllı Zikirmatik & Tesbih</b></td>
     </tr>
     <tr>
       <td align="center"><img src="screenshots/01_ana_ekran_selcuklu.png" width="230" alt="Ezan Vakitleri" /></td>
@@ -54,9 +69,9 @@
       <td align="center"><img src="screenshots/03_zikirmatik.png" width="230" alt="Zikirmatik" /></td>
     </tr>
     <tr>
-      <td align="center"><b>🔬 Kur'an Mucizeleri</b></td>
-      <td align="center"><b>🚶‍♂️ Adımsayar & Sağlık</b></td>
-      <td align="center"><b>🤲 Namaz Öğreniyorum (Görsel Rehber)</b></td>
+      <td align="center"><b>🔬 Kur'an Mucizeleri (100+ Keşif)</b></td>
+      <td align="center"><b>🚶‍♂️ Adımsayar & Sağlık Takibi</b></td>
+      <td align="center"><b>🤲 Namaz Öğreniyorum (Detaylı Duruşlar)</b></td>
     </tr>
     <tr>
       <td align="center"><img src="screenshots/04_kuran_mucizeleri.png" width="230" alt="Kur'an Mucizeleri" /></td>
@@ -65,8 +80,8 @@
     </tr>
     <tr>
       <td align="center"><b>🌙 Gece Çinisi (Koyu Tema)</b></td>
-      <td align="center"><b>🎨 Zengin Tema Galerisi</b></td>
-      <td align="center"><b>🔍 Duruş Büyütme (Kadın/Erkek)</b></td>
+      <td align="center"><b>🎨 11 Zengin Miras Teması</b></td>
+      <td align="center"><b>🔍 Duruş Büyütme (Tam Ekran İnceleme)</b></td>
     </tr>
     <tr>
       <td align="center"><img src="screenshots/07_ana_ekran_gece_cinisi.png" width="230" alt="Gece Çinisi Koyu Tema" /></td>
