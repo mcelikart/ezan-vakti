@@ -96,7 +96,7 @@ class StepReportScreenshotTest {
 
     @Test @Config(qualifiers = "w320dp-h640dp-xhdpi")
     fun compactDarkScreen() {
-        show(true, AppTheme.SELCUKLU)
+        show(true, AppTheme.KUBBELI_SAFIR)
         compose.onRoot().captureRoboImage("build/step-reports/daily-dark-compact.png")
         compose.onNodeWithContentDescription("Yürüyüş profili").performClick()
         compose.onAllNodes(isRoot()).onLast().captureRoboImage("build/step-reports/profile-dark-compact.png")
@@ -104,7 +104,7 @@ class StepReportScreenshotTest {
 
     @Test @Config(qualifiers = "w600dp-h900dp-xhdpi")
     fun wideScreen() {
-        show(false, AppTheme.AK_MERMER)
+        show(false, AppTheme.KUBBELI_SEDEF)
         selectReport(ReportPeriod.WEEK)
         compose.onRoot().captureRoboImage("build/step-reports/weekly-wide.png")
     }
@@ -118,14 +118,14 @@ class StepReportScreenshotTest {
         compose.onNodeWithText("Tema Galerisi").assertExists()
         compose.onRoot().captureRoboImage("build/step-reports/themes-compact.png")
         compose.onNodeWithTag("theme-list").performScrollToIndex(2)
-        compose.onNode(hasText("Selçuklu Taşı") and hasClickAction()).performClick()
-        assertEquals(AppTheme.SELCUKLU, selected)
+        compose.onNode(hasText("Kubbeli Safir") and hasClickAction()).performClick()
+        assertEquals(AppTheme.KUBBELI_SAFIR, selected)
         compose.onNodeWithTag("theme-list").performScrollToIndex(1)
         compose.onNode(hasText("Kubbeli Zümrüt") and hasClickAction()).performClick()
         assertEquals(AppTheme.CLASSIC_EMERALD, selected)
         compose.onRoot().captureRoboImage("build/step-reports/themes-emerald-compact.png")
         compose.onNodeWithTag("theme-list").performScrollToIndex(AppTheme.entries.size)
-        compose.onNode(hasText("Şafak") and hasClickAction()).assertIsDisplayed().performClick()
-        assertEquals(AppTheme.SAFAK, selected)
+        compose.onNode(hasText("Kubbeli Gece Mavisi") and hasClickAction()).assertIsDisplayed().performClick()
+        assertEquals(AppTheme.KUBBELI_GECE_MAVISI, selected)
     }
 }

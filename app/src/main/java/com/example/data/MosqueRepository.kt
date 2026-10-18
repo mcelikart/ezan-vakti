@@ -20,7 +20,11 @@ interface OverpassService {
  * Muslim places of worship, and returns element centres so ways and relations
  * become usable as map points.
  */
-class MosqueRepository(private val service: OverpassService, private val fallback: OverpassService? = null) {
+class MosqueRepository(
+    private val service: OverpassService,
+    private val fallback: OverpassService? = null,
+    private val extraFallbacks: List<OverpassService> = emptyList()
+) {
     private data class Cached(val createdAt: Long, val mosques: List<Mosque>)
     private val mutex = Mutex()
     private val cache = LinkedHashMap<String, Cached>()
@@ -46,7 +50,8 @@ class MosqueRepository(private val service: OverpassService, private val fallbac
             if (!forceRefresh && cached != null && now - cached.createdAt < 300_000_000_000L) return@withLock cached.mosques
             var response: OverpassEnvelope? = null
             var failure: Exception = IOException("Cami servisi geçici olarak kullanılamıyor.")
-            for (provider in listOfNotNull(service, fallback)) {
+            val providers = listOfNotNull(service, fallback) + extraFallbacks
+            for (provider in providers) {
                 if (now < (rateLimitedUntil[provider] ?: 0L)) continue
                 if (!forceRefresh && now < (retryAfter[provider] ?: 0L)) continue
                 try {

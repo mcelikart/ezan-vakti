@@ -610,9 +610,208 @@ object QuranAiSearchEngine {
                         translation = "Ey iman edenler! Allah'a samimi ve kesin bir tövbe (Tevbe-i Nasuh) ile dönün.",
                         explanation = "Pişmanlık duyarak bir daha kötülüğe dönmeme azmiyle yapılan samimi tövbeyi emreder.",
                         tags = listOf("Nasuh Tövbesi", "Samimiyet", "İhlas")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 3,
+                        surahName = "Âl-i İmrân Suresi",
+                        verseNumber = 135,
+                        arabic = "وَالَّذِينَ إِذَا فَعَلُوا فَاحِشَةً أَوْ ظَلَمُوا أَنْفُسَهُمْ ذَكَرُوا اللَّهَ فَاسْتَغْفَرُوا لِذُنُوبِهِمْ",
+                        translation = "Onlar çirkin bir iş yaptıkları yahut nefislerine zulmettikleri zaman Allah'ı hatırlayıp hemen günahlarının bağışlanmasını dilerler.",
+                        explanation = "Takva sahiplerinin hatada ısrar etmeyip derhal istiğfara yöneldiklerini bildirir.",
+                        tags = listOf("İstiğfar", "Takva", "Pişmanlık")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "adalet_hakkaniyet",
+                title = "Adalet, Emanet & Hakkaniyet",
+                icon = "⚖️",
+                category = "Toplum & Hukuk",
+                description = "Hakkı gözetmek, emaneti ehline vermek ve adil şahitlik",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 4,
+                        surahName = "Nisâ Suresi",
+                        verseNumber = 58,
+                        arabic = "إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا وَإِذَا حَكَمْتُمْ بَيْنَ النَّاسِ أَنْ تَحْكُمُوا بِالْعَدْلِ",
+                        translation = "Şüphesiz Allah, emanetleri ehli olanlara vermenizi ve insanlar arasında hükmettiğiniz zaman adaletle hükmetmenizi emreder.",
+                        explanation = "Devlet yönetiminden ticarete ve aile hayatına kadar liyakat ve adaletin temel ilahi emir olduğunu beyan eder.",
+                        tags = listOf("Emanet", "Liyakat", "Adalet", "Hüküm")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 4,
+                        surahName = "Nisâ Suresi",
+                        verseNumber = 135,
+                        arabic = "يَا أَيُّهَا الَّذِينَ آمَنُوا كُونُوا قَوَّامِينَ بِالْقِسْطِ شُهَدَاءَ لِلَّهِ وَلَوْ عَلَىٰ أَنْفُسِكُمْ أَوِ الْوَالِدَيْنِ وَالْأَقْرَبِينَ",
+                        translation = "Ey iman edenler! Kendinizin, anne-babanızın ve yakınlarınızın aleyhine bile olsa Allah için şahitlik yaparak adaleti titizlikle ayakta tutan kimseler olun.",
+                        explanation = "Tarafsız ve evrensel adaletin en yüksek standardını ortaya koyar.",
+                        tags = listOf("Şahitlik", "Hakkaniyet", "Tarafsızlık")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 16,
+                        surahName = "Nahl Suresi",
+                        verseNumber = 90,
+                        arabic = "إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ وَالْبَغْيِ",
+                        translation = "Şüphesiz Allah adaleti, ihsanı (iyiliği ve güzelliği), yakınlara yardım etmeyi emreder; hayasızlığı, kötülüğü ve zorbalığı yasaklar.",
+                        explanation = "Cuma hutbelerinin sonunda okunan ve İslam'ın sosyal-ahlaki nizamını özetleyen جامع (câmi) ayettir.",
+                        tags = listOf("Adalet", "İhsan", "Hutbe Ayeti")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "aile_anne_baba",
+                title = "Aile, Anne-Baba & Merhamet",
+                icon = "🏡",
+                category = "Toplum & Hukuk",
+                description = "Anne-babaya ihsan, eşler arası muhabbet ve aile huzuru",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 17,
+                        surahName = "İsrâ Suresi",
+                        verseNumber = 23,
+                        arabic = "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا ۚ إِمَّا يَبْلُغَنَّ عِنْدَكَ الْكِبَرَ أَحَدُهُمَا أَوْ كِلَاهُمَا فَلَا تَقُلْ لَهُمَا أُفٍّ",
+                        translation = "Rabbin, kendisinden başkasına asla ibadet etmemenizi, anne ve babaya iyi davranmanızı kesin olarak emretti. Onlardan biri veya her ikisi senin yanında yaşlanırsa, kendilerine 'Öf!' bile deme; onları azarlama; ikisine de güzel ve tatlı söz söyle.",
+                        explanation = "Tevhid emrinden hemen sonra anne-babaya hürmet ve şefkati zikrederek aile vefasının önemini vurgular.",
+                        tags = listOf("Anne Baba Hakkı", "Vefa", "Şefkat")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 30,
+                        surahName = "Rûm Suresi",
+                        verseNumber = 21,
+                        arabic = "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً",
+                        translation = "Kendileriyle huzur bulasınız diye sizin için türünüzden eşler yaratması ve aranızda bir sevgi (meveddet) ve merhamet var etmesi de O'nun varlığının ve kudretinin delillerindendir.",
+                        explanation = "Evlilik ve aile yuvasının temel direklerinin sekînet (huzur), meveddet (sevgi) ve rahmet (şefkat) olduğunu bildirir.",
+                        tags = listOf("Evlilik", "Meveddet", "Rahmet", "Huzur")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 25,
+                        surahName = "Furkân Suresi",
+                        verseNumber = 74,
+                        arabic = "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+                        translation = "Rabbimiz! Bize eşlerimizden ve nesillerimizden göz aydınlığı olacak (salih) kimseler ihsan eyle ve bizi takva sahiplerine önder kıl.",
+                        explanation = "Huzurlu bir aile ve hayırlı nesiller için Kur'an'ın öğrettiği en kapsamlı aile duasıdır.",
+                        tags = listOf("Aile Duası", "Hayırlı Evlat", "Göz Aydınlığı")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "infak_zekat",
+                title = "İnfak, Zekât & Cömertlik",
+                icon = "🌾",
+                category = "İbadet & Kulluk",
+                description = "Allah yolunda paylaşmak, sadaka bereketi ve yardımlaşma",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 2,
+                        surahName = "Bakara Suresi",
+                        verseNumber = 261,
+                        arabic = "مَثَلُ الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمْ فِي سَبِيلِ اللَّهِ كَمَثَلِ حَبَّةٍ أَنْبَتَتْ سَبْعَ سَنَابِلَ فِي كُلِّ سُنْبُلَةٍ مِائَةُ حَبَّةٍ",
+                        translation = "Mallarını Allah yolunda harcayanların durumu, her başağında yüz dane olmak üzere yedi başak veren bir danenin durumu gibidir. Allah dilediğine kat kat fazlasını verir.",
+                        explanation = "İnfak ve sadakanın malı eksiltmeyip bire yediyüz ve daha fazlasıyla bereketlendirdiğini çarpıcı bir misalle anlatır.",
+                        tags = listOf("İnfak", "Sadaka", "Bereket", "Başak Misali")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 3,
+                        surahName = "Âl-i İmrân Suresi",
+                        verseNumber = 92,
+                        arabic = "لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ ۚ وَمَا تُنْفِقُوا مِنْ شَيْءٍ فَإِنَّ اللَّهَ بِهِ عَلِيمٌ",
+                        translation = "Sevdiğiniz şeylerden Allah yolunda harcamadıkça gerçek iyiliğe (birr mertebesine) asla erişemezsiniz. Her ne harcarsanız Allah onu hakkıyla bilir.",
+                        explanation = "Gerçek cömertliğin, insanın kendi değer verdiği ve sevdiği nimetlerden paylaşmasıyla gerçekleşeceğini bildirir.",
+                        tags = listOf("Birr", "Cömertlik", "Paylaşmak")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "guzel_ahlak_dogruluk",
+                title = "Güzel Ahlak, Sabır & Doğruluk",
+                icon = "🌟",
+                category = "Ahlak & Karakter",
+                description = "Kötülüğü iyilikle savmak, tevazu, doğruluk ve hüsnüzan",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 41,
+                        surahName = "Fussilet Suresi",
+                        verseNumber = 34,
+                        arabic = "وَلَا تَسْتَوِي الْحَسَنَةُ وَلَا السَّيِّئَةُ ۚ ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ فَإِذَا الَّذِي بَيْنَكَ وَبَيْنَهُ عَدَاوَةٌ كَأَنَّهُ وَلِيٌّ حَمِيمٌ",
+                        translation = "İyilikle kötülük bir olmaz. Sen (kötülüğü) en güzel olan davranışla sav; o zaman bir de göreceksin ki seninle arasında düşmanlık bulunan kimse candan, sıcak bir dost oluvermiş!",
+                        explanation = "İnsan ilişkilerinde nebevî nezaket ve olgunluğun düşmanlıkları bile dostluğa dönüştüren gücünü açıklar.",
+                        tags = listOf("İyilik", "Af", "Dostluk", "Hilm")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 49,
+                        surahName = "Hucurât Suresi",
+                        verseNumber = 12,
+                        arabic = "يَا أَيُّهَا الَّذِينَ آمَنُوا اجْتَنِبُوا كَثِيرًا مِنَ الظَّنِّ إِنَّ بَعْضَ الظَّنِّ إِثْمٌ ۖ وَلَا تَجَسَّسُوا وَلَا يَغْتَبْ بَعْضُكُمْ بَعْضًا",
+                        translation = "Ey iman edenler! Zannın çoğundan sakının; çünkü zannın bir kısmı günahtır. Birbirinizin gizli hallerini araştırmayın ve biriniz diğerini arkasından çekiştirmesin (gıybet etmesin).",
+                        explanation = "Toplumsal güveni ve kardeşlik hukukunu koruyan üç temel ahlaki yasağı (suizan, tecessüs ve gıybet) vazeder.",
+                        tags = listOf("Hüsnüzan", "Gıybet", "Mahremiyet", "Kardeşlik")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 31,
+                        surahName = "Lokmân Suresi",
+                        verseNumber = 18,
+                        arabic = "وَلَا تُصَعِّرْ خَدَّكَ لِلنَّاسِ وَلَا تَمْشِ فِي الْأَرْضِ مَرَحًا ۖ إِنَّ اللَّهَ لَا يُحِبُّ كُلَّ مُخْتَالٍ فَخُورٍ",
+                        translation = "İnsanlardan kibirle yüzünü çevirme ve yeryüzünde böbürlenerek yürüme! Zira Allah, kendini beğenip övünen hiç kimseyi sevmez.",
+                        explanation = "Hz. Lokman'ın oğluna öğütleri üzerinden tevazuu ve kibirlenmekten sakınmayı emreder.",
+                        tags = listOf("Tevazu", "Kibir", "Lokman Hekim")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "ahiret_cennet",
+                title = "Ahiret, Kıyamet & Ebedi Hayat",
+                icon = "🌅",
+                category = "İman & Akide",
+                description = "Hesap günü bilinci, amel defteri ve cennet müjdesi",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 99,
+                        surahName = "Zilzâl Suresi",
+                        verseNumber = 7,
+                        arabic = "فَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ ۝ وَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ",
+                        translation = "Kim zerre ağırlığınca bir hayır işlerse onun karşılığını görür. Kim de zerre ağırlığınca bir kötülük işlerse onun karşılığını görür.",
+                        explanation = "İlahi adalet terazisinde en küçük iyiliğin dahi zayi olmayacağını bildirir.",
+                        tags = listOf("Zerre", "Mizan", "Ahiret Hesabı")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 59,
+                        surahName = "Haşr Suresi",
+                        verseNumber = 18,
+                        arabic = "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنْظُرْ نَفْسٌ مَا قَدَّمَتْ لِغَدٍ ۖ وَاتَّقُوا اللَّهَ",
+                        translation = "Ey iman edenler! Allah'a karşı gelmekten sakının ve herkes yarın (ahiret) için önceden ne gönderdiğine baksın.",
+                        explanation = "Mümini her gün nefis muhasebesi yapmaya ve ebedi yarın için salih amel hazırlamaya çağırır.",
+                        tags = listOf("Nefis Muhasebesi", "Takva", "Yarın İçin Hazırlık")
+                    )
+                )
+            ),
+            QuranTopicIndex(
+                id = "kalp_huzuru_zikir",
+                title = "Kalp Huzuru, Zikir & Sekînet",
+                icon = "💚",
+                category = "Kalp & Maneviyat",
+                description = "Kalplerin Allah'ı anmakla huzur bulması ve manevi inşirah",
+                verses = listOf(
+                    QuranIndexVerseItem(
+                        surahId = 13,
+                        surahName = "Ra'd Suresi",
+                        verseNumber = 28,
+                        arabic = "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                        translation = "Onlar iman eden ve kalpleri Allah'ı anmakla (zikirle) huzura kavuşan kimselerdir. Biliniz ki kalpler ancak Allah'ı anmakla huzur bulur (mutmain olur).",
+                        explanation = "Ruhsal daralma ve çağın huzursuzluklarına karşı kalbin gerçek sığınağının zikir olduğunu beyan eder.",
+                        tags = listOf("Kalp Huzuru", "Zikir", "İtmi'nan")
+                    ),
+                    QuranIndexVerseItem(
+                        surahId = 29,
+                        surahName = "Ankebût Suresi",
+                        verseNumber = 45,
+                        arabic = "اتْلُ مَا أُوحِيَ إِلَيْكَ مِنَ الْكِتَابِ وَأَقِمِ الصَّلَاةَ ۖ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ ۗ وَلَذِكْرُ اللَّهِ أَكْبَرُ",
+                        translation = "Kitaptan sana vahyolunanı oku ve namazı dosdoğru kıl! Şüphesiz namaz, insanı hayasızlıktan ve kötülükten alıkoyar. Allah'ı anmak (zikretmek) ise elbette en büyük ibadettir.",
+                        explanation = "Kur'an tilaveti, namaz ve zikrin insanın ahlakını koruyan manevi kalkan olduğunu bildirir.",
+                        tags = listOf("Namaz", "Tilavet", "Zikrullah")
                     )
                 )
             )
         )
     }
 }
+

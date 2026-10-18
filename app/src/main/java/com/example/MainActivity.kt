@@ -26,8 +26,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,6 +78,7 @@ import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.AppTheme
 import com.example.ui.theme.LocalNavBarHeight
 import com.example.ui.theme.drawPaperTexture
+import com.example.ui.theme.frostedGlassBackdrop
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
@@ -91,6 +96,7 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         com.example.steps.StepCounterService.startIfEnabled(this)
         com.example.ui.BackgroundServices.startCountdown(this)
+        viewModel.onAppResumed()
     }
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent?): Boolean {
@@ -116,7 +122,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent.action == com.example.steps.StepCounterService.ACTION_OPEN_STEPS) stepOpenRequest++
-        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         enableEdgeToEdge()
         // MapLibre must be initialised before any MapView exists, so this has to
         // happen before setContent, not lazily from a composable.
@@ -125,6 +130,7 @@ class MainActivity : ComponentActivity() {
             val appTheme by viewModel.currentTheme.collectAsState()
             val selectedBgId by viewModel.selectedBackground.collectAsState()
             val patternIntensity by viewModel.patternIntensity.collectAsState()
+            val themeColorVariant by viewModel.themeColorVariant.collectAsState()
             val isForcedDark by viewModel.forceDarkTheme.collectAsState()
             val selectedLang by viewModel.selectedLanguage.collectAsState()
             val strings = com.example.ui.getAppStrings(selectedLang)
@@ -134,7 +140,8 @@ class MainActivity : ComponentActivity() {
                     darkTheme = isForcedDark,
                     appTheme = appTheme,
                     selectedBgId = selectedBgId,
-                    patternIntensity = patternIntensity
+                    patternIntensity = patternIntensity,
+                    colorVariant = themeColorVariant
                 ) {
                     val permissions = mutableListOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -145,24 +152,26 @@ class MainActivity : ComponentActivity() {
                     }
 
                     val permissionsState = rememberMultiplePermissionsState(permissions)
+                    val hasAnyLocationPermission = permissionsState.permissions.any {
+                        (it.permission == Manifest.permission.ACCESS_FINE_LOCATION ||
+                            it.permission == Manifest.permission.ACCESS_COARSE_LOCATION) &&
+                            it.status == com.google.accompanist.permissions.PermissionStatus.Granted
+                    }
 
                     LaunchedEffect(Unit) {
                         com.example.ui.NotificationSoundManager.initDhikrSounds(this@MainActivity)
-                        // Warm the Turkish narration engine while the user is still
-                        // on the home screen. Building a TextToSpeech engine binds
-                        // to the system service and blocks, so doing it here rather
-                        // than on first use of the Quran screen keeps that cost off
-                        // the screen's first frame.
                         com.example.ui.audio.MealSpeechHolder.warmUp(this@MainActivity)
-                        if (!permissionsState.allPermissionsGranted) {
+                        if (!hasAnyLocationPermission) {
+                            // Allow the initial window surface frame to finish rendering before
+                            // launching the system permission dialog overlay.
+                            kotlinx.coroutines.delay(400L)
                             permissionsState.launchMultiplePermissionRequest()
-                        } else {
-                            viewModel.checkLocationChanged()
                         }
                     }
 
-                    LaunchedEffect(permissionsState.allPermissionsGranted) {
-                        if (permissionsState.allPermissionsGranted) {
+                    LaunchedEffect(hasAnyLocationPermission) {
+                        if (hasAnyLocationPermission) {
+                            viewModel.startLiveLocationTracking()
                             viewModel.checkLocationChanged()
                         }
                     }
@@ -175,7 +184,8 @@ class MainActivity : ComponentActivity() {
                                 bgId = selectedBgId,
                                 theme = appTheme,
                                 isDark = isForcedDark,
-                                intensity = patternIntensity
+                                intensity = patternIntensity,
+                                colorVariant = themeColorVariant
                             )
                     ) {
                         MainApp(viewModel, stepOpenRequest)
@@ -372,6 +382,15 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                     com.example.ui.theme.NavStyle.UNDERLINE -> 0.dp
                     else -> 14.dp
                 }
+                val isDarkNav = com.example.ui.theme.LocalThemeIsDark.current
+                val themeColors = com.example.ui.theme.LocalThemeColors.current
+                val blurredBg = com.example.ui.theme.LocalBlurredBackgroundBitmap.current
+                val barShape = when (navStyle) {
+                    com.example.ui.theme.NavStyle.UNDERLINE -> RoundedCornerShape(0.dp)
+                    com.example.ui.theme.NavStyle.RAIL_DOCK -> RoundedCornerShape(30.dp)
+                    com.example.ui.theme.NavStyle.TABS -> RoundedCornerShape(22.dp)
+                    else -> RoundedCornerShape(26.dp)
+                }
 
                 Box(
                     modifier = Modifier
@@ -381,27 +400,29 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                         .padding(horizontal = outerPadding, vertical = if (navStyle == com.example.ui.theme.NavStyle.UNDERLINE) 0.dp else 8.dp)
                 ) {
                     Surface(
-                        tonalElevation = if (navStyle == com.example.ui.theme.NavStyle.UNDERLINE) 0.dp else 6.dp,
-                        shadowElevation = if (navStyle == com.example.ui.theme.NavStyle.UNDERLINE) 0.dp else 10.dp,
-                        shape = when (navStyle) {
-                            com.example.ui.theme.NavStyle.UNDERLINE -> RoundedCornerShape(0.dp)
-                            com.example.ui.theme.NavStyle.RAIL_DOCK -> RoundedCornerShape(30.dp)
-                            com.example.ui.theme.NavStyle.TABS -> RoundedCornerShape(22.dp)
-                            else -> RoundedCornerShape(26.dp)
-                        },
-                        color = when (navStyle) {
-                            com.example.ui.theme.NavStyle.UNDERLINE -> MaterialTheme.colorScheme.surface
-                            else -> MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
-                        },
-                        border = when (navStyle) {
-                            com.example.ui.theme.NavStyle.UNDERLINE -> androidx.compose.foundation.BorderStroke(
-                                0.5.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+                        tonalElevation = 0.dp,
+                        shadowElevation = 0.dp,
+                        shape = barShape,
+                        color = Color.Transparent,
+                        border = BorderStroke(
+                            1.2.dp,
+                            Brush.linearGradient(
+                                colors = listOf(
+                                    Color.White.copy(alpha = if (isDarkNav) 0.46f else 0.80f),
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.42f),
+                                    Color.White.copy(alpha = if (isDarkNav) 0.18f else 0.48f)
+                                )
                             )
-                            else -> androidx.compose.foundation.BorderStroke(
-                                1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .frostedGlassBackdrop(
+                                shape = barShape,
+                                tintColor = MaterialTheme.colorScheme.primary,
+                                tintAlpha = if (isDarkNav) 0.16f else 0.12f,
+                                surfaceVeilAlpha = if (isDarkNav) 0.30f else 0.36f,
+                                blurAlpha = 1f
                             )
-                        },
-                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
                             modifier = Modifier
@@ -422,13 +443,6 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
             }
         }
     ) { innerPadding ->
-        // The bar is a floating overlay and content is deliberately allowed to
-        // scroll *under* it — that is what makes the app feel layered rather than
-        // boxed in. Padding the NavHost instead would shrink every screen's
-        // viewport and leave a dead band above the bar, which is what the first
-        // attempt did. Scrolling screens reserve the bar's measured height as
-        // their own bottom contentPadding (see navBarBottomPadding), so the last
-        // item can always be scrolled fully clear.
         androidx.compose.runtime.CompositionLocalProvider(
             LocalNavBarHeight provides with(androidx.compose.ui.platform.LocalDensity.current) { navBarHeight.value.toDp() }
         ) {
@@ -448,7 +462,8 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                     onNavigateToQuranReading = { navController.navigate("quran_reading") },
                     onNavigateToAssistant = { navController.navigate("ai_assistant") },
                     onNavigateToDiscover = { navController.navigate("discover") },
-                    onNavigateToSettings = { navController.navigate("settings") }
+                    onNavigateToSettings = { navController.navigate("settings") },
+                    onNavigateToSteps = { navController.navigate("steps") }
                 ) 
             }
             composable("compass") { CompassScreen(viewModel) }

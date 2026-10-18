@@ -148,7 +148,7 @@ fun SettingsScreen(
                     icon = Icons.Default.Palette,
                     iconTint = MaterialTheme.colorScheme.primary,
                     title = "Tema Galerisi",
-                    subtitle = "Kubbeli Zümrüt ve 20 yeni tema",
+                    subtitle = "Kubbeli Zümrüt, 10 Glassmorphic tema ve renk seçenekleri",
                     onClick = { activeSubScreen = "theme" }
                 )
             }

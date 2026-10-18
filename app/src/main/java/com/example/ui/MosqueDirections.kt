@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.example.data.Mosque
 import java.util.Locale
 
 private const val TAG = "MosqueDirections"
@@ -13,7 +14,7 @@ private const val TAG = "MosqueDirections"
 fun openNearbyMosqueSearch(context: Context, latitude: Double, longitude: Double) {
     if (latitude !in -90.0..90.0 || longitude !in -180.0..180.0) return
     val center = String.format(Locale.US, "%.6f,%.6f", latitude, longitude)
-    for (url in listOf("geo:$center?q=cami", "https://www.google.com/maps/search/cami/@$center,14z")) {
+    for (url in listOf("geo:$center?q=cami", "https://www.google.com/maps/search/cami/@$center,15z")) {
         try {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             return
@@ -26,15 +27,6 @@ fun openNearbyMosqueSearch(context: Context, latitude: Double, longitude: Double
 
 /**
  * Opens walking directions to a mosque in whatever navigation app is installed.
- *
- * Tried in order, because no single URI scheme is universally supported:
- *  1. `google.navigation:` — Google Maps, and the only one that reliably honours
- *     `dirflg=w` for walking on every Android version.
- *  2. A `geo:` URI — the platform's documented "show on a map" contract, which
- *     lets the user pick from any installed maps app.
- *
- * If neither resolves the app is missing a maps client, which is worth telling the
- * user about rather than failing silently.
  */
 fun openWalkingDirections(
     context: Context,
@@ -42,24 +34,49 @@ fun openWalkingDirections(
     longitude: Double,
     label: String
 ) {
+    openDirectionsWithMode(context, latitude, longitude, label, walking = true)
+}
+
+/**
+ * Opens driving directions to a mosque in whatever navigation app is installed.
+ */
+fun openDrivingDirections(
+    context: Context,
+    latitude: Double,
+    longitude: Double,
+    label: String
+) {
+    openDirectionsWithMode(context, latitude, longitude, label, walking = false)
+}
+
+private fun openDirectionsWithMode(
+    context: Context,
+    latitude: Double,
+    longitude: Double,
+    label: String,
+    walking: Boolean
+) {
     if (latitude !in -90.0..90.0 || longitude !in -180.0..180.0) {
         Toast.makeText(context, "Bu konum için yönlendirme açılamadı.", Toast.LENGTH_SHORT).show()
         return
     }
 
-    val destination = String.format(Locale.US, "%f,%f", latitude, longitude)
+    val destination = String.format(Locale.US, "%.6f,%.6f", latitude, longitude)
+    val navMode = if (walking) "w" else "d"
+    val webMode = if (walking) "walking" else "driving"
     val candidates = listOf(
         Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("google.navigation:q=$destination&mode=w")
+            Uri.parse("google.navigation:q=$destination&mode=$navMode")
         ),
         Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(
-                "geo:$destination?q=${Uri.encode(destination)}(${Uri.encode(label)})"
-            )
+            Uri.parse("geo:$destination?q=${Uri.encode(destination)}(${Uri.encode(label)})")
         ),
-        Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/?api=1&destination=$destination&travelmode=walking"))
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://www.google.com/maps/dir/?api=1&destination=$destination&travelmode=$webMode")
+        )
     )
 
     for (intent in candidates) {
@@ -77,4 +94,29 @@ fun openWalkingDirections(
         "Yönlendirme için bir harita uygulaması bulunamadı.",
         Toast.LENGTH_LONG
     ).show()
+}
+
+/**
+ * Shares the mosque name, address, distance, and Google Maps link.
+ */
+fun shareMosqueLocation(
+    context: Context,
+    mosque: Mosque,
+    distanceLabel: String
+) {
+    val coords = String.format(Locale.US, "%.6f,%.6f", mosque.latitude, mosque.longitude)
+    val mapsUrl = "https://www.google.com/maps/search/?api=1&query=$coords"
+    val shareText = buildString {
+        append("🕌 ${mosque.displayName}\n")
+        if (mosque.address.isNotBlank()) append("📍 ${mosque.address}\n")
+        append("📏 Mesafe: $distanceLabel\n")
+        append("🗺️ Harita: $mapsUrl")
+    }
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, shareText)
+    }
+    runCatching {
+        context.startActivity(Intent.createChooser(sendIntent, "Cami Konumunu Paylaş").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
 }

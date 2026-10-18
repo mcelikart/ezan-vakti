@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /* ============================================================================
-   1. COLOR MODEL
+   1. COLOR MODEL & COLOR OPTIONS
    ========================================================================== */
 
 data class ThemeColors(
@@ -42,6 +42,15 @@ data class ThemeColors(
     val buttonTextColor: Color,
     val glowColor: Color,
     val goldMotifColor: Color
+)
+
+data class ThemeColorOption(
+    val index: Int,
+    val name: String,
+    val subtitle: String,
+    val primaryPreview: Color,
+    val accentPreview: Color,
+    val surfacePreview: Color
 )
 
 /* ============================================================================
@@ -153,62 +162,24 @@ enum class CardTreatment { FLAT, OUTLINED, ELEVATED, GLOW, GLASS, BRUTAL_TOPLINE
 
 enum class DividerStyle { NONE, HAIRLINE, DASHED, GRADIENT, DOUBLE }
 
-/**
- * Structural layout family.
- *
- * A theme that only swaps hues is a filter, not a design. This is the axis that
- * makes two themes feel like different products: the same prayer data is
- * arranged as a poster, a dashboard, a list or a journal depending on the
- * active theme, so switching theme re-composes the screen rather than
- * recolouring it.
- */
 enum class ThemeLayout {
-    /** Full-bleed hero countdown, everything else in one long column. */
     POSTER,
-
-    /** Hero plus a two-column grid of dense information tiles. */
     DASHBOARD,
-
-    /** Row-based list, tight rhythm, best for scanning many prayers. */
     LEDGER,
-
-    /** Sectioned with rules and generous leading, reads like a page. */
     JOURNAL,
-
-    /** Single centred column, maximum breathing room per item. */
     CALM
 }
 
 enum class NavStyle { PILL, TABS, RAIL_DOCK, UNDERLINE }
 
-/**
- * Where the app's global actions live.
- *
- * A theme that only restyles the home screen is still a filter. Moving the
- * actions themselves — into a side rail, into a bottom drawer, into a top bar —
- * changes the shape of the whole application, not just its palette.
- */
 enum class ActionPlacement {
-    /** Three tiles in the home content column, as today. */
     INLINE_TILES,
-
-    /** A compact strip of chips directly under the location header. */
     HEADER_CHIPS,
-
-    /** Pushed to the very bottom of the home list, below the detail cards. */
     FOOTER_TILES,
-
-    /** Folded into the navigation bar as a fourth destination. */
     NAV_DESTINATION,
-
-    /** A single icon on the right of the home header that opens a sheet. */
     HEADER_ACTION_SHEET
 }
 
-/**
- * Hero prominence, in descending order. This drives the countdown block's
- * height and whether the supporting details are visible without scrolling.
- */
 enum class HeroScale { DOMINANT, BALANCED, COMPACT }
 
 enum class PrayerComposition {
@@ -257,18 +228,21 @@ data class AppThemeSpec(
     val isGlass: Boolean = false,
     val hasHardShadow: Boolean = false,
     val prefersDark: Boolean = true,
-    /**
-     * Content-first themes (HIG "content over chrome") drop non-text contrast
-     * requirements: their `outline` is a decorative hairline, not a control
-     * border, so the 3:1 UI-component gate does not apply.
-     */
     val emphasizeContent: Boolean = true
 ) {
-    fun colors(dark: Boolean): ThemeColors = (if (dark || prefersDark) darkColors else lightColors).accessible()
+    val colorOptions: List<ThemeColorOption>
+        get() = buildColorOptionsForSpec(this)
 
-    fun toColorScheme(dark: Boolean): ColorScheme {
+    fun colors(dark: Boolean, colorVariant: Int = 0): ThemeColors {
         val useDark = dark || prefersDark
-        val c = colors(useDark)
+        val base = if (useDark) darkColors else lightColors
+        if (colorVariant <= 0) return base.accessible()
+        return applyColorVariant(base, id, useDark, colorVariant).accessible()
+    }
+
+    fun toColorScheme(dark: Boolean, colorVariant: Int = 0): ColorScheme {
+        val useDark = dark || prefersDark
+        val c = colors(useDark, colorVariant)
         val base = if (useDark) darkColorScheme(
             primary = c.primary, onPrimary = c.onPrimary,
             primaryContainer = c.primaryContainer, onPrimaryContainer = c.onPrimaryContainer,
@@ -312,7 +286,7 @@ data class AppThemeSpec(
 
     /** Surfaces that must read as translucent (glass themes). */
     fun surfaceAlpha(isDark: Boolean): Float = when (cardTreatment) {
-        CardTreatment.GLASS -> if (isDark) 0.62f else 0.78f
+        CardTreatment.GLASS -> if (isDark) 0.62f else 0.76f
         else -> 1f
     }
 
@@ -326,23 +300,219 @@ data class AppThemeSpec(
 }
 
 /* ============================================================================
-   8. BUILD HELPERS
+   7B. CURATED COLOR VARIANTS FOR KUBBELİ ZÜMRÜT & ALL GLASS THEMES
    ========================================================================== */
 
-private fun shapeToken(
-    metrics: ThemeMetrics,
-    button: Dp,
-    cardTop: Dp = metrics.cardRadiusTop,
-    cardBottom: Dp = metrics.cardRadiusBottom,
-    badge: Dp = 8.dp
-) = ThemeShapes(
-    buttonShape = RoundedCornerShape(button),
-    cardShape = RoundedCornerShape(
-        topStart = cardTop, topEnd = cardTop,
-        bottomEnd = cardBottom, bottomStart = cardBottom
-    ),
-    badgeShape = RoundedCornerShape(badge)
+private data class VariantSeed(
+    val name: String,
+    val subtitle: String,
+    val lightPrimary: Color,
+    val darkPrimary: Color,
+    val accentGold: Color,
+    val tertiaryTint: Color,
+    val lightBgTint: Color,
+    val darkBgTint: Color
 )
+
+private fun variantSeedsFor(spec: AppThemeSpec): List<VariantSeed> {
+    if (spec.id == "CLASSIC_EMERALD") {
+        return listOf(
+            VariantSeed(
+                name = "Asli Zümrüt",
+                subtitle = "Klasik Zümrüt & Altın",
+                lightPrimary = spec.lightColors.primary,
+                darkPrimary = spec.darkColors.primary,
+                accentGold = spec.lightColors.goldMotifColor,
+                tertiaryTint = spec.lightColors.tertiary,
+                lightBgTint = spec.lightColors.background,
+                darkBgTint = spec.darkColors.background
+            ),
+            VariantSeed(
+                name = "Ravza Yeşili",
+                subtitle = "Medine Yeşili & Kehribar",
+                lightPrimary = Color(0xFF0B5D46),
+                darkPrimary = Color(0xFFF0C96B),
+                accentGold = Color(0xFFD99B26),
+                tertiaryTint = Color(0xFF1F8A65),
+                lightBgTint = Color(0xFFF1F8F5),
+                darkBgTint = Color(0xFF051912)
+            ),
+            VariantSeed(
+                name = "Selçuklu Çam",
+                subtitle = "Çam Yeşili & Bakır",
+                lightPrimary = Color(0xFF184A30),
+                darkPrimary = Color(0xFFE0B46A),
+                accentGold = Color(0xFFC88A32),
+                tertiaryTint = Color(0xFF3E7A52),
+                lightBgTint = Color(0xFFF4F7F2),
+                darkBgTint = Color(0xFF091A10)
+            ),
+            VariantSeed(
+                name = "Firuze Zümrüt",
+                subtitle = "Su Yeşili & Şampanya",
+                lightPrimary = Color(0xFF0D5550),
+                darkPrimary = Color(0xFFE5CC7A),
+                accentGold = Color(0xFFC9A646),
+                tertiaryTint = Color(0xFF207A74),
+                lightBgTint = Color(0xFFF0F8F7),
+                darkBgTint = Color(0xFF061B19)
+            ),
+            VariantSeed(
+                name = "Hünkâr Zümrüt",
+                subtitle = "Derin Zümrüt & Gümüş Altın",
+                lightPrimary = Color(0xFF123D2E),
+                darkPrimary = Color(0xFFDFC880),
+                accentGold = Color(0xFFBFA044),
+                tertiaryTint = Color(0xFF2A6B52),
+                lightBgTint = Color(0xFFF2F6F4),
+                darkBgTint = Color(0xFF05130E)
+            )
+        )
+    }
+
+    // 5 curated glass color options for each of the 10 glassmorphic themes
+    return listOf(
+        VariantSeed(
+            name = "Asli Kristal",
+            subtitle = "Varsayılan Cam Tonu",
+            lightPrimary = spec.lightColors.primary,
+            darkPrimary = spec.darkColors.primary,
+            accentGold = spec.lightColors.goldMotifColor,
+            tertiaryTint = spec.lightColors.tertiary,
+            lightBgTint = spec.lightColors.background,
+            darkBgTint = spec.darkColors.background
+        ),
+        VariantSeed(
+            name = "Altın Hale",
+            subtitle = "Sıcak Kehribar Yansıma",
+            lightPrimary = lerp(spec.lightColors.primary, Color(0xFF7A440E), 0.35f),
+            darkPrimary = Color(0xFFF5C85B),
+            accentGold = Color(0xFFE5A930),
+            tertiaryTint = lerp(spec.lightColors.tertiary, Color(0xFFC87D20), 0.40f),
+            lightBgTint = lerp(spec.lightColors.background, Color(0xFFFFF6E5), 0.45f),
+            darkBgTint = lerp(spec.darkColors.background, Color(0xFF1E1205), 0.38f)
+        ),
+        VariantSeed(
+            name = "Buzul Prizma",
+            subtitle = "Soğuk Kristal & Safir",
+            lightPrimary = lerp(spec.lightColors.primary, Color(0xFF0B4870), 0.42f),
+            darkPrimary = Color(0xFF8CD2FA),
+            accentGold = Color(0xFF90CAF9),
+            tertiaryTint = lerp(spec.lightColors.tertiary, Color(0xFF1E78B4), 0.45f),
+            lightBgTint = lerp(spec.lightColors.background, Color(0xFFEAF6FF), 0.48f),
+            darkBgTint = lerp(spec.darkColors.background, Color(0xFF051626), 0.42f)
+        ),
+        VariantSeed(
+            name = "Mercan & Gül",
+            subtitle = "Yakut Kristal Parıltı",
+            lightPrimary = lerp(spec.lightColors.primary, Color(0xFF781B38), 0.40f),
+            darkPrimary = Color(0xFFF4A9BE),
+            accentGold = Color(0xFFE5989B),
+            tertiaryTint = lerp(spec.lightColors.tertiary, Color(0xFFB5385A), 0.42f),
+            lightBgTint = lerp(spec.lightColors.background, Color(0xFFFFF0F4), 0.45f),
+            darkBgTint = lerp(spec.darkColors.background, Color(0xFF210812), 0.38f)
+        ),
+        VariantSeed(
+            name = "Zümrüt Sırça",
+            subtitle = "Sırlı Yeşil & Altın Cam",
+            lightPrimary = lerp(spec.lightColors.primary, Color(0xFF0E5442), 0.44f),
+            darkPrimary = Color(0xFF8CE2C0),
+            accentGold = Color(0xFFD4AF37),
+            tertiaryTint = lerp(spec.lightColors.tertiary, Color(0xFF1F8066), 0.45f),
+            lightBgTint = lerp(spec.lightColors.background, Color(0xFFEEF9F5), 0.48f),
+            darkBgTint = lerp(spec.darkColors.background, Color(0xFF061C15), 0.40f)
+        )
+    )
+}
+
+internal fun buildColorOptionsForSpec(spec: AppThemeSpec): List<ThemeColorOption> {
+    return variantSeedsFor(spec).mapIndexed { index, seed ->
+        ThemeColorOption(
+            index = index,
+            name = seed.name,
+            subtitle = seed.subtitle,
+            primaryPreview = seed.lightPrimary,
+            accentPreview = seed.accentGold,
+            surfacePreview = seed.lightBgTint
+        )
+    }
+}
+
+private fun applyColorVariant(
+    base: ThemeColors,
+    specId: String,
+    isDark: Boolean,
+    variantIndex: Int
+): ThemeColors {
+    val spec = ThemeRegistry.getThemeById(specId)
+    val seeds = variantSeedsFor(spec)
+    val seed = seeds.getOrNull(variantIndex.coerceIn(0, seeds.lastIndex)) ?: return base
+    if (variantIndex == 0) return base
+
+    return if (!isDark) {
+        val bg = seed.lightBgTint
+        val surf = lerp(Color.White, bg, 0.35f)
+        val surfVar = lerp(bg, seed.lightPrimary, 0.14f)
+        val pri = seed.lightPrimary
+        val sec = seed.accentGold
+        val ter = seed.tertiaryTint
+        base.copy(
+            primary = pri,
+            onPrimary = Color.White,
+            primaryContainer = lerp(Color.White, pri, 0.18f),
+            onPrimaryContainer = lerp(pri, Color.Black, 0.45f),
+            secondary = sec,
+            onSecondary = lerp(pri, Color.Black, 0.55f),
+            secondaryContainer = lerp(Color.White, sec, 0.22f),
+            onSecondaryContainer = lerp(sec, Color.Black, 0.65f),
+            tertiary = ter,
+            onTertiary = Color.White,
+            background = bg,
+            onBackground = lerp(pri, Color.Black, 0.55f),
+            surface = surf,
+            onSurface = lerp(pri, Color.Black, 0.55f),
+            surfaceVariant = surfVar,
+            onSurfaceVariant = lerp(pri, Color.Black, 0.35f),
+            outline = lerp(sec, Color.Black, 0.25f),
+            cardGradient = listOf(pri, lerp(pri, Color.Black, 0.45f)),
+            glowColor = sec,
+            goldMotifColor = sec
+        )
+    } else {
+        val bg = seed.darkBgTint
+        val surf = lerp(bg, seed.lightPrimary, 0.22f)
+        val surfVar = lerp(bg, seed.lightPrimary, 0.36f)
+        val pri = seed.darkPrimary
+        val sec = lerp(seed.accentGold, Color.White, 0.25f)
+        val ter = lerp(seed.tertiaryTint, Color.White, 0.32f)
+        base.copy(
+            primary = pri,
+            onPrimary = lerp(bg, Color.Black, 0.25f),
+            primaryContainer = lerp(surf, seed.lightPrimary, 0.45f),
+            onPrimaryContainer = lerp(pri, Color.White, 0.55f),
+            secondary = sec,
+            onSecondary = lerp(bg, Color.Black, 0.25f),
+            secondaryContainer = lerp(surf, sec, 0.22f),
+            onSecondaryContainer = sec,
+            tertiary = ter,
+            onTertiary = lerp(bg, Color.Black, 0.3f),
+            background = bg,
+            onBackground = lerp(Color.White, pri, 0.12f),
+            surface = surf,
+            onSurface = lerp(Color.White, pri, 0.12f),
+            surfaceVariant = surfVar,
+            onSurfaceVariant = lerp(Color.White, pri, 0.26f),
+            outline = pri,
+            cardGradient = listOf(lerp(surf, seed.lightPrimary, 0.38f), bg),
+            glowColor = pri,
+            goldMotifColor = seed.accentGold
+        )
+    }
+}
+
+/* ============================================================================
+   8. BUILD HELPERS
+   ========================================================================== */
 
 internal fun darkPalette(
     accent: Color,
@@ -418,12 +588,12 @@ internal fun lightPalette(
 )
 
 /* ============================================================================
-   9. REGISTRY — 21 THEMES
+   9. REGISTRY — 11 THEMES (KUBBELİ ZÜMRÜT UNTOUCHED + 10 GLASS THEMES)
    ========================================================================== */
 
 object ThemeRegistry {
 
-    /* ---------- 1. KUBBELİ ZÜMRÜT (korunuyor, varsayılan) ---------- */
+    /* ---------- 1. KUBBELİ ZÜMRÜT (korunuyor, varsayılan — ASLA DOKUNULMADI) ---------- */
     val CLASSIC_EMERALD = AppThemeSpec(
         id = "CLASSIC_EMERALD",
         turkishName = "Kubbeli Zümrüt",
@@ -472,7 +642,6 @@ object ThemeRegistry {
 
     val default = CLASSIC_EMERALD
     val all: List<AppThemeSpec> = listOf(CLASSIC_EMERALD) + heritageThemes()
-
 
     fun getThemeById(id: String): AppThemeSpec = all.firstOrNull { it.id == id } ?: default
 }

@@ -21,7 +21,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -132,7 +134,8 @@ fun DhikrScreen(viewModel: PrayerViewModel) {
     var soundEnabled by remember { mutableStateOf(prefs.getBoolean("sound_enabled", true)) }
     var soundType by remember { mutableStateOf(prefs.getInt("sound_type", 0)) }
     var vibrationEnabled by remember { mutableStateOf(prefs.getBoolean("vibration_enabled", true)) }
-    var interactionMode by remember { mutableStateOf(prefs.getInt("interaction_mode", 0)) }
+    var interactionMode by remember { mutableStateOf(prefs.getInt("interaction_mode", 1)) }
+    var selectedTesbihMaterial by remember { mutableStateOf(prefs.getInt("tesbih_material", 0)) }
 
     LaunchedEffect(context) {
         NotificationSoundManager.initDhikrSounds(context)
@@ -279,17 +282,34 @@ fun DhikrScreen(viewModel: PrayerViewModel) {
         if (!vibrationEnabled) return
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK))
+                vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.createOneShot(12, 100))
+                vibrator.vibrate(VibrationEffect.createOneShot(16, 180))
             } else {
                 @Suppress("DEPRECATION")
-                vibrator.vibrate(12)
+                vibrator.vibrate(16)
             }
         } catch (e: Exception) {
             try {
                 view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             } catch (e2: Exception) {}
+        }
+    }
+
+    // Two-stage realistic tesbih haptic: finger release + bead-to-bead impact click ("tık-tak")
+    fun vibrateTesbihPull(isDurakOrImame: Boolean = false) {
+        if (!vibrationEnabled) return
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val timings = if (isDurakOrImame) longArrayOf(0, 14, 38, 24) else longArrayOf(0, 10, 34, 16)
+                val amplitudes = if (isDurakOrImame) intArrayOf(0, 150, 0, 255) else intArrayOf(0, 110, 0, 220)
+                vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, -1))
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(22)
+            }
+        } catch (e: Exception) {
+            vibrateShort()
         }
     }
 
@@ -767,23 +787,34 @@ fun DhikrScreen(viewModel: PrayerViewModel) {
                         count = count,
                         currentTarget = currentTarget,
                         currentDhikrName = currentDhikr.name,
+                        selectedMaterialIndex = selectedTesbihMaterial,
+                        onSelectMaterial = { idx ->
+                            selectedTesbihMaterial = idx
+                            prefs.edit().putInt("tesbih_material", idx).apply()
+                            if (vibrationEnabled) vibrateShort()
+                        },
                         onIncrement = {
                             val nextCount = count + 1
                             saveCount(nextCount)
                             saveTotalCount(totalCount + 1)
-                            if (currentTarget > 0 && nextCount > 0 && nextCount % currentTarget == 0) {
+                            val activeTarget = if (currentTarget > 0) currentTarget else 33
+                            val isSpecialBead = nextCount > 0 && nextCount % activeTarget == 0
+                            if (isSpecialBead) {
                                 vibrateLong()
+                                vibrateTesbihPull(isDurakOrImame = true)
                                 playBeep()
-                                addHistoryEntry(currentDhikr.name, currentTarget)
+                                if (currentTarget > 0) {
+                                    addHistoryEntry(currentDhikr.name, currentTarget)
+                                }
                             } else {
-                                vibrateShort()
+                                vibrateTesbihPull(isDurakOrImame = false)
                                 playBeep()
                             }
                         },
                         onDecrement = {
                             if (count > 0) {
                                 saveCount(count - 1)
-                                if (vibrationEnabled) vibrateShort()
+                                vibrateTesbihPull(isDurakOrImame = false)
                                 playBeep()
                             }
                         }
@@ -1443,395 +1474,920 @@ private fun getCubicTangent(
     return androidx.compose.ui.geometry.Offset(dx, dy)
 }
 
+private data class TesbihMaterialSpec(
+    val name: String,
+    val subtitle: String,
+    val lightCore: Color,
+    val midBody: Color,
+    val deepEdge: Color,
+    val rimGlow: Color,
+    val accentMetal: Color,
+    val cordColor: Color,
+    val hasWoodGrain: Boolean = false,
+    val hasAmberInclusions: Boolean = false,
+    val hasSilverInlay: Boolean = false
+)
+
+private val TESBIH_MATERIALS = listOf(
+    TesbihMaterialSpec(
+        name = "Zümrüt Yeşim",
+        subtitle = "Kubbeli Zümrüt",
+        lightCore = Color(0xFF43C687),
+        midBody = Color(0xFF0E6B45),
+        deepEdge = Color(0xFF042919),
+        rimGlow = Color(0xFF80F5B9),
+        accentMetal = Color(0xFFD4AF37),
+        cordColor = Color(0xFFC9A64E)
+    ),
+    TesbihMaterialSpec(
+        name = "Oltu Taşı",
+        subtitle = "Erzurum Gümüş Kakma",
+        lightCore = Color(0xFF545B66),
+        midBody = Color(0xFF1D2026),
+        deepEdge = Color(0xFF07080A),
+        rimGlow = Color(0xFFB0BEC5),
+        accentMetal = Color(0xFFE0E6ED),
+        cordColor = Color(0xFF9EA7B3),
+        hasSilverInlay = true
+    ),
+    TesbihMaterialSpec(
+        name = "Damla Kehribar",
+        subtitle = "Doğal Bal Kehribarı",
+        lightCore = Color(0xFFFFE082),
+        midBody = Color(0xFFD97706),
+        deepEdge = Color(0xFF4A1D03),
+        rimGlow = Color(0xFFFFF59D),
+        accentMetal = Color(0xFFD4AF37),
+        cordColor = Color(0xFFB8860B),
+        hasAmberInclusions = true
+    ),
+    TesbihMaterialSpec(
+        name = "Kuka Ağacı",
+        subtitle = "Torna Çekim Kuka",
+        lightCore = Color(0xFFA6683C),
+        midBody = Color(0xFF5C2E14),
+        deepEdge = Color(0xFF240F05),
+        rimGlow = Color(0xFFD79968),
+        accentMetal = Color(0xFFC5A059),
+        cordColor = Color(0xFF8D5B3C),
+        hasWoodGrain = true
+    ),
+    TesbihMaterialSpec(
+        name = "Ateş Kehribar",
+        subtitle = "Osmanlı Sıkma Yakut",
+        lightCore = Color(0xFFFF6E7F),
+        midBody = Color(0xFF9E1128),
+        deepEdge = Color(0xFF33030B),
+        rimGlow = Color(0xFFFF9E9E),
+        accentMetal = Color(0xFFD4AF37),
+        cordColor = Color(0xFFC5A059),
+        hasAmberInclusions = true
+    ),
+    TesbihMaterialSpec(
+        name = "Deve Kemiği",
+        subtitle = "Sedefli Fildişi",
+        lightCore = Color(0xFFFFFDF7),
+        midBody = Color(0xFFE6D7B8),
+        deepEdge = Color(0xFF7D6949),
+        rimGlow = Color(0xFFFFFFFF),
+        accentMetal = Color(0xFFD4AF37),
+        cordColor = Color(0xFFB89958)
+    )
+)
+
 @Composable
 fun TesbihBeadSwiper(
     count: Int,
     currentTarget: Int,
     currentDhikrName: String,
+    selectedMaterialIndex: Int = 0,
+    onSelectMaterial: (Int) -> Unit = {},
     onIncrement: () -> Unit,
     onDecrement: () -> Unit
 ) {
-    var dragAccumulator by remember { mutableStateOf(0f) }
-    var pulledInGesture by remember { mutableStateOf(false) }
-    val dragAnimatable = remember { Animatable(0f) }
-    // Signed push strength of the last flick, -1..1. Real beads keep travelling
-    // for a moment after the finger lifts; the strand overshoots then settles.
-    val flingEnergy = remember { Animatable(0f) }
+    val material = TESBIH_MATERIALS[selectedMaterialIndex.coerceIn(0, TESBIH_MATERIALS.lastIndex)]
+    val view = LocalView.current
     val scope = rememberCoroutineScope()
 
-    // Physical bead-on-string: a stiff push that overshoots once and settles,
-    // rather than the previous low-damping spring that wobbled for ~1s.
-    val beadSpring = spring<Float>(dampingRatio = 0.72f, stiffness = 620f)
+    val activeTarget = if (currentTarget > 0) currentTarget else 33
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(370.dp)
-            .padding(horizontal = 8.dp)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                onIncrement()
-                scope.launch {
-                    flingEnergy.snapTo(-1f)
-                    flingEnergy.animateTo(0f, spring(dampingRatio = 0.45f, stiffness = 220f))
-                    dragAnimatable.snapTo(-0.78f)
-                    dragAnimatable.animateTo(0f, beadSpring)
-                }
-            }
-            .pointerInput(Unit) {
-                detectVerticalDragGestures(
-                    onDragStart = {
-                        dragAccumulator = 0f
-                        pulledInGesture = false
-                    },
-                    onDragEnd = {
-                        pulledInGesture = false
-                        scope.launch {
-                            dragAnimatable.animateTo(0f, beadSpring)
-                        }
-                    },
-                    onDragCancel = {
-                        pulledInGesture = false
-                        scope.launch {
-                            dragAnimatable.animateTo(0f, beadSpring)
-                        }
-                    },
-                    onVerticalDrag = { change, dragAmount ->
-                        change.consume()
-                        dragAccumulator += dragAmount
-                        val currentShift = (dragAccumulator / 220f).coerceIn(-0.6f, 0.6f)
-                        scope.launch {
-                            dragAnimatable.snapTo(currentShift)
-                        }
-                        if (!pulledInGesture && (dragAccumulator > 24f || dragAccumulator < -24f)) {
-                            pulledInGesture = true
-                            onIncrement()
-                            scope.launch {
-                                flingEnergy.snapTo(if (dragAccumulator > 0) -0.8f else 0.8f)
-                                flingEnergy.animateTo(0f, spring(dampingRatio = 0.45f, stiffness = 220f))
-                                dragAnimatable.snapTo(if (dragAccumulator > 0) -0.6f else 0.6f)
-                                dragAnimatable.animateTo(0f, beadSpring)
-                            }
-                        }
-                    }
-                )
-            },
-        contentAlignment = Alignment.Center
+    // Continuous finger drag state: 1.0 full unit corresponds to 1 bead spacing (dt)
+    var dragDistancePx by remember { mutableStateOf(0f) }
+    var lastTickQuarter by remember { mutableStateOf(0) }
+
+    // Visual offset of the bead stream in bead-spacing units (-1f..1f)
+    val beadStreamOffset = remember { Animatable(0f) }
+    // Cord & tassel inertia energy (-1f..1f)
+    val flingEnergy = remember { Animatable(0f) }
+    // Impact shockwave when the pulled bead strikes the lower stack (0f..1f)
+    val collisionShock = remember { Animatable(0f) }
+    // Pendulum swing angle of the imame tassel
+    val tasselSwing = remember { Animatable(0f) }
+    // Thumb pressure indicator (0f..1f)
+    val thumbPressure = remember { Animatable(0f) }
+    // Celebratory golden/emerald aura pulse when the target bead is reached (0f..1f)
+    val targetPulse = remember { Animatable(0f) }
+
+    // Track external count increments (e.g. hardware volume keys) so they also animate
+    var previousCount by remember { mutableStateOf(count) }
+
+    fun triggerBeadSnapAnimation(
+        direction: Float,
+        startOffsetFraction: Float,
+        hitTargetStone: Boolean = false
     ) {
-        val dragShift = dragAnimatable.value
-        val energy = flingEnergy.value
+        // Use UNDISPATCHED so snapTo runs synchronously on the current frame before Compose redraws
+        scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+            beadStreamOffset.snapTo(startOffsetFraction)
+            beadStreamOffset.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(
+                    dampingRatio = 0.68f,
+                    stiffness = 540f
+                )
+            )
+        }
+        scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+            flingEnergy.snapTo(direction)
+            flingEnergy.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(dampingRatio = 0.46f, stiffness = 220f)
+            )
+        }
+        scope.launch {
+            kotlinx.coroutines.delay(28)
+            collisionShock.snapTo(if (hitTargetStone) 1.35f else 1f)
+            collisionShock.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(dampingRatio = 0.45f, stiffness = 460f)
+            )
+        }
+        scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+            tasselSwing.snapTo(direction * (if (hitTargetStone) 20f else 13f))
+            tasselSwing.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(dampingRatio = 0.34f, stiffness = 130f)
+            )
+        }
+        scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+            thumbPressure.snapTo(1f)
+            thumbPressure.animateTo(0f, tween(240))
+        }
+        if (hitTargetStone) {
+            scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+                targetPulse.snapTo(1f)
+                targetPulse.animateTo(0f, tween(900))
+            }
+        }
+    }
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val w = size.width
-            val h = size.height
-
-            // Continuous curved path modeling the Tesbih loop draped in hand
-            val p0 = androidx.compose.ui.geometry.Offset(w * 0.28f, h * 0.05f)
-            val p1 = androidx.compose.ui.geometry.Offset(w * 0.90f, h * 0.10f)
-            val p2 = androidx.compose.ui.geometry.Offset(w * 0.92f, h * 0.62f)
-            val p3 = androidx.compose.ui.geometry.Offset(w * 0.35f, h * 0.94f)
-
-            // Thread lags behind the beads while the strand is moving, the way a
-            // real cord trails under inertia instead of moving rigidly.
-            val trailOffset = Offset(energy * 5.dp.toPx(), energy * 9.dp.toPx())
-
-            val stringPath = Path().apply {
-                moveTo(p0.x + trailOffset.x, p0.y + trailOffset.y)
-                cubicTo(
-                    p1.x + trailOffset.x, p1.y + trailOffset.y,
-                    p2.x + trailOffset.x, p2.y + trailOffset.y,
-                    p3.x + trailOffset.x, p3.y + trailOffset.y
+    LaunchedEffect(count) {
+        if (count != previousCount) {
+            val delta = count - previousCount
+            previousCount = count
+            val hitTarget = count > 0 && count % activeTarget == 0
+            // If triggered externally (e.g. volume key) when not actively dragging
+            if (kotlin.math.abs(dragDistancePx) < 4f && !beadStreamOffset.isRunning) {
+                triggerBeadSnapAnimation(
+                    direction = if (delta > 0) -1f else 1f,
+                    startOffsetFraction = if (delta > 0) -1.0f else 1.0f,
+                    hitTargetStone = hitTarget
                 )
             }
+        }
+    }
 
-            drawPath(
-                path = stringPath,
-                color = Color.Black.copy(alpha = 0.25f),
-                style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
-            )
-            drawPath(
-                path = stringPath,
-                color = Color(0xFFC5A059), // Gold thread
-                style = Stroke(width = 2.8.dp.toPx(), cap = StrokeCap.Round)
-            )
-
-            // 2. Thumb Contact / Focal Ring Indicator (t = 0.50f)
-            val tFocal = 0.50f
-            val focalPos = getCubicPoint(p0, p1, p2, p3, tFocal)
-
-            drawCircle(
-                color = Color(0xFF00E676).copy(alpha = 0.15f),
-                radius = 32.dp.toPx(),
-                center = focalPos
-            )
-            drawCircle(
-                color = Color(0xFF00E676).copy(alpha = 0.35f),
-                radius = 26.dp.toPx(),
-                center = focalPos,
-                style = Stroke(width = 1.5.dp.toPx(), pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f))
-            )
-
-            // 3. Render Continuous Beads relative to current count (C)
-            val dt = 0.082f // Parametric step spacing between beads along Bezier curve
-            val range = -5..6
-
-            for (i in range) {
-                val beadIndex = count + i
-                if (beadIndex < 0) continue
-
-                val t = tFocal - (i - dragShift) * dt
-                if (t < 0.02f || t > 0.98f) continue
-
-                val beadPos = getCubicPoint(p0, p1, p2, p3, t)
-                val isTargetBead = (currentTarget > 0 && beadIndex > 0 && beadIndex % currentTarget == 0)
-                val isImame = (beadIndex == 0)
-                val isDurak = (beadIndex > 0 && beadIndex % 33 == 0 && !isImame && !isTargetBead)
-
-                // --- Depth: beads further from the thumb recede. A real strand
-                // curves away from the hand, so distant beads read smaller,
-                // dimmer and softer rather than as flat equal-sized circles.
-                val depth = ((t - tFocal) / 0.5f).coerceIn(-1f, 1f)
-                val depthAbs = kotlin.math.abs(depth)
-                val depthScale = 1f - 0.22f * depthAbs
-                val depthAlpha = 1f - 0.28f * depthAbs
-
-                // --- Squash across the thumb: the bead compresses along the
-                // strand as it is pressed past the fingertip, then relaxes.
-                val thumbSquash = (1f - 0.13f * (1f - depthAbs).coerceIn(0f, 1f)).coerceIn(0.7f, 1f)
-
-                // --- Rotation: beads turn as they travel around the loop, so
-                // their orientation follows the path tangent instead of
-                // staying axis-aligned.
-                val tangent = getCubicTangent(p0, p1, p2, p3, t)
-                val tangentAngle = Math.toDegrees(
-                    kotlin.math.atan2(tangent.y.toDouble(), tangent.x.toDouble())
-                ).toFloat()
-
-                val baseRadius = when {
-                    isTargetBead || isDurak -> 23.dp.toPx()
-                    isImame -> 16.dp.toPx()
-                    else -> 14.5.dp.toPx()
-                }
-                val shadowRadius = if (isTargetBead || isDurak) 22.dp.toPx() else if (isImame) 24.dp.toPx() else 14.dp.toPx()
-
-                // Contact shadow tightens under the thumb and softens away from it.
-                val shadowAlpha = (0.30f + 0.18f * (1f - depthAbs)) * depthAlpha
-                val shadowOffset = 3.dp.toPx() * depthScale
-                drawCircle(
-                    color = Color.Black.copy(alpha = shadowAlpha.coerceIn(0f, 0.6f)),
-                    radius = shadowRadius * depthScale,
-                    center = androidx.compose.ui.geometry.Offset(beadPos.x + shadowOffset, beadPos.y + shadowOffset * 1.3f)
-                )
-
-                if (isImame) {
-                    // --- Render İmame (Master Ornament) ---
-                    val imameHeight = 44.dp.toPx() * depthScale
-                    val imameWidth = 18.dp.toPx() * depthScale * thumbSquash
-
-                    val imameBrush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFFFF8E1), // Ivory top
-                            Color(0xFFD4AF37), // Gold body
-                            Color(0xFF5D4037)  // Deep amber base
-                        ),
-                        startY = beadPos.y - imameHeight / 2,
-                        endY = beadPos.y + imameHeight / 2
-                    )
-
-                    rotate(degrees = tangentAngle, pivot = beadPos) {
-                        drawRoundRect(
-                            brush = imameBrush,
-                            topLeft = androidx.compose.ui.geometry.Offset(beadPos.x - imameWidth / 2, beadPos.y - imameHeight / 2),
-                            size = androidx.compose.ui.geometry.Size(imameWidth, imameHeight),
-                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(9.dp.toPx() * depthScale, 9.dp.toPx() * depthScale)
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Material selector strip for authentic Turkish tesbih feel
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TESBIH_MATERIALS.forEachIndexed { idx, mat ->
+                val isSelected = idx == selectedMaterialIndex
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(
+                            if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)
+                            else MaterialTheme.colorScheme.surface.copy(alpha = 0.65f)
                         )
-
+                        .border(
+                            width = if (isSelected) 1.5.dp else 1.dp,
+                            color = if (isSelected) material.accentMetal else MaterialTheme.colorScheme.outline.copy(alpha = 0.18f),
+                            shape = RoundedCornerShape(18.dp)
+                        )
+                        .clickable { onSelectMaterial(idx) }
+                        .padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Canvas(modifier = Modifier.size(14.dp)) {
                         drawCircle(
-                            color = Color(0xFFFFD54F).copy(alpha = depthAlpha),
-                            radius = 6.dp.toPx() * depthScale,
-                            center = androidx.compose.ui.geometry.Offset(beadPos.x, beadPos.y - imameHeight * 0.25f)
-                        )
-                        drawCircle(
-                            color = Color(0xFFFFD54F).copy(alpha = depthAlpha),
-                            radius = 6.dp.toPx() * depthScale,
-                            center = androidx.compose.ui.geometry.Offset(beadPos.x, beadPos.y + imameHeight * 0.25f)
+                            brush = Brush.radialGradient(
+                                colors = listOf(mat.lightCore, mat.midBody, mat.deepEdge),
+                                center = Offset(size.width * 0.35f, size.height * 0.35f),
+                                radius = size.width * 0.65f
+                            )
                         )
                     }
-                } else if (isTargetBead || isDurak) {
-                    // --- Render Target / Durak (Büyük Tesbih Tanesi) ---
-                    val durakRadius = baseRadius * depthScale
-
-                    val haloColor = if (isTargetBead) Color(0xFF00E676) else Color(0xFFFFD54F)
-                    drawCircle(
-                        color = haloColor.copy(alpha = 0.35f * depthAlpha),
-                        radius = durakRadius + 5.dp.toPx(),
-                        center = beadPos
+                    Text(
+                        text = mat.name,
+                        fontSize = 11.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.78f)
                     )
-
-                    val durakBrush = Brush.radialGradient(
-                        colors = if (isTargetBead) listOf(
-                            Color(0xFFE8F5E9), // Emerald highlight
-                            Color(0xFF26A69A), // Rich teal/emerald
-                            Color(0xFF1B5E20)  // Deep forest green rim
-                        ) else listOf(
-                            Color(0xFFFFFDE7), // Bright highlight
-                            Color(0xFFFFB300), // Rich amber gold
-                            Color(0xFF3E2723)  // Dark rim
-                        ),
-                        center = androidx.compose.ui.geometry.Offset(beadPos.x - durakRadius * 0.35f, beadPos.y - durakRadius * 0.35f),
-                        radius = durakRadius * 1.35f
-                    )
-
-                    // Squash/stretch is applied by scaling along the tangent.
-                    rotate(degrees = tangentAngle, pivot = beadPos) {
-                        scale(scaleX = thumbSquash, scaleY = 2f - thumbSquash, pivot = beadPos) {
-                            drawCircle(
-                                brush = durakBrush,
-                                radius = durakRadius,
-                                center = beadPos
-                            )
-                            drawCircle(
-                                color = (if (isTargetBead) Color(0xFFA7F3D0) else Color(0xFFFFF9C4)).copy(alpha = depthAlpha),
-                                radius = durakRadius,
-                                center = beadPos,
-                                style = Stroke(width = 2.dp.toPx())
-                            )
-                        }
-                    }
-
-                    val targetNumStr = if (isTargetBead) "$beadIndex" else "33"
-                    val textPaint = android.graphics.Paint().apply {
-                        color = android.graphics.Color.WHITE
-                        textSize = 12.dp.toPx() * depthScale
-                        textAlign = android.graphics.Paint.Align.CENTER
-                        isFakeBoldText = true
-                        isAntiAlias = true
-                        setShadowLayer(4f, 0f, 2f, android.graphics.Color.BLACK)
-                    }
-                    textPaint.alpha = (255 * depthAlpha).toInt()
-                    drawContext.canvas.nativeCanvas.save()
-                    drawContext.canvas.nativeCanvas.rotate(tangentAngle, beadPos.x, beadPos.y)
-                    drawContext.canvas.nativeCanvas.drawText(
-                        targetNumStr,
-                        beadPos.x,
-                        beadPos.y + 4.5.dp.toPx(),
-                        textPaint
-                    )
-                    drawContext.canvas.nativeCanvas.restore()
-                } else {
-                    // --- Render Regular Polished Wooden/Amber Bead ---
-                    val beadRadius = baseRadius * depthScale
-
-                    val beadBrush = Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFFD7CCC8), // Top highlight reflection
-                            Color(0xFF8D5B41), // Rich polished wood
-                            Color(0xFF3E2723)  // Deep shadow
-                        ),
-                        center = androidx.compose.ui.geometry.Offset(beadPos.x - beadRadius * 0.38f, beadPos.y - beadRadius * 0.38f),
-                        radius = beadRadius * 1.40f
-                    )
-
-                    rotate(degrees = tangentAngle, pivot = beadPos) {
-                        scale(scaleX = thumbSquash, scaleY = 2f - thumbSquash, pivot = beadPos) {
-                            drawCircle(
-                                brush = beadBrush,
-                                radius = beadRadius,
-                                center = beadPos
-                            )
-
-                            // Specular highlight travels with the bead's rotation.
-                            drawCircle(
-                                color = Color.White.copy(alpha = 0.35f * depthAlpha),
-                                radius = beadRadius * 0.35f,
-                                center = androidx.compose.ui.geometry.Offset(beadPos.x - beadRadius * 0.30f, beadPos.y - beadRadius * 0.30f)
-                            )
-
-                            drawCircle(
-                                color = Color.White.copy(alpha = 0.20f * depthAlpha),
-                                radius = beadRadius,
-                                center = beadPos,
-                                style = Stroke(width = 1.dp.toPx())
-                            )
-
-                            // String entry/exit hole accent
-                            drawCircle(
-                                color = Color(0xFF212121).copy(alpha = depthAlpha),
-                                radius = 2.dp.toPx() * depthScale,
-                                center = beadPos
-                            )
-                        }
-                    }
-                }
-            }
-
-            // Motion blur: a faint ghost of the strand while it is travelling.
-            // A real bead smeared by motion when a flick is fast.
-            if (kotlin.math.abs(energy) > 0.02f) {
-                val ghostAlpha = kotlin.math.abs(energy) * 0.16f
-                var gi = -5
-                while (gi <= 6) {
-                    val gIndex = count + gi
-                    if (gIndex < 0) { gi++; continue }
-                    val gt = tFocal - (gi - dragShift + energy * 0.22f) * dt
-                    if (gt in 0.02f..0.98f) {
-                        val gPos = getCubicPoint(p0, p1, p2, p3, gt)
-                        drawCircle(
-                            color = Color.White.copy(alpha = ghostAlpha),
-                            radius = 12.dp.toPx(),
-                            center = gPos
-                        )
-                    }
-                    gi++
                 }
             }
         }
 
-        // Left Side: Modern Counter & Zikir Status Display
-        Column(
+        Box(
             modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 24.dp)
+                .fillMaxWidth()
+                .height(390.dp)
+                .padding(horizontal = 8.dp)
+                .pointerInput(count, activeTarget) {
+                    val stepThresholdPx = 68.dp.toPx()
+                    val dragPullRatio = 0.72f
+                    detectVerticalDragGestures(
+                        onDragStart = {
+                            dragDistancePx = 0f
+                            lastTickQuarter = 0
+                            scope.launch { thumbPressure.animateTo(0.85f, tween(90)) }
+                        },
+                        onDragEnd = {
+                            dragDistancePx = 0f
+                            lastTickQuarter = 0
+                            scope.launch {
+                                thumbPressure.animateTo(0f, tween(180))
+                                beadStreamOffset.animateTo(
+                                    targetValue = 0f,
+                                    animationSpec = spring(dampingRatio = 0.68f, stiffness = 620f)
+                                )
+                            }
+                        },
+                        onDragCancel = {
+                            dragDistancePx = 0f
+                            lastTickQuarter = 0
+                            scope.launch {
+                                thumbPressure.animateTo(0f, tween(180))
+                                beadStreamOffset.animateTo(
+                                    targetValue = 0f,
+                                    animationSpec = spring(dampingRatio = 0.68f, stiffness = 620f)
+                                )
+                            }
+                        },
+                        onVerticalDrag = { change, dragAmount ->
+                            change.consume()
+                            dragDistancePx += dragAmount
+                            val normalized = (dragDistancePx / stepThresholdPx).coerceIn(-1.15f, 1.15f)
+
+                            // Subtle micro-friction tick as the bead is pulled across the thumb pad
+                            val quarter = (normalized * 3f).toInt()
+                            if (quarter != lastTickQuarter && kotlin.math.abs(quarter) in 1..2) {
+                                lastTickQuarter = quarter
+                                runCatching {
+                                    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                }
+                            }
+
+                            if (dragDistancePx >= stepThresholdPx) {
+                                // Pulled downward -> advance bead seamlessly from where the drag reached!
+                                dragDistancePx -= stepThresholdPx
+                                lastTickQuarter = 0
+                                val nextCount = count + 1
+                                previousCount = nextCount
+                                val hitTarget = nextCount > 0 && nextCount % activeTarget == 0
+                                // Before increment, bead (count + 1) was at i = 1 with continuousIndex = 1 - dragPullRatio = +0.28f.
+                                // After increment, that same bead is i = 0, so startOffsetFraction = -(1f - dragPullRatio) = -0.28f keeps it at +0.28f!
+                                triggerBeadSnapAnimation(
+                                    direction = -1f,
+                                    startOffsetFraction = -(1f - dragPullRatio),
+                                    hitTargetStone = hitTarget
+                                )
+                                onIncrement()
+                            } else if (dragDistancePx <= -stepThresholdPx && count > 0) {
+                                // Pushed upward -> return bead seamlessly from where the drag reached!
+                                dragDistancePx += stepThresholdPx
+                                lastTickQuarter = 0
+                                val prevCount = (count - 1).coerceAtLeast(0)
+                                previousCount = prevCount
+                                triggerBeadSnapAnimation(
+                                    direction = 1f,
+                                    startOffsetFraction = (1f - dragPullRatio),
+                                    hitTargetStone = false
+                                )
+                                onDecrement()
+                            } else {
+                                scope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
+                                    beadStreamOffset.snapTo(normalized * dragPullRatio)
+                                    flingEnergy.snapTo(normalized * 0.45f)
+                                }
+                            }
+                        }
+                    )
+                }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    val nextCount = count + 1
+                    previousCount = nextCount
+                    val hitTarget = nextCount > 0 && nextCount % activeTarget == 0
+                    // On tap, bead (count + 1) starts from its full upper position (continuousIndex = +1.0f -> startOffsetFraction = -1.0f)
+                    triggerBeadSnapAnimation(
+                        direction = -1f,
+                        startOffsetFraction = -1.0f,
+                        hitTargetStone = hitTarget
+                    )
+                    onIncrement()
+                },
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Zikir",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary,
-                maxLines = 1
-            )
-            
-            Spacer(modifier = Modifier.height(4.dp))
+            val dragShift = beadStreamOffset.value
+            val energy = flingEnergy.value
+            val shock = collisionShock.value
+            val swingDeg = tasselSwing.value
+            val pressure = thumbPressure.value
+            val celebration = targetPulse.value
 
-            Text(
-                text = count.toString(),
-                fontSize = 110.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
-                lineHeight = 110.sp
-            )
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val w = size.width
+                val h = size.height
 
-            Spacer(modifier = Modifier.height(6.dp))
+                // Natural S-curve / draped loop of a hand-held tesbih
+                val p0 = Offset(w * 0.24f, h * 0.03f)
+                val p1 = Offset(w * 0.89f, h * 0.08f)
+                val p2 = Offset(w * 0.93f, h * 0.63f)
+                val p3 = Offset(w * 0.34f, h * 0.96f)
 
-            if (currentTarget > 0) {
-                val cycleNum = (count / currentTarget) + 1
-                val remainder = count % currentTarget
+                // Cord flexes slightly with finger pull & inertia
+                val cordFlex = Offset(
+                    x = energy * 4.5.dp.toPx() - pressure * 3.dp.toPx(),
+                    y = energy * 7.5.dp.toPx() + pressure * 4.dp.toPx()
+                )
+
+                val stringShadowPath = Path().apply {
+                    moveTo(p0.x + cordFlex.x + 3.dp.toPx(), p0.y + cordFlex.y + 5.dp.toPx())
+                    cubicTo(
+                        p1.x + cordFlex.x + 3.dp.toPx(), p1.y + cordFlex.y + 5.dp.toPx(),
+                        p2.x + cordFlex.x + 3.dp.toPx(), p2.y + cordFlex.y + 5.dp.toPx(),
+                        p3.x + cordFlex.x + 3.dp.toPx(), p3.y + cordFlex.y + 5.dp.toPx()
+                    )
+                }
+
+                val stringPath = Path().apply {
+                    moveTo(p0.x + cordFlex.x * 0.3f, p0.y + cordFlex.y * 0.3f)
+                    cubicTo(
+                        p1.x + cordFlex.x, p1.y + cordFlex.y,
+                        p2.x + cordFlex.x, p2.y + cordFlex.y,
+                        p3.x + cordFlex.x * 0.4f, p3.y + cordFlex.y * 0.4f
+                    )
+                }
+
+                // 1. Braided Tesbih Cord (İpek & Sırma İp)
+                drawPath(
+                    path = stringShadowPath,
+                    color = Color.Black.copy(alpha = 0.32f),
+                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+                )
+                drawPath(
+                    path = stringPath,
+                    color = Color(0xFF3E2723),
+                    style = Stroke(width = 3.8.dp.toPx(), cap = StrokeCap.Round)
+                )
+                drawPath(
+                    path = stringPath,
+                    color = material.cordColor,
+                    style = Stroke(width = 2.6.dp.toPx(), cap = StrokeCap.Round)
+                )
+                drawPath(
+                    path = stringPath,
+                    color = Color.White.copy(alpha = 0.42f),
+                    style = Stroke(
+                        width = 1.2.dp.toPx(),
+                        cap = StrokeCap.Round,
+                        pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(
+                            floatArrayOf(5.dp.toPx(), 4.dp.toPx()),
+                            phase = (count * 9f + dragShift * 9f)
+                        )
+                    )
+                )
+
+                // 2. Thumb Contact Zone (Çekim Boğumu / Başparmak Nişanesi) at t = 0.49f
+                val tFocal = 0.49f
+                val focalPos = getCubicPoint(p0, p1, p2, p3, tFocal)
+                val focalRadius = (31.dp.toPx()) * (1f + 0.08f * pressure + 0.06f * shock)
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            material.accentMetal.copy(alpha = 0.24f + 0.14f * pressure),
+                            material.lightCore.copy(alpha = 0.10f),
+                            Color.Transparent
+                        ),
+                        center = focalPos,
+                        radius = focalRadius * 1.35f
+                    ),
+                    radius = focalRadius * 1.35f,
+                    center = focalPos
+                )
+                drawCircle(
+                    color = material.accentMetal.copy(alpha = 0.48f + 0.25f * pressure),
+                    radius = focalRadius * 0.84f,
+                    center = focalPos,
+                    style = Stroke(
+                        width = 1.6.dp.toPx(),
+                        pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(
+                            floatArrayOf(8.dp.toPx(), 6.dp.toPx()),
+                            0f
+                        )
+                    )
+                )
+
+                // Celebratory expanding ring when reaching the target stone
+                if (celebration > 0.01f) {
+                    val ringR = focalRadius * (0.9f + (1f - celebration) * 1.6f)
+                    drawCircle(
+                        color = Color(0xFFFFD54F).copy(alpha = (celebration * 0.75f).coerceIn(0f, 1f)),
+                        radius = ringR,
+                        center = focalPos,
+                        style = Stroke(width = (3.5f * celebration).dp.toPx())
+                    )
+                    drawCircle(
+                        color = Color(0xFF00E676).copy(alpha = (celebration * 0.55f).coerceIn(0f, 1f)),
+                        radius = ringR * 0.78f,
+                        center = focalPos,
+                        style = Stroke(width = (2.2f * celebration).dp.toPx())
+                    )
+                }
+
+                // 3. Render Continuous 3D Beads with Smooth Cubic Thumb Gap & Stack Impact
+                val dt = 0.078f
+                val range = -6..6
+
+                for (i in range) {
+                    val beadIndex = count + i
+                    if (beadIndex < 0) continue
+
+                    // Continuous index of this bead along the stream:
+                    // Smooth cubic S-curve across the thumb gap so there is zero velocity kink
+                    val continuousIndex = i - dragShift
+                    val gapNorm = (continuousIndex * 1.85f).coerceIn(-1f, 1f)
+                    val smoothGap = gapNorm * (1.5f - 0.5f * gapNorm * gapNorm)
+                    val gapAdjustment = 0.023f * smoothGap
+
+                    // Damped cascade compression on the lower stack (i < 0) when a bead snaps down
+                    val stackImpactShift = if (continuousIndex < -0.1f) {
+                        val distBelow = (-continuousIndex).coerceAtLeast(0.5f)
+                        val attenuation = (1f / (distBelow * distBelow)).coerceIn(0f, 1f)
+                        shock * 0.018f * attenuation
+                    } else 0f
+
+                    val t = tFocal - continuousIndex * dt - gapAdjustment + stackImpactShift
+                    if (t < 0.03f || t > 0.97f) continue
+
+                    val beadPos = getCubicPoint(p0, p1, p2, p3, t)
+                    val isImame = (beadIndex == 0)
+                    // ONLY the user's target count (or its multiples) has the special stone
+                    val isTargetBead = (!isImame && beadIndex > 0 && beadIndex % activeTarget == 0)
+
+                    val depth = ((t - tFocal) / 0.50f).coerceIn(-1f, 1f)
+                    val depthAbs = kotlin.math.abs(depth)
+                    val depthScale = 1f - 0.20f * depthAbs
+                    val depthAlpha = (1f - 0.24f * depthAbs).coerceIn(0.45f, 1f)
+
+                    // Smooth tactile zoom as the active bead passes right under the thumb
+                    val focalProximity = (1f - kotlin.math.abs(continuousIndex).coerceIn(0f, 1f))
+                    val activeFocusBoost = 1f + 0.10f * focalProximity + 0.05f * pressure * focalProximity
+                    // Receiving bead in the lower stack compresses slightly on impact
+                    val impactSquash = if (i == 0 || i == -1) (1f - 0.07f * shock * focalProximity) else 1f
+
+                    val tangent = getCubicTangent(p0, p1, p2, p3, t)
+                    val tangentAngle = Math.toDegrees(
+                        kotlin.math.atan2(tangent.y.toDouble(), tangent.x.toDouble())
+                    ).toFloat()
+
+                    // Ambient + Directional Contact Shadow
+                    val shadowOffset = (4.dp.toPx() + (1f - depthAbs) * 2.5.dp.toPx()) * depthScale
+                    val shadowBaseRadius = when {
+                        isImame -> 24.dp.toPx()
+                        isTargetBead -> 23.dp.toPx()
+                        else -> 16.5.dp.toPx()
+                    } * depthScale * activeFocusBoost
+
+                    drawCircle(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = (0.46f * depthAlpha).coerceIn(0f, 0.55f)),
+                                Color.Black.copy(alpha = 0.14f * depthAlpha),
+                                Color.Transparent
+                            ),
+                            center = Offset(beadPos.x + shadowOffset * 0.75f, beadPos.y + shadowOffset * 1.15f),
+                            radius = shadowBaseRadius * 1.32f
+                        ),
+                        radius = shadowBaseRadius * 1.32f,
+                        center = Offset(beadPos.x + shadowOffset * 0.75f, beadPos.y + shadowOffset * 1.15f)
+                    )
+
+                    if (isImame) {
+                        // --- Ornate Ottoman Lathe-Turned İmame & Swinging Kamçı Püskül ---
+                        val imameLength = 50.dp.toPx() * depthScale
+                        val imameMaxW = 20.dp.toPx() * depthScale
+
+                        rotate(degrees = tangentAngle - 90f, pivot = beadPos) {
+                            val imameBrush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    material.deepEdge,
+                                    material.midBody,
+                                    material.lightCore,
+                                    material.midBody,
+                                    material.deepEdge
+                                ),
+                                startX = beadPos.x - imameMaxW / 2,
+                                endX = beadPos.x + imameMaxW / 2
+                            )
+
+                            // Bulbous lower body
+                            drawRoundRect(
+                                brush = imameBrush,
+                                topLeft = Offset(beadPos.x - imameMaxW / 2, beadPos.y - imameLength * 0.45f),
+                                size = androidx.compose.ui.geometry.Size(imameMaxW, imameLength * 0.55f),
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(imameMaxW / 2, imameMaxW / 2)
+                            )
+                            // Slender upper neck
+                            val neckW = imameMaxW * 0.58f
+                            drawRoundRect(
+                                brush = imameBrush,
+                                topLeft = Offset(beadPos.x - neckW / 2, beadPos.y - imameLength * 0.10f),
+                                size = androidx.compose.ui.geometry.Size(neckW, imameLength * 0.56f),
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(neckW / 2, neckW / 2)
+                            )
+
+                            // Gold/Silver Ottoman Filigree Collars (Boğum Halkaları)
+                            val ringPositions = listOf(-0.36f, -0.02f, 0.24f, 0.42f)
+                            val ringWidths = listOf(imameMaxW * 0.86f, imameMaxW * 0.78f, neckW * 1.08f, neckW * 0.92f)
+                            ringPositions.forEachIndexed { rIdx, ry ->
+                                val rw = ringWidths[rIdx]
+                                val yPos = beadPos.y + imameLength * ry
+                                drawRoundRect(
+                                    color = material.accentMetal,
+                                    topLeft = Offset(beadPos.x - rw / 2, yPos - 1.5.dp.toPx()),
+                                    size = androidx.compose.ui.geometry.Size(rw, 3.dp.toPx()),
+                                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx(), 2.dp.toPx())
+                                )
+                            }
+
+                            // Specular highlight strip along the İmame
+                            drawRoundRect(
+                                color = Color.White.copy(alpha = 0.38f),
+                                topLeft = Offset(beadPos.x - imameMaxW * 0.22f, beadPos.y - imameLength * 0.38f),
+                                size = androidx.compose.ui.geometry.Size(2.6.dp.toPx() * depthScale, imameLength * 0.74f),
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx(), 2.dp.toPx())
+                            )
+
+                            // Swinging Silk Tassel (Kamçı Püskül) attached to the tip of the İmame
+                            val tasselPivot = Offset(beadPos.x, beadPos.y + imameLength * 0.48f)
+                            rotate(degrees = swingDeg, pivot = tasselPivot) {
+                                drawCircle(
+                                    color = material.accentMetal,
+                                    radius = 4.5.dp.toPx() * depthScale,
+                                    center = tasselPivot
+                                )
+                                val tasselLen = 22.dp.toPx() * depthScale
+                                for (s in -3..3) {
+                                    val spread = s * 1.8.dp.toPx() * depthScale
+                                    drawLine(
+                                        color = if (s % 2 == 0) material.accentMetal.copy(alpha = 0.85f) else material.cordColor,
+                                        start = Offset(tasselPivot.x + spread * 0.25f, tasselPivot.y + 2.dp.toPx()),
+                                        end = Offset(tasselPivot.x + spread, tasselPivot.y + tasselLen),
+                                        strokeWidth = 1.4.dp.toPx() * depthScale,
+                                        cap = StrokeCap.Round
+                                    )
+                                }
+                            }
+                        }
+                    } else if (isTargetBead) {
+                        // --- Distinct Ornate Target Stone (Hedef / Müezzin Taşı) at exact target multiple ---
+                        val durakR = 23.5.dp.toPx() * depthScale * activeFocusBoost * (1f + 0.08f * celebration)
+                        val durakLen = durakR * 1.24f * impactSquash
+                        val durakThick = durakR * 0.98f
+
+                        // Outer golden/emerald halo so the target stone immediately stands out on the string
+                        drawCircle(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFFFFD54F).copy(alpha = (0.38f + 0.32f * celebration) * depthAlpha),
+                                    Color(0xFF00E676).copy(alpha = 0.16f * depthAlpha),
+                                    Color.Transparent
+                                ),
+                                center = beadPos,
+                                radius = durakR * 1.45f
+                            ),
+                            radius = durakR * 1.45f,
+                            center = beadPos
+                        )
+
+                        rotate(degrees = tangentAngle, pivot = beadPos) {
+                            // Sculpted Gold Crown End Caps (Habbe Çivisi)
+                            drawCircle(
+                                color = Color(0xFFFFD54F),
+                                radius = 5.2.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x - durakLen * 0.52f, beadPos.y)
+                            )
+                            drawCircle(
+                                color = Color(0xFFFFD54F),
+                                radius = 5.2.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x + durakLen * 0.52f, beadPos.y)
+                            )
+
+                            // Distinctive Imperial Gold & Emerald-Flanked Target Body
+                            val durakBrush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFFFFFDE7),
+                                    Color(0xFFFFD54F),
+                                    Color(0xFFD4AF37),
+                                    Color(0xFF795516),
+                                    Color(0xFF3E2723)
+                                ),
+                                center = Offset(beadPos.x - durakLen * 0.18f, beadPos.y - durakThick * 0.22f),
+                                radius = durakLen * 0.88f
+                            )
+
+                            drawOval(
+                                brush = durakBrush,
+                                topLeft = Offset(beadPos.x - durakLen / 2, beadPos.y - durakThick / 2),
+                                size = androidx.compose.ui.geometry.Size(durakLen, durakThick)
+                            )
+
+                            // Twin Filigree Rings + Emerald Inlay Band
+                            drawLine(
+                                color = Color(0xFF00C853).copy(alpha = 0.92f * depthAlpha),
+                                start = Offset(beadPos.x, beadPos.y - durakThick * 0.48f),
+                                end = Offset(beadPos.x, beadPos.y + durakThick * 0.48f),
+                                strokeWidth = 3.2.dp.toPx() * depthScale,
+                                cap = StrokeCap.Round
+                            )
+                            drawLine(
+                                color = Color(0xFFFFF8E1).copy(alpha = 0.85f * depthAlpha),
+                                start = Offset(beadPos.x - 3.dp.toPx() * depthScale, beadPos.y - durakThick * 0.45f),
+                                end = Offset(beadPos.x - 3.dp.toPx() * depthScale, beadPos.y + durakThick * 0.45f),
+                                strokeWidth = 1.2.dp.toPx() * depthScale,
+                                cap = StrokeCap.Round
+                            )
+                            drawLine(
+                                color = Color(0xFFFFF8E1).copy(alpha = 0.85f * depthAlpha),
+                                start = Offset(beadPos.x + 3.dp.toPx() * depthScale, beadPos.y - durakThick * 0.45f),
+                                end = Offset(beadPos.x + 3.dp.toPx() * depthScale, beadPos.y + durakThick * 0.45f),
+                                strokeWidth = 1.2.dp.toPx() * depthScale,
+                                cap = StrokeCap.Round
+                            )
+
+                            // Glossy dome highlight
+                            drawOval(
+                                color = Color.White.copy(alpha = 0.62f * depthAlpha),
+                                topLeft = Offset(beadPos.x - durakLen * 0.28f, beadPos.y - durakThick * 0.36f),
+                                size = androidx.compose.ui.geometry.Size(durakLen * 0.34f, durakThick * 0.24f)
+                            )
+
+                            // Outer crisp gold rim
+                            drawOval(
+                                color = Color(0xFFFFECB3).copy(alpha = 0.78f * depthAlpha),
+                                topLeft = Offset(beadPos.x - durakLen / 2, beadPos.y - durakThick / 2),
+                                size = androidx.compose.ui.geometry.Size(durakLen, durakThick),
+                                style = Stroke(width = 1.4.dp.toPx() * depthScale)
+                            )
+                        }
+                    } else {
+                        // --- Authentic Beyzi / Sıkma Turned Ellipsoid Tesbih Bead (Habbe) ---
+                        val baseR = 16.dp.toPx() * depthScale * activeFocusBoost
+                        val rx = baseR * 1.12f * impactSquash
+                        val ry = baseR * 0.98f * (2f - impactSquash)
+                        // Subtle 3D rolling shift as the bead slides along the cord
+                        val rollPhase = (continuousIndex * 0.35f).coerceIn(-0.35f, 0.35f)
+
+                        rotate(degrees = tangentAngle, pivot = beadPos) {
+                            // 1. Metallic/Drilled Cord Collar at both poles (Delik Ağızlığı)
+                            val poleOffset = rx * 0.94f
+                            drawCircle(
+                                color = Color(0xFF1A120B).copy(alpha = 0.85f * depthAlpha),
+                                radius = 3.4.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x - poleOffset, beadPos.y)
+                            )
+                            drawCircle(
+                                color = Color(0xFF1A120B).copy(alpha = 0.85f * depthAlpha),
+                                radius = 3.4.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x + poleOffset, beadPos.y)
+                            )
+                            drawCircle(
+                                color = material.accentMetal.copy(alpha = 0.82f * depthAlpha),
+                                radius = 2.4.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x - poleOffset, beadPos.y)
+                            )
+                            drawCircle(
+                                color = material.accentMetal.copy(alpha = 0.82f * depthAlpha),
+                                radius = 2.4.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x + poleOffset, beadPos.y)
+                            )
+
+                            // 2. 3D Subsurface & Specular Shaded Ellipsoid Body
+                            val lightCenter = Offset(
+                                beadPos.x - rx * (0.28f - rollPhase * 0.22f),
+                                beadPos.y - ry * 0.30f
+                            )
+                            val beadBrush = Brush.radialGradient(
+                                colors = listOf(
+                                    material.lightCore,
+                                    material.midBody,
+                                    material.deepEdge
+                                ),
+                                center = lightCenter,
+                                radius = rx * 1.48f
+                            )
+
+                            drawOval(
+                                brush = beadBrush,
+                                topLeft = Offset(beadPos.x - rx, beadPos.y - ry),
+                                size = androidx.compose.ui.geometry.Size(rx * 2f, ry * 2f)
+                            )
+
+                            // 3. Material-Specific Authentic Surface Details (rolling with bead motion)
+                            if (material.hasWoodGrain) {
+                                for (g in -1..1) {
+                                    val gx = beadPos.x + (g * 0.36f + rollPhase * 0.18f) * rx
+                                    drawArc(
+                                        color = Color(0xFF240F05).copy(alpha = 0.34f * depthAlpha),
+                                        startAngle = -65f,
+                                        sweepAngle = 130f,
+                                        useCenter = false,
+                                        topLeft = Offset(gx - rx * 0.35f, beadPos.y - ry * 0.78f),
+                                        size = androidx.compose.ui.geometry.Size(rx * 0.70f, ry * 1.56f),
+                                        style = Stroke(width = 1.2.dp.toPx() * depthScale)
+                                    )
+                                }
+                            } else if (material.hasAmberInclusions) {
+                                val seed = (beadIndex * 37) % 5
+                                drawOval(
+                                    color = material.rimGlow.copy(alpha = 0.28f * depthAlpha),
+                                    topLeft = Offset(
+                                        beadPos.x - rx * 0.35f + (seed - 2) * 1.5.dp.toPx() + rollPhase * rx * 0.25f,
+                                        beadPos.y - ry * 0.15f
+                                    ),
+                                    size = androidx.compose.ui.geometry.Size(rx * 0.65f, ry * 0.55f)
+                                )
+                            } else if (material.hasSilverInlay) {
+                                val inlayShift = rollPhase * rx * 0.22f
+                                drawLine(
+                                    color = material.accentMetal.copy(alpha = 0.65f * depthAlpha),
+                                    start = Offset(beadPos.x + inlayShift, beadPos.y - ry * 0.85f),
+                                    end = Offset(beadPos.x + inlayShift, beadPos.y + ry * 0.85f),
+                                    strokeWidth = 1.3.dp.toPx() * depthScale
+                                )
+                                drawCircle(
+                                    color = material.accentMetal.copy(alpha = 0.75f * depthAlpha),
+                                    radius = 1.6.dp.toPx() * depthScale,
+                                    center = Offset(beadPos.x - rx * 0.38f + inlayShift, beadPos.y)
+                                )
+                                drawCircle(
+                                    color = material.accentMetal.copy(alpha = 0.75f * depthAlpha),
+                                    radius = 1.6.dp.toPx() * depthScale,
+                                    center = Offset(beadPos.x + rx * 0.38f + inlayShift, beadPos.y)
+                                )
+                            }
+
+                            // 4. Lower-Right Subsurface Rim Bounce Light
+                            drawArc(
+                                color = material.rimGlow.copy(alpha = 0.32f * depthAlpha),
+                                startAngle = 15f,
+                                sweepAngle = 110f,
+                                useCenter = false,
+                                topLeft = Offset(beadPos.x - rx * 0.88f, beadPos.y - ry * 0.88f),
+                                size = androidx.compose.ui.geometry.Size(rx * 1.76f, ry * 1.76f),
+                                style = Stroke(width = 1.8.dp.toPx() * depthScale, cap = StrokeCap.Round)
+                            )
+
+                            // 5. Crisp Curved Specular Window Highlight on Upper-Left Dome
+                            drawOval(
+                                color = Color.White.copy(alpha = 0.62f * depthAlpha),
+                                topLeft = Offset(beadPos.x - rx * 0.58f, beadPos.y - ry * 0.64f),
+                                size = androidx.compose.ui.geometry.Size(rx * 0.52f, ry * 0.32f)
+                            )
+                            drawCircle(
+                                color = Color.White.copy(alpha = 0.82f * depthAlpha),
+                                radius = 1.9.dp.toPx() * depthScale,
+                                center = Offset(beadPos.x - rx * 0.42f, beadPos.y - ry * 0.48f)
+                            )
+
+                            // Subtle outer contour for crisp separation
+                            drawOval(
+                                color = Color.Black.copy(alpha = 0.25f * depthAlpha),
+                                topLeft = Offset(beadPos.x - rx, beadPos.y - ry),
+                                size = androidx.compose.ui.geometry.Size(rx * 2f, ry * 2f),
+                                style = Stroke(width = 0.9.dp.toPx())
+                            )
+                        }
+                    }
+
+                    // Draw subtle bead number on the active focal bead and on the target bead
+                    if (i == 0 || isTargetBead) {
+                        drawIntoCanvas { canvas ->
+                            val textSizeSp = if (isTargetBead) 11.5.sp.toPx() else 11.sp.toPx()
+                            val paint = android.graphics.Paint().apply {
+                                color = if (isTargetBead) {
+                                    android.graphics.Color.parseColor("#1B1002")
+                                } else {
+                                    android.graphics.Color.WHITE
+                                }
+                                alpha = (248 * depthAlpha).toInt().coerceIn(0, 255)
+                                textSize = textSizeSp * depthScale
+                                textAlign = android.graphics.Paint.Align.CENTER
+                                isFakeBoldText = true
+                                isAntiAlias = true
+                                if (!isTargetBead) {
+                                    setShadowLayer(4f, 0f, 1.5f, android.graphics.Color.BLACK)
+                                }
+                            }
+                            val textToDraw = if (isImame) "0" else beadIndex.toString()
+                            val fm = paint.fontMetrics
+                            val textOffset = (fm.descent - fm.ascent) / 2 - fm.descent
+                            canvas.nativeCanvas.drawText(
+                                textToDraw,
+                                beadPos.x,
+                                beadPos.y + textOffset,
+                                paint
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Left-side HUD Readout Card (Count, Cycle, Target Stone & Pull Hint)
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 16.dp)
+            ) {
+                val completedCycles = count / activeTarget
+                val isExactMultiple = count > 0 && count % activeTarget == 0
+                val statusLabel = when {
+                    isExactMultiple -> "★ HEDEF TAŞI"
+                    completedCycles > 0 -> "${completedCycles + 1}. DEVİR"
+                    else -> material.name.uppercase()
+                }
+                val statusColor = if (isExactMultiple) Color(0xFF00E676) else material.accentMetal
+
+                Text(
+                    text = statusLabel,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = statusColor,
+                    letterSpacing = 1.6.sp
+                )
+
+                Text(
+                    text = count.toString(),
+                    fontSize = 76.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    lineHeight = 80.sp
+                )
+
+                val beadInTarget = if (count == 0) 0 else ((count - 1) % activeTarget) + 1
                 Surface(
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                    shape = RoundedCornerShape(12.dp),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f))
+                    color = if (isExactMultiple) Color(0xFF00E676).copy(alpha = 0.16f) else MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(
+                        1.dp,
+                        if (isExactMultiple) Color(0xFF00E676).copy(alpha = 0.55f) else material.accentMetal.copy(alpha = 0.35f)
+                    )
                 ) {
                     Text(
-                        text = "Tur $cycleNum • $remainder / $currentTarget",
-                        fontSize = 12.sp,
+                        text = "Tur ${completedCycles + 1} • Habbe $beadInTarget / $activeTarget",
+                        fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = if (isExactMultiple) Color(0xFF00E676) else MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "↕ Habbeyi aşağı çekin\nveya dokunun",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.72f),
+                    lineHeight = 14.sp
+                )
             }
         }
     }
 }
+

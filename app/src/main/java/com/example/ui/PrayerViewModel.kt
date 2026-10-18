@@ -253,6 +253,82 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
         initialValue = null
     )
 
+    val autoLocationEnabled = repository.autoLocationFlow.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = true
+    )
+
+    private var liveLocationJob: kotlinx.coroutines.Job? = null
+
+    fun setAutoLocationEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            repository.saveAutoLocationEnabled(enabled)
+            if (enabled) {
+                startLiveLocationTracking()
+                checkLocationChanged(forceFetch = true)
+            } else {
+                liveLocationJob?.cancel()
+                liveLocationJob = null
+            }
+        }
+    }
+
+    fun onAppResumed() {
+        if (autoLocationEnabled.value) {
+            startLiveLocationTracking()
+            checkLocationChanged(forceFetch = false)
+        }
+    }
+
+    private fun calculateDistanceMeters(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
+        val results = FloatArray(1)
+        android.location.Location.distanceBetween(lat1, lng1, lat2, lng2, results)
+        return results[0]
+    }
+
+    fun startLiveLocationTracking() {
+        if (liveLocationJob?.isActive == true) return
+        liveLocationJob = viewModelScope.launch {
+            repository.observeLocationChanges().collect { loc ->
+                if (!autoLocationEnabled.value) return@collect
+                val savedLat = repository.latitudeFlow.firstOrNull()
+                val savedLng = repository.longitudeFlow.firstOrNull()
+                val savedCity = repository.cityFlow.firstOrNull()
+
+                if (savedLat == null || savedLng == null) {
+                    applyAutoDetectedLocation(loc, notifyIfCityChanged = false, previousCity = savedCity)
+                } else {
+                    val dist = calculateDistanceMeters(savedLat, savedLng, loc.latitude, loc.longitude)
+                    val cityDiffers = loc.city.isNotBlank() &&
+                        loc.city != "Mevcut Konum" &&
+                        savedCity != null &&
+                        !loc.city.equals(savedCity, ignoreCase = true)
+                    if (dist > 250f || cityDiffers) {
+                        applyAutoDetectedLocation(loc, notifyIfCityChanged = true, previousCity = savedCity)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun applyAutoDetectedLocation(
+        loc: com.example.data.LocationResult,
+        notifyIfCityChanged: Boolean,
+        previousCity: String?
+    ) {
+        repository.saveLocation(loc.latitude, loc.longitude, loc.city)
+        _qiblaAngle.value = CompassTracker.calculateQiblaAngle(loc.latitude, loc.longitude)
+        fetchTimings(loc.latitude, loc.longitude)
+        if (notifyIfCityChanged &&
+            previousCity != null &&
+            previousCity != "Konum Seçiliyor..." &&
+            !previousCity.equals(loc.city, ignoreCase = true)
+        ) {
+            _newLocationDetected.value = loc
+        }
+    }
+
     val favoriteHadithsFlow = repository.favoriteHadithsFlow.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -330,6 +406,18 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    val themeColorVariant = repository.themeColorVariantFlow.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = 0
+    )
+
+    fun setThemeColorVariant(variant: Int) {
+        viewModelScope.launch {
+            repository.saveThemeColorVariant(variant)
+        }
+    }
+
     val azimuthFlow = compassTracker.azimuthFlow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
@@ -360,11 +448,25 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
                 }
             }
 
-            // Periodic 15-minute location check (auto-updates if city/location changes)
+            // Periodic 5-minute location check (auto-updates if city/location changes)
             launch {
                 while (true) {
-                    delay(15 * 60 * 1000L)
-                    checkLocationChanged()
+                    delay(5 * 60 * 1000L)
+                    if (autoLocationEnabled.value) {
+                        checkLocationChanged()
+                    }
+                }
+            }
+
+            // Start continuous live location listener if auto-location is enabled
+            launch {
+                autoLocationEnabled.collect { enabled ->
+                    if (enabled) {
+                        startLiveLocationTracking()
+                    } else {
+                        liveLocationJob?.cancel()
+                        liveLocationJob = null
+                    }
                 }
             }
 
@@ -412,6 +514,8 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             _isLoading.value = true
             try {
+                repository.saveAutoLocationEnabled(true)
+                startLiveLocationTracking()
                 val loc = repository.getCurrentLocation()
                 if (loc != null) {
                     repository.saveLocation(loc.latitude, loc.longitude, loc.city)
@@ -419,7 +523,7 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
                     fetchTimings(loc.latitude, loc.longitude)
                     android.widget.Toast.makeText(
                         getApplication(),
-                        "Konum güncellendi: ${loc.city}",
+                        "Otomatik konum güncellendi: ${loc.city}",
                         android.widget.Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -456,24 +560,29 @@ class PrayerViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun checkLocationChanged() {
+    fun checkLocationChanged(forceFetch: Boolean = false) {
         viewModelScope.launch {
             try {
+                val isAuto = repository.autoLocationFlow.firstOrNull() ?: true
+                if (!isAuto && !forceFetch) return@launch
+
                 val savedLat = repository.latitudeFlow.firstOrNull()
                 val savedLng = repository.longitudeFlow.firstOrNull()
                 val savedCity = repository.cityFlow.firstOrNull()
-                
+
                 val loc = repository.getCurrentLocation()
                 if (loc != null) {
-                    if (savedLat == null || savedLng == null) {
-                        // First time, automatically save
-                        setLocationDirectly(loc)
+                    if (savedLat == null || savedLng == null || forceFetch) {
+                        applyAutoDetectedLocation(loc, notifyIfCityChanged = savedCity != null, previousCity = savedCity)
                     } else {
-                        val results = FloatArray(1)
-                        android.location.Location.distanceBetween(savedLat, savedLng, loc.latitude, loc.longitude, results)
-                        // If distance is more than 300 meters or city has changed, auto update without asking
-                        if (results[0] > 300 || (loc.city.isNotBlank() && savedCity != null && loc.city != savedCity)) {
-                            setLocationDirectly(loc)
+                        val dist = calculateDistanceMeters(savedLat, savedLng, loc.latitude, loc.longitude)
+                        val cityChanged = loc.city.isNotBlank() &&
+                            loc.city != "Mevcut Konum" &&
+                            savedCity != null &&
+                            !loc.city.equals(savedCity, ignoreCase = true)
+                        // If distance is more than 250 meters or city/district has changed, auto update immediately
+                        if (dist > 250f || cityChanged) {
+                            applyAutoDetectedLocation(loc, notifyIfCityChanged = true, previousCity = savedCity)
                         }
                     }
                 } else if (savedLat == null || savedLng == null) {

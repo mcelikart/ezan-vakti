@@ -36,7 +36,7 @@ class ScreenshotsGeneratorTest {
     @Test
     fun captureCompass() {
         compose.setContent {
-            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.SELCUKLU) {
+            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.KUBBELI_SAFIR) {
                 CompassScreen(viewModel = viewModel)
             }
         }
@@ -46,7 +46,7 @@ class ScreenshotsGeneratorTest {
     @Test
     fun captureDhikr() {
         compose.setContent {
-            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.SELCUKLU) {
+            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.KUBBELI_SAFIR) {
                 DhikrScreen(viewModel = viewModel)
             }
         }
@@ -56,7 +56,7 @@ class ScreenshotsGeneratorTest {
     @Test
     fun captureMiracles() {
         compose.setContent {
-            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.SELCUKLU) {
+            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.KUBBELI_SAFIR) {
                 QuranMiraclesScreen(viewModel = viewModel, onBack = {})
             }
         }
@@ -66,7 +66,7 @@ class ScreenshotsGeneratorTest {
     @Test
     fun captureCalendar() {
         compose.setContent {
-            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.SELCUKLU) {
+            MyApplicationTheme(darkTheme = false, appTheme = AppTheme.KUBBELI_SAFIR) {
                 CalendarScreen(viewModel = viewModel)
             }
         }

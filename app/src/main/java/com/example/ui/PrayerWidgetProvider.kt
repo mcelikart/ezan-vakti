@@ -112,83 +112,148 @@ class PrayerWidgetProvider : AppWidgetProvider() {
             val themeName = prefs.getString("theme", "EMERALD") ?: "EMERALD"
 
             val themeColors = when (themeName) {
-                "OTTOMAN_GOLD" -> WidgetThemeColors(
-                    bgStart = 0xFF2C0B0B.toInt(),
-                    bgEnd = 0xFF1B0000.toInt(),
-                    bgStroke = 0x40FFD700.toInt(),
-                    cityColor = 0xFFFFD700.toInt(),
-                    dateColor = 0xFFF9EFE4.toInt(),
-                    labelColor = 0xFFFFECB3.toInt(),
-                    highlightStart = 0xFF8E0000.toInt(),
-                    highlightEnd = 0xFF5A0000.toInt(),
-                    highlightStroke = 0xFFFFD700.toInt(),
-                    highlightTextColor = 0xFFFFD700.toInt(),
-                    chronometerColor = 0xFFFFD700.toInt()
+                "KUBBELI_SAFIR" -> WidgetThemeColors(
+                    bgStart = 0xFF0F3D6E.toInt(),
+                    bgEnd = 0xFF061526.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE4C56E.toInt(),
+                    dateColor = 0xFFE6F0FA.toInt(),
+                    labelColor = 0xFF9AD0F5.toInt(),
+                    highlightStart = 0xFF175C9E.toInt(),
+                    highlightEnd = 0xFF0C2E54.toInt(),
+                    highlightStroke = 0xFFE4C56E.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE4C56E.toInt()
                 )
-                "ANDALUSIAN_NIGHT" -> WidgetThemeColors(
-                    bgStart = 0xFF12182B.toInt(),
-                    bgEnd = 0xFF070B19.toInt(),
-                    bgStroke = 0x404FC3F7.toInt(),
-                    cityColor = 0xFF4FC3F7.toInt(),
-                    dateColor = 0xFFE1E2E6.toInt(),
-                    labelColor = 0xFFB39DDB.toInt(),
-                    highlightStart = 0xFF0277BD.toInt(),
-                    highlightEnd = 0xFF01579B.toInt(),
-                    highlightStroke = 0xFF4FC3F7.toInt(),
-                    highlightTextColor = 0xFF4FC3F7.toInt(),
-                    chronometerColor = 0xFF4FC3F7.toInt()
+                "KUBBELI_YAKUT", "OTTOMAN_GOLD" -> WidgetThemeColors(
+                    bgStart = 0xFF4E1423.toInt(),
+                    bgEnd = 0xFF1F070E.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE6C66E.toInt(),
+                    dateColor = 0xFFFAEAEE.toInt(),
+                    labelColor = 0xFFF4A6B8.toInt(),
+                    highlightStart = 0xFF7A1C33.toInt(),
+                    highlightEnd = 0xFF4A0E1D.toInt(),
+                    highlightStroke = 0xFFE6C66E.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE6C66E.toInt()
                 )
-                "DESERT_SAND" -> WidgetThemeColors(
-                    bgStart = 0xFF2E221A.toInt(),
-                    bgEnd = 0xFF201712.toInt(),
-                    bgStroke = 0x40FFB74D.toInt(),
-                    cityColor = 0xFFFFB74D.toInt(),
-                    dateColor = 0xFFEFEBE9.toInt(),
-                    labelColor = 0xFFFFCC80.toInt(),
-                    highlightStart = 0xFFD84315.toInt(),
-                    highlightEnd = 0xFF8D2400.toInt(),
-                    highlightStroke = 0xFFFFB74D.toInt(),
-                    highlightTextColor = 0xFFFFB74D.toInt(),
-                    chronometerColor = 0xFFFFB74D.toInt()
+                "KUBBELI_FIRUZE" -> WidgetThemeColors(
+                    bgStart = 0xFF0A5C66.toInt(),
+                    bgEnd = 0xFF051B1E.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE2C46C.toInt(),
+                    dateColor = 0xFFE4F6F8.toInt(),
+                    labelColor = 0xFF8CE2EC.toInt(),
+                    highlightStart = 0xFF137A87.toInt(),
+                    highlightEnd = 0xFF09434A.toInt(),
+                    highlightStroke = 0xFFE2C46C.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE2C46C.toInt()
                 )
-                "MARBLE_WHITE" -> WidgetThemeColors(
-                    bgStart = 0xFF263238.toInt(),
-                    bgEnd = 0xFF121212.toInt(),
-                    bgStroke = 0x40B0BEC5.toInt(),
-                    cityColor = 0xFFB0BEC5.toInt(),
-                    dateColor = 0xFFECEFF1.toInt(),
-                    labelColor = 0xFFCFD8DC.toInt(),
-                    highlightStart = 0xFF455A64.toInt(),
-                    highlightEnd = 0xFF263238.toInt(),
-                    highlightStroke = 0xFFECEFF1.toInt(),
-                    highlightTextColor = 0xFFECEFF1.toInt(),
-                    chronometerColor = 0xFF80CBC4.toInt()
+                "KUBBELI_KEHRIBAR", "DESERT_SAND" -> WidgetThemeColors(
+                    bgStart = 0xFF4D2D0A.toInt(),
+                    bgEnd = 0xFF1C1004.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE8C368.toInt(),
+                    dateColor = 0xFFFAF0E4.toInt(),
+                    labelColor = 0xFFF5C77E.toInt(),
+                    highlightStart = 0xFF784610.toInt(),
+                    highlightEnd = 0xFF452708.toInt(),
+                    highlightStroke = 0xFFE8C368.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE8C368.toInt()
                 )
-                "MINIMAL_DARK" -> WidgetThemeColors(
-                    bgStart = 0xFF1E1E1E.toInt(),
-                    bgEnd = 0xFF121212.toInt(),
-                    bgStroke = 0x33FFFFFF.toInt(),
-                    cityColor = 0xFFFFFFFF.toInt(),
-                    dateColor = 0xFFBDBDBD.toInt(),
-                    labelColor = 0xFF9E9E9E.toInt(),
-                    highlightStart = 0xFF333333.toInt(),
-                    highlightEnd = 0xFF212121.toInt(),
-                    highlightStroke = 0xFFFFFFFF.toInt(),
-                    highlightTextColor = 0xFFFFFFFF.toInt(),
-                    chronometerColor = 0xFFFFFFFF.toInt()
+                "KUBBELI_AMETIST" -> WidgetThemeColors(
+                    bgStart = 0xFF3D1A4C.toInt(),
+                    bgEnd = 0xFF16081C.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE4C56E.toInt(),
+                    dateColor = 0xFFF3EAF7.toInt(),
+                    labelColor = 0xFFDAB6F2.toInt(),
+                    highlightStart = 0xFF5E2875.toInt(),
+                    highlightEnd = 0xFF361544.toInt(),
+                    highlightStroke = 0xFFE4C56E.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE4C56E.toInt()
                 )
-                else -> WidgetThemeColors( // EMERALD
+                "KUBBELI_ZEYTIN" -> WidgetThemeColors(
+                    bgStart = 0xFF29421D.toInt(),
+                    bgEnd = 0xFF0F190A.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE2C46C.toInt(),
+                    dateColor = 0xFFEBF4E6.toInt(),
+                    labelColor = 0xFFB8E29E.toInt(),
+                    highlightStart = 0xFF3F632D.toInt(),
+                    highlightEnd = 0xFF233818.toInt(),
+                    highlightStroke = 0xFFE2C46C.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE2C46C.toInt()
+                )
+                "KUBBELI_SAHRA" -> WidgetThemeColors(
+                    bgStart = 0xFF452F1C.toInt(),
+                    bgEnd = 0xFF170F08.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE5C56E.toInt(),
+                    dateColor = 0xFFF6EFE8.toInt(),
+                    labelColor = 0xFFE8C7A7.toInt(),
+                    highlightStart = 0xFF6B4A2D.toInt(),
+                    highlightEnd = 0xFF3D2918.toInt(),
+                    highlightStroke = 0xFFE5C56E.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE5C56E.toInt()
+                )
+                "KUBBELI_SEDEF", "MARBLE_WHITE" -> WidgetThemeColors(
+                    bgStart = 0xFF183E4A.toInt(),
+                    bgEnd = 0xFF08171C.toInt(),
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE2C46C.toInt(),
+                    dateColor = 0xFFE8F3F6.toInt(),
+                    labelColor = 0xFFA3DAE8.toInt(),
+                    highlightStart = 0xFF266073.toInt(),
+                    highlightEnd = 0xFF143540.toInt(),
+                    highlightStroke = 0xFFE2C46C.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE2C46C.toInt()
+                )
+                "KUBBELI_KABE_GECESI", "MINIMAL_DARK" -> WidgetThemeColors(
+                    bgStart = 0xFF242018.toInt(),
+                    bgEnd = 0xFF0A0A0C.toInt(),
+                    bgStroke = 0x80E8C86B.toInt(),
+                    cityColor = 0xFFE8C86B.toInt(),
+                    dateColor = 0xFFF5F1E8.toInt(),
+                    labelColor = 0xFFD4AF37.toInt(),
+                    highlightStart = 0xFF3B3322.toInt(),
+                    highlightEnd = 0xFF1F1B12.toInt(),
+                    highlightStroke = 0xFFE8C86B.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE8C86B.toInt()
+                )
+                "KUBBELI_GECE_MAVISI", "ANDALUSIAN_NIGHT" -> WidgetThemeColors(
+                    bgStart = 0xFF18274E.toInt(),
+                    bgEnd = 0xFF070C1A.toInt(),
+                    bgStroke = 0x66E5C66E.toInt(),
+                    cityColor = 0xFFE5C66E.toInt(),
+                    dateColor = 0xFFE8EEFA.toInt(),
+                    labelColor = 0xFFA8C2F7.toInt(),
+                    highlightStart = 0xFF263E7A.toInt(),
+                    highlightEnd = 0xFF142145.toInt(),
+                    highlightStroke = 0xFFE5C66E.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE5C66E.toInt()
+                )
+                else -> WidgetThemeColors( // CLASSIC_EMERALD (Kubbeli Zümrüt)
                     bgStart = 0xFF0C2E24.toInt(),
                     bgEnd = 0xFF051D16.toInt(),
-                    bgStroke = 0x3300E676.toInt(),
-                    cityColor = 0xFF1DE9B6.toInt(),
-                    dateColor = 0xFFB2DFDB.toInt(),
-                    labelColor = 0xFF80CBC4.toInt(),
-                    highlightStart = 0xFF00796B.toInt(),
-                    highlightEnd = 0xFF004D40.toInt(),
-                    highlightStroke = 0xFF00E676.toInt(),
-                    highlightTextColor = 0xFF00E676.toInt(),
-                    chronometerColor = 0xFF00E676.toInt()
+                    bgStroke = 0x66D4AF37.toInt(),
+                    cityColor = 0xFFE2C46C.toInt(),
+                    dateColor = 0xFFE8F5E9.toInt(),
+                    labelColor = 0xFFA1E8C5.toInt(),
+                    highlightStart = 0xFF154D3B.toInt(),
+                    highlightEnd = 0xFF0A291F.toInt(),
+                    highlightStroke = 0xFFE2C46C.toInt(),
+                    highlightTextColor = 0xFFFFECB3.toInt(),
+                    chronometerColor = 0xFFE2C46C.toInt()
                 )
             }
 

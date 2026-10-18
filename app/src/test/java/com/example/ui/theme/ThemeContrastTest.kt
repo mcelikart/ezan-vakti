@@ -1,21 +1,71 @@
 package com.example.ui.theme
 
+import com.example.ui.parseImportedNote
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ThemeContrastTest {
-    @Test fun collectionHasTwentyNewThemesAndPreservedDome() {
-        assertEquals(21, AppTheme.entries.size)
+    @Test fun collectionHasTenNewKubbeliThemesAndPreservedEmeraldDome() {
+        assertEquals(11, AppTheme.entries.size)
         assertEquals(setOf(PrayerComposition.DOME), AppTheme.entries.map { it.spec.composition }.toSet())
-        assertEquals(ScheduleStyle.entries.toSet(), AppTheme.entries.map { it.spec.scheduleStyle }.toSet())
-        listOf("VAKIT_ATLASI", "HAT_DEFTERI", "UFUK_CIZGISI", "ISTASYON", "KENT_PANOSU",
-            "AY_ISIGI", "TIPOGRAFI", "VAKIT_SERIDI", "GUN_YAPRAGI", "SESSIZ_ODAK").forEach {
+        assertEquals(setOf(ScheduleStyle.CLASSIC), AppTheme.entries.map { it.spec.scheduleStyle }.toSet())
+        assertEquals(setOf(HomeHeaderStyle.CLASSIC), AppTheme.entries.map { it.spec.headerStyle }.toSet())
+        assertEquals(setOf(NavStyle.PILL), AppTheme.entries.map { it.spec.navStyle }.toSet())
+        assertEquals(setOf(HeroScale.DOMINANT), AppTheme.entries.map { it.spec.heroScale }.toSet())
+
+        listOf(
+            "SELCUKLU", "IZNIK_PORCELAIN", "HATTAT_PARCHMENT", "ENDERUN_LIBRARY",
+            "HAGIA_SOPHIA", "TOPKAPI_GOLD", "MIMAR_SINAN", "KUDUS_AQSA", "SEMAZEN_KONYA"
+        ).forEach {
             assertEquals(AppTheme.DEFAULT, AppTheme.fromStored(it))
         }
-        listOf("OTTOMAN_HUMAYUN", "HICRI_MINIMAL", "OLIVE_DAWN", "PLAIN_VOICE").forEach {
-            assertEquals(AppTheme.DEFAULT, AppTheme.fromStored(it))
+    }
+
+    @Test fun emeraldDomeIsUntouchedWhileOtherTenAreGlassmorphicWithDistinctShapes() {
+        val emerald = AppTheme.CLASSIC_EMERALD.spec
+        assertFalse(emerald.isGlass)
+        assertEquals(CardTreatment.OUTLINED, emerald.cardTreatment)
+
+        val glassThemes = AppTheme.entries.drop(1)
+        assertEquals(10, glassThemes.size)
+        glassThemes.forEach { theme ->
+            assertTrue("${theme.name} must be glassmorphic", theme.spec.isGlass)
+            assertEquals(CardTreatment.GLASS, theme.spec.cardTreatment)
+            assertNotEquals(
+                "${theme.name} cardShape should differ from CLASSIC_EMERALD",
+                emerald.shapes.cardShape,
+                theme.spec.shapes.cardShape
+            )
+            assertNotEquals(
+                "${theme.name} buttonShape should differ from CLASSIC_EMERALD",
+                emerald.shapes.buttonShape,
+                theme.spec.shapes.buttonShape
+            )
         }
+    }
+
+    @Test fun allThemesHaveFiveColorOptionsWithAccessibleContrast() {
+        for (theme in AppTheme.entries) {
+            val options = theme.spec.colorOptions
+            assertEquals(5, options.size)
+            for (opt in options) {
+                for (dark in listOf(false, true)) {
+                    val scheme = theme.spec.toColorScheme(dark, opt.index)
+                    val ratio = contrast(scheme.onSurface, scheme.surface)
+                    assertTrue("${theme.name} variant=${opt.index} dark=$dark surface contrast=$ratio", ratio >= 4.5)
+                }
+            }
+        }
+    }
+
+    @Test fun importedNoteUsesFirstLineAsTitle() {
+        val raw = "Cuma Hutbesi Notlarım\nSabır ve şükür üzerine ayetler\nİbrahim Suresi 7. Ayet"
+        val (title, body) = parseImportedNote(raw)
+        assertEquals("Cuma Hutbesi Notlarım", title)
+        assertEquals("Sabır ve şükür üzerine ayetler\nİbrahim Suresi 7. Ayet", body)
     }
 
     @Test fun unknownThemeNamesFallBackToEmeraldDome() {
@@ -44,70 +94,9 @@ class ThemeContrastTest {
         }
     }
 
-    @Test fun everyThemeIsStructurallyDistinct() {
-        // Identity must not collapse to a hue swap. Pattern, shape family, button
-        // fill, card treatment, motion, type family, layout, nav style, where the
-        // global actions live, and hero prominence must all count.
-        val signatures = AppTheme.entries.map { theme ->
-            val s = theme.spec
-            listOf(
-                s.composition.name,
-                s.pattern.name,
-                s.shapes.buttonShape::class.simpleName,
-                s.shapes.cardShape.toString(),
-                s.buttonFill.name,
-                s.cardTreatment.name,
-                s.motion.entrance.name,
-                s.typography.family.name,
-                s.layout.name,
-                s.navStyle.name,
-                s.actionPlacement.name,
-                s.heroScale.name
-            ).joinToString("|")
-        }
-        assertEquals(
-            "two themes share an identical structural signature",
-            AppTheme.entries.size,
-            signatures.toSet().size
-        )
-    }
-
-    @Test fun everyLayoutFamilyNavStylePlacementAndHeroScaleIsUsed() {
-        // If one of these axes is never assigned, that design idea lives only in
-        // the enum and never reaches the product.
-        assertEquals(
-            ThemeLayout.entries.toSet(),
-            AppTheme.entries.map { it.spec.layout }.toSet()
-        )
-        assertEquals(
-            NavStyle.entries.toSet(),
-            AppTheme.entries.map { it.spec.navStyle }.toSet()
-        )
-        assertEquals(
-            ActionPlacement.entries.toSet(),
-            AppTheme.entries.map { it.spec.actionPlacement }.toSet()
-        )
-        assertEquals(
-            setOf(HeroScale.DOMINANT),
-            AppTheme.entries.map { it.spec.heroScale }.toSet()
-        )
-    }
-
-    @Test fun actionPlacementsAreSpreadNotClusteredOnOneMode() {
-        // A single dominant placement would mean most themes still feel the same.
-        val counts = AppTheme.entries.groupingBy { it.spec.actionPlacement }.eachCount()
-        assertTrue("no placement is used by more than half the themes: $counts",
-            counts.values.max() <= AppTheme.entries.size / 2)
-    }
-
     @Test fun everyThemeHasAUniquePalette() {
         val primaries = AppTheme.entries.map { it.spec.lightColors.primary }.toSet()
         assertEquals(AppTheme.entries.size, primaries.size)
-    }
-
-    @Test fun collectionBalancesLightAndDark() {
-        assertEquals(3, AppTheme.entries.count { it.spec.prefersDark })
-        assertTrue(!AppTheme.CLASSIC_EMERALD.spec.prefersDark)
     }
 
     @Test fun allThemesHaveReadableTextInBothModes() {
@@ -133,8 +122,6 @@ class ThemeContrastTest {
 
     @Test fun controlOutlinesMeetUiComponentContrast() {
         for (theme in AppTheme.entries) {
-            // Content-first themes use `outline` as a decorative hairline rather
-            // than a control border, so the 3:1 gate does not apply to them.
             if (theme.spec.emphasizeContent) continue
             val c = theme.spec.colors(theme.spec.prefersDark)
             val ratio = contrast(c.outline, c.surface)

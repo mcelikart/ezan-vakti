@@ -77,11 +77,16 @@ object RetrofitClient {
     }
 
     val mosqueRepository: MosqueRepository by lazy {
-        val fallback = Retrofit.Builder()
+        val fallback1 = Retrofit.Builder()
             .baseUrl("https://overpass.private.coffee/api/")
             .client(overpassOkHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build().create(OverpassService::class.java)
-        MosqueRepository(overpassService, fallback)
+        val fallback2 = Retrofit.Builder()
+            .baseUrl("https://maps.mail.ru/osm/tools/overpass/api/")
+            .client(overpassOkHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build().create(OverpassService::class.java)
+        MosqueRepository(overpassService, fallback1, listOf(fallback2))
     }
 }

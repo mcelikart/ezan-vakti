@@ -1,12 +1,10 @@
-import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
-
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.google.devtools.ksp)
   alias(libs.plugins.roborazzi)
   alias(libs.plugins.secrets)
-  alias(libs.plugins.google.services)
+  // alias(libs.plugins.google.services)
 }
 
 android {
@@ -47,13 +45,13 @@ android {
       signingConfig = signingConfigs.getByName("release")
     }
     debug {
-      signingConfig = signingConfigs.getByName(if (file("${rootDir}/debug.keystore").exists()) "debugConfig" else "debug")
+      signingConfig = signingConfigs.getByName("debugConfig")
     }
     // Installable, size-optimised build. Debug-signed so it can be side-loaded
     // without a release keystore, but minified and resource-shrunk like release.
     create("preview") {
       initWith(getByName("release"))
-      signingConfig = signingConfigs.getByName(if (file("${rootDir}/debug.keystore").exists()) "debugConfig" else "debug")
+      signingConfig = signingConfigs.getByName("debugConfig")
       isMinifyEnabled = true
       isShrinkResources = true
       isDebuggable = false
@@ -62,17 +60,6 @@ android {
       isCrunchPngs = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
       matchingFallbacks += listOf("release")
-    }
-  }
-
-  // libmaplibre.so is ~12 MB per ABI, so a universal APK ships four copies and
-  // wastes ~35 MB. Per-ABI APKs ship one. A universal APK is still emitted.
-  splits {
-    abi {
-      isEnable = true
-      reset()
-      include("arm64-v8a", "x86_64")
-      isUniversalApk = true
     }
   }
   compileOptions {
@@ -93,16 +80,12 @@ secrets {
   defaultPropertiesFileName = ".env.example"
 }
 
-googleServices {
-  missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
-}
-
 
 // Some unused dependencies are commented out below instead of being removed.
 // This makes it easy to add them back in the future if needed.
 dependencies {
   implementation(platform(libs.androidx.compose.bom))
-  implementation(platform(libs.firebase.bom))
+  // implementation(platform(libs.firebase.bom))
   implementation(libs.accompanist.permissions)
   implementation(libs.androidx.activity.compose)
   // implementation(libs.androidx.camera.camera2)
@@ -126,8 +109,8 @@ dependencies {
   implementation(libs.androidx.room.runtime)
   implementation(libs.coil.compose)
   implementation(libs.converter.moshi)
-  implementation(libs.firebase.ai)
-  implementation(libs.firebase.appcheck.recaptcha)
+  // implementation(libs.firebase.ai)
+  // implementation(libs.firebase.appcheck.recaptcha)
   implementation(libs.kotlinx.coroutines.android)
   implementation(libs.kotlinx.coroutines.core)
   implementation(libs.logging.interceptor)

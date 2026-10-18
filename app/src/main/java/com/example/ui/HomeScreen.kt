@@ -12,6 +12,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -26,13 +28,18 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -40,6 +47,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -108,7 +116,8 @@ fun HomeScreen(
     onNavigateToQuranReading: () -> Unit,
     onNavigateToAssistant: () -> Unit,
     onNavigateToDiscover: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToSteps: () -> Unit = {}
 ) {
     val timings by viewModel.timings.collectAsState()
     val city by viewModel.cityFlow.collectAsState()
@@ -185,12 +194,14 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Location Pill (Interactive)
+                    // Location Pill (Interactive) — untouched for CLASSIC_EMERALD, glassmorphic button shape for other themes
+                    val activeTheme = LocalAppTheme.current
+                    val isGlassTheme = activeTheme != AppTheme.CLASSIC_EMERALD && activeTheme.spec.isGlass
                     Surface(
-                        shape = RoundedCornerShape(18.dp),
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f)),
-                        shadowElevation = 2.dp,
+                        shape = if (isGlassTheme) activeTheme.buttonShape else RoundedCornerShape(18.dp),
+                        color = if (isGlassTheme) glassSurfaceColor(activeTheme) else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                        border = if (isGlassTheme) activeTheme.buttonBorder else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f)),
+                        shadowElevation = if (isGlassTheme) 0.dp else 2.dp,
                         modifier = Modifier.clickable { onNavigateToSearch() }
                     ) {
                         Row(
@@ -384,6 +395,11 @@ fun HomeScreen(
                 }
             }
 
+            // Compact Pedometer (Adımsayar) Mini Window on Home Screen
+            item(key = "home_steps_mini_widget") {
+                HomeStepsMiniWidget(onNavigateToSteps = onNavigateToSteps)
+            }
+
             spec.sections.forEach { section ->
                 item(key = section.name) {
                     when (section) {
@@ -536,31 +552,39 @@ fun HomeRandomMiracleCard(
     }
 
     val theme = LocalAppTheme.current
-    val isDarkTheme = androidx.compose.foundation.isSystemInDarkTheme()
+    val isDarkTheme = LocalThemeIsDark.current
     val primaryColor = MaterialTheme.colorScheme.primary
+    val isGlassTheme = theme != AppTheme.CLASSIC_EMERALD && theme.spec.isGlass
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 6.dp)
-            .paperLiftShadow(theme = theme, isDarkTheme = isDarkTheme)
-            .border(
-                BorderStroke(
-                    1.dp,
-                    Brush.horizontalGradient(
-                        colors = listOf(
-                            primaryColor.copy(alpha = 0.5f),
-                            primaryColor.copy(alpha = 0.2f),
-                            primaryColor.copy(alpha = 0.45f)
+            .then(
+                if (isGlassTheme) {
+                    Modifier.glassmorphicCard(theme = theme, isDark = isDarkTheme)
+                } else {
+                    Modifier
+                        .paperLiftShadow(theme = theme, isDarkTheme = isDarkTheme)
+                        .border(
+                            BorderStroke(
+                                1.dp,
+                                Brush.horizontalGradient(
+                                    colors = listOf(
+                                        primaryColor.copy(alpha = 0.5f),
+                                        primaryColor.copy(alpha = 0.2f),
+                                        primaryColor.copy(alpha = 0.45f)
+                                    )
+                                )
+                            ),
+                            theme.cardShape
                         )
-                    )
-                ),
-                theme.cardShape
+                }
             )
             .testTag("home_random_miracle_card")
             .clickable { onNavigateToMiracle(currentMiracle.id) },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = glassSurfaceColor(theme = theme, isDark = isDarkTheme)
         ),
         shape = theme.cardShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -779,15 +803,16 @@ fun DailyQuoteCard() {
     }
 
     val theme = LocalAppTheme.current
-    val isDarkTheme = androidx.compose.foundation.isSystemInDarkTheme()
+    val isDarkTheme = LocalThemeIsDark.current
+    val isGlassTheme = theme != AppTheme.CLASSIC_EMERALD && theme.spec.isGlass
+    val chipShape = if (isGlassTheme) theme.buttonShape else RoundedCornerShape(16.dp)
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 8.dp)
-            .paperLiftShadow(theme = theme, isDarkTheme = isDarkTheme)
-            .border(theme.buttonBorder, theme.cardShape),
+            .glassmorphicCard(theme = theme, isDark = isDarkTheme),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = glassSurfaceColor(theme = theme, isDark = isDarkTheme)
         ),
         shape = theme.cardShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -804,12 +829,16 @@ fun DailyQuoteCard() {
                 listOf("Günün Ayeti", "Günün Hadisi", "Günün Duası").forEachIndexed { index, title ->
                     val isSelected = selectedTab == index
                     val bg = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-                    val tc = if (isSelected) Color.White else MaterialTheme.colorScheme.primary
-                    val borderModifier = if (isSelected) Modifier else Modifier.border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                    val tc = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+                    val borderModifier = if (isSelected) {
+                        if (isGlassTheme) Modifier.border(theme.buttonBorder, chipShape) else Modifier
+                    } else {
+                        Modifier.border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), chipShape)
+                    }
 
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
+                            .clip(chipShape)
                             .background(bg)
                             .then(borderModifier)
                             .clickable { selectedTab = index }
@@ -923,15 +952,14 @@ fun DetailedTimingsCard(timings: Timings, modifier: Modifier = Modifier) {
     val teheccud = "01:30 - ${clean(timings.Fajr)}" // typical tahajjud range in TR
 
     val theme = LocalAppTheme.current
-    val isDarkTheme = androidx.compose.foundation.isSystemInDarkTheme()
+    val isDarkTheme = LocalThemeIsDark.current
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 8.dp)
-            .paperLiftShadow(theme = theme, isDarkTheme = isDarkTheme)
-            .border(theme.buttonBorder, theme.cardShape),
+            .glassmorphicCard(theme = theme, isDark = isDarkTheme),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = glassSurfaceColor(theme = theme, isDark = isDarkTheme)
         ),
         shape = theme.cardShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -1144,25 +1172,22 @@ fun PrayerTimesGrid(timings: com.example.data.Timings, currentAndNext: Pair<Stri
 
     val currentIndex = remember(list) { list.indexOfFirst { it.third }.takeIf { it >= 0 } ?: 0 }
     val initialTargetIndex = remember(currentIndex) { maxOf(0, currentIndex - 1) }
-
-    val listState = androidx.compose.foundation.lazy.rememberLazyListState(
-        initialFirstVisibleItemIndex = initialTargetIndex
-    )
+    val scrollState = rememberScrollState()
+    val density = LocalDensity.current
 
     LaunchedEffect(initialTargetIndex) {
-        if (initialTargetIndex >= 0 && listState.firstVisibleItemIndex != initialTargetIndex) {
-            listState.scrollToItem(initialTargetIndex)
-        }
+        val targetPx = with(density) { (initialTargetIndex * 102).dp.roundToPx() }
+        scrollState.scrollTo(targetPx)
     }
 
-    androidx.compose.foundation.lazy.LazyRow(
-        state = listState,
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(scrollState)
+            .padding(horizontal = 24.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(list.size) { index ->
-            val item = list[index]
+        list.forEach { item ->
             PrayerTimeTile(item.first, item.second, item.third)
         }
     }
@@ -1170,26 +1195,50 @@ fun PrayerTimesGrid(timings: com.example.data.Timings, currentAndNext: Pair<Stri
 @Composable
 fun PrayerTimeTile(name: String, time: String, isCurrent: Boolean) {
     val theme = LocalAppTheme.current
-    val tileShape = theme.buttonShape
-    val tileBorder = if (isCurrent) theme.buttonBorder else BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f))
-    val bgGradient = if (isCurrent) {
-        Brush.horizontalGradient(theme.buttonGradient)
+    val themeColors = LocalThemeColors.current
+    val isDarkTile = LocalThemeIsDark.current
+    val tileShape = RoundedCornerShape(22.dp)
+    val tileBorder = if (isCurrent) {
+        BorderStroke(2.dp, themeColors.goldMotifColor)
     } else {
-        Brush.horizontalGradient(
-            listOf(
-                MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
-                MaterialTheme.colorScheme.surface.copy(alpha = 0.55f)
+        BorderStroke(
+            1.4.dp,
+            Brush.linearGradient(
+                colors = listOf(
+                    themeColors.goldMotifColor.copy(alpha = if (isDarkTile) 0.62f else 0.72f),
+                    themeColors.primary.copy(alpha = if (isDarkTile) 0.52f else 0.58f),
+                    Color.White.copy(alpha = if (isDarkTile) 0.32f else 0.65f)
+                )
             )
         )
     }
 
-    val textColor = if (isCurrent) theme.buttonTextColor else MaterialTheme.colorScheme.onSurface
-    val secondaryTextColor = if (isCurrent) theme.buttonTextColor.copy(alpha = 0.85f) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
+    val textColor = if (isCurrent) theme.buttonTextColor else themeColors.primary
+    val secondaryTextColor = if (isCurrent) theme.buttonTextColor.copy(alpha = 0.96f) else MaterialTheme.colorScheme.onSurface
 
     Box(
         modifier = Modifier
-            .clip(tileShape)
-            .background(bgGradient)
+            .frostedGlassBackdrop(
+                shape = tileShape,
+                tintColor = if (isCurrent) theme.buttonGradient.first() else themeColors.primary,
+                tintAlpha = if (isCurrent) 0.78f else (if (isDarkTile) 0.22f else 0.16f),
+                surfaceVeilAlpha = if (isCurrent) 0.26f else (if (isDarkTile) 0.36f else 0.44f)
+            )
+            .then(
+                if (isCurrent) {
+                    Modifier.background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                theme.buttonGradient.first().copy(alpha = 0.72f),
+                                theme.buttonGradient.last().copy(alpha = 0.82f)
+                            )
+                        ),
+                        shape = tileShape
+                    )
+                } else {
+                    Modifier
+                }
+            )
             .border(tileBorder, tileShape)
             .padding(vertical = 16.dp, horizontal = 20.dp),
         contentAlignment = Alignment.Center
@@ -1197,23 +1246,23 @@ fun PrayerTimeTile(name: String, time: String, isCurrent: Boolean) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = name,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
                 color = secondaryTextColor,
-                letterSpacing = 0.5.sp
+                letterSpacing = 0.4.sp
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = time,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 23.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = textColor
             )
             if (isCurrent) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Box(
                     modifier = Modifier
-                        .background(textColor.copy(alpha = 0.2f), CircleShape)
+                        .background(textColor.copy(alpha = 0.22f), CircleShape)
                         .padding(horizontal = 8.dp, vertical = 3.dp)
                 ) {
                     Text(
@@ -1279,32 +1328,25 @@ fun WeatherSection(weather: WeatherResponse?, city: String) {
     val wind = weather.current.wind_speed_10m?.let { "${it.toInt()} km/s" } ?: "-"
     val feelsLike = weather.current.apparent_temperature?.let { "${it.toInt()}°C" } ?: "-"
 
+    val isGlassWeather = weatherTheme != AppTheme.CLASSIC_EMERALD && weatherTheme.spec.isGlass
+    val weatherShape = if (isGlassWeather) weatherTheme.cardShape else RoundedCornerShape(24.dp)
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(24.dp))
+            .frostedGlassBackdrop(shape = weatherShape)
     ) {
-        // Blurred background effect
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .blur(16.dp)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                            MaterialTheme.colorScheme.surface.copy(alpha = 0.4f)
-                        )
-                    )
-                )
-        )
-        
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.White.copy(alpha = 0.3f), RoundedCornerShape(24.dp))
-                .clip(RoundedCornerShape(24.dp))
+                .then(
+                    if (isGlassWeather) {
+                        Modifier.glassmorphicCard(theme = weatherTheme, shape = weatherShape, border = weatherTheme.buttonBorder)
+                    } else {
+                        Modifier.border(1.dp, Color.White.copy(alpha = 0.35f), weatherShape)
+                    }
+                )
+                .clip(weatherShape)
                 .clickable { expanded = !expanded }
                 .animateContentSize()
                 .background(Color.Transparent),
@@ -1590,246 +1632,290 @@ fun HeroStyleGokKubbe(
     }
 
     val arcTheme = LocalAppTheme.current
-    val isDarkArc = androidx.compose.foundation.isSystemInDarkTheme()
+    val themeColors = LocalThemeColors.current
+    val isDarkArc = LocalThemeIsDark.current
 
-    // Colors matching day (Yellow) / night (Blue)
-    val standardArcColor = if (isDay) Color(0xFFFFB300) else Color(0xFF2196F3) // Day: Yellow, Night: Blue
+    // Colors matching day (Yellow/Gold) / night (Celestial/Theme Gold)
+    val standardArcColor = if (isDay) Color(0xFFFFB300) else themeColors.primary
     val keraatRedColor = Color(0xFFE53935)   // Vibrant Red for Keraat intervals
-    val nodeGlowColor = if (isDay) Color(0xFFFFD54F).copy(alpha = 0.45f) else Color(0xFF64B5F6).copy(alpha = 0.45f)
-    val nodeCoreColor = if (isDay) Color(0xFFFF8F00) else Color(0xFF1976D2)
-
+    val nodeGlowColor = if (isDay) Color(0xFFFFD54F).copy(alpha = 0.45f) else themeColors.glowColor.copy(alpha = 0.45f)
+    val nodeCoreColor = if (isDay) Color(0xFFFF8F00) else themeColors.goldMotifColor
+    val isGlassArc = arcTheme != AppTheme.CLASSIC_EMERALD && arcTheme.spec.isGlass
     Column(modifier = Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 8.dp)
-                .paperLiftShadow(theme = arcTheme, isDarkTheme = isDarkArc)
-                .border(arcTheme.buttonBorder, arcTheme.cardShape),
+                .glassmorphicCard(theme = arcTheme, isDark = isDarkArc),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = glassSurfaceColor(theme = arcTheme, isDark = isDarkArc)
             ),
             shape = arcTheme.cardShape,
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 14.dp, start = 16.dp, end = 16.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = if (isGlassArc) {
+                                listOf(
+                                    Color.White.copy(alpha = if (isDarkArc) 0.08f else 0.22f),
+                                    themeColors.primaryContainer.copy(alpha = if (isDarkArc) 0.18f else 0.15f),
+                                    Color.Transparent
+                                )
+                            } else {
+                                listOf(
+                                    themeColors.primaryContainer.copy(alpha = if (isDarkArc) 0.55f else 0.45f),
+                                    MaterialTheme.colorScheme.surface,
+                                    themeColors.surfaceVariant.copy(alpha = if (isDarkArc) 0.45f else 0.35f)
+                                )
+                            }
+                        )
+                    )
             ) {
-                Box(
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(165.dp),
-                    contentAlignment = Alignment.Center
+                        .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 16.dp)
                 ) {
-                    val onBgColor = MaterialTheme.colorScheme.onSurface
-                    val surfaceColor = MaterialTheme.colorScheme.surface
-                    val primaryColor = MaterialTheme.colorScheme.primary
 
-                    // Keraat segments along daytime arc
-                    val k1End = (45f / totalDayMinutes).coerceIn(0.01f, 0.35f)
-                    val k2Start = ((dhuhrMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
-                    val k2End = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
-                    val k3Start = ((sunsetMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.65f, 0.99f)
-                    val k3End = 1.0f
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(168.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        val onBgColor = MaterialTheme.colorScheme.onSurface
+                        val surfaceColor = MaterialTheme.colorScheme.surface
+                        val primaryColor = MaterialTheme.colorScheme.primary
 
-                    // Prayer points along the upward arc
-                    data class PrayerMarker(val letter: String, val t: Float, val name: String, val isKeraat: Boolean)
+                        // Keraat segments along daytime arc
+                        val k1End = (45f / totalDayMinutes).coerceIn(0.01f, 0.35f)
+                        val k2Start = ((dhuhrMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
+                        val k2End = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
+                        val k3Start = ((sunsetMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.65f, 0.99f)
+                        val k3End = 1.0f
 
-                    val prayerMarkers = if (isDay) {
-                        val dhuhrT = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
-                        val asrT = ((asrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
-                        listOf(
-                            PrayerMarker("G", 0f, "Güneş", true),
-                            PrayerMarker("Ö", dhuhrT, "Öğle", false),
-                            PrayerMarker("İ", asrT, "İkindi", false),
-                            PrayerMarker("A", 1f, "Akşam", true)
-                        )
-                    } else {
-                        val ishaT = (((ishaMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
-                        val imsakT = (((imsakMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
-                        listOf(
-                            PrayerMarker("A", 0f, "Akşam", false),
-                            PrayerMarker("Y", ishaT, "Yatsı", false),
-                            PrayerMarker("İ", imsakT, "İmsak", false),
-                            PrayerMarker("G", 1f, "Güneş", false)
-                        )
-                    }
+                        // Prayer points along the upward arc
+                        data class PrayerMarker(val letter: String, val t: Float, val name: String, val isKeraat: Boolean)
 
-                    Canvas(modifier = Modifier.fillMaxSize()) {
-                        val w = size.width
-                        val h = size.height
-                        val margin = 36f
-                        val radiusX = (w - margin * 2) / 2
-                        val radiusY = h - 30f
-                        val centerX = w / 2
-                        val centerY = h - 6f
+                        val prayerMarkers = if (isDay) {
+                            val dhuhrT = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
+                            val asrT = ((asrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
+                            listOf(
+                                PrayerMarker("G", 0f, "Güneş", true),
+                                PrayerMarker("Ö", dhuhrT, "Öğle", false),
+                                PrayerMarker("İ", asrT, "İkindi", false),
+                                PrayerMarker("A", 1f, "Akşam", true)
+                            )
+                        } else {
+                            val ishaT = (((ishaMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
+                            val imsakT = (((imsakMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
+                            listOf(
+                                PrayerMarker("A", 0f, "Akşam", false),
+                                PrayerMarker("Y", ishaT, "Yatsı", false),
+                                PrayerMarker("İ", imsakT, "İmsak", false),
+                                PrayerMarker("G", 1f, "Güneş", false)
+                            )
+                        }
 
-                        // Baseline horizon
-                        drawLine(
-                            color = onBgColor.copy(alpha = 0.15f),
-                            start = Offset(6f, centerY),
-                            end = Offset(w - 6f, centerY),
-                            strokeWidth = 2f
-                        )
+                        Canvas(modifier = Modifier.fillMaxSize()) {
+                            val w = size.width
+                            val h = size.height
+                            val margin = 36f
+                            val radiusX = (w - margin * 2) / 2
+                            val radiusY = h - 30f
+                            val centerX = w / 2
+                            val centerY = h - 6f
 
-                        val pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
-
-                        // Upward Arc Drawing
-                        if (isDay) {
-                            // 5 Arc segments with distinct colors (Red for Keraat intervals)
-                            data class ArcSegment(val startT: Float, val endT: Float, val isKeraat: Boolean)
-                            val segments = listOf(
-                                ArcSegment(0f, k1End, true),             // Sabah Keraheti -> Kırmızı
-                                ArcSegment(k1End, k2Start, false),        // Kuşluk / Normal -> Cyan
-                                ArcSegment(k2Start, k2End, true),         // Öğle Keraheti -> Kırmızı
-                                ArcSegment(k2End, k3Start, false),        // Öğle & İkindi -> Cyan
-                                ArcSegment(k3Start, k3End, true)          // Akşam Keraheti -> Kırmızı
+                            // Keep the countdown backdrop clear; the sun path is the only arc.
+                            // Baseline horizon
+                            drawLine(
+                                color = onBgColor.copy(alpha = 0.15f),
+                                start = Offset(6f, centerY),
+                                end = Offset(w - 6f, centerY),
+                                strokeWidth = 2f
                             )
 
-                            for (seg in segments) {
-                                if (seg.endT <= seg.startT) continue
-                                val segStartAngle = 180f + (seg.startT * 180f)
-                                val segSweep = (seg.endT - seg.startT) * 180f
-                                val segColor = if (seg.isKeraat) keraatRedColor else standardArcColor
-                                val segStrokeWidth = if (seg.isKeraat) 4.5f else 3.5f
+                            val pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
 
+                            // Upward Arc Drawing
+                            if (isDay) {
+                                // 5 Arc segments with distinct colors (Red for Keraat intervals)
+                                data class ArcSegment(val startT: Float, val endT: Float, val isKeraat: Boolean)
+                                val segments = listOf(
+                                    ArcSegment(0f, k1End, true),             // Sabah Keraheti -> Kırmızı
+                                    ArcSegment(k1End, k2Start, false),        // Kuşluk / Normal -> Standart
+                                    ArcSegment(k2Start, k2End, true),         // Öğle Keraheti -> Kırmızı
+                                    ArcSegment(k2End, k3Start, false),        // Öğle & İkindi -> Standart
+                                    ArcSegment(k3Start, k3End, true)          // Akşam Keraheti -> Kırmızı
+                                )
+
+                                for (seg in segments) {
+                                    if (seg.endT <= seg.startT) continue
+                                    val segStartAngle = 180f + (seg.startT * 180f)
+                                    val segSweep = (seg.endT - seg.startT) * 180f
+                                    val segColor = if (seg.isKeraat) keraatRedColor else standardArcColor
+                                    val segStrokeWidth = if (seg.isKeraat) 4.5f else 3.5f
+
+                                    drawArc(
+                                        color = segColor,
+                                        startAngle = segStartAngle,
+                                        sweepAngle = segSweep,
+                                        useCenter = false,
+                                        topLeft = Offset(centerX - radiusX, centerY - radiusY),
+                                        size = Size(radiusX * 2, radiusY * 2),
+                                        style = Stroke(width = segStrokeWidth, pathEffect = pathEffect, cap = StrokeCap.Round)
+                                    )
+                                }
+                            } else {
+                                // Night Arc
                                 drawArc(
-                                    color = segColor,
-                                    startAngle = segStartAngle,
-                                    sweepAngle = segSweep,
+                                    color = standardArcColor,
+                                    startAngle = 180f,
+                                    sweepAngle = 180f,
                                     useCenter = false,
                                     topLeft = Offset(centerX - radiusX, centerY - radiusY),
                                     size = Size(radiusX * 2, radiusY * 2),
-                                    style = Stroke(width = segStrokeWidth, pathEffect = pathEffect, cap = StrokeCap.Round)
+                                    style = Stroke(width = 3.5f, pathEffect = pathEffect, cap = StrokeCap.Round)
                                 )
                             }
-                        } else {
-                            // Night Arc
-                            drawArc(
-                                color = standardArcColor,
-                                startAngle = 180f,
-                                sweepAngle = 180f,
-                                useCenter = false,
-                                topLeft = Offset(centerX - radiusX, centerY - radiusY),
-                                size = Size(radiusX * 2, radiusY * 2),
-                                style = Stroke(width = 3.5f, pathEffect = pathEffect, cap = StrokeCap.Round)
-                            )
+
+                            // Draw Prayer Dots with Initial Letters INSIDE the dot
+                            val textPaint = android.graphics.Paint().apply {
+                                isAntiAlias = true
+                                textSize = 24f
+                                isFakeBoldText = true
+                                textAlign = android.graphics.Paint.Align.CENTER
+                            }
+
+                            for (marker in prayerMarkers) {
+                                val angleRad = Math.PI - (marker.t * Math.PI)
+                                val dotX = centerX + radiusX * cos(angleRad).toFloat()
+                                val dotY = centerY - radiusY * sin(angleRad).toFloat()
+
+                                val isMarkerInKeraat = isDay && (
+                                    marker.t <= k1End + 0.005f ||
+                                    (marker.t >= k2Start - 0.005f && marker.t <= k2End + 0.005f) ||
+                                    marker.t >= k3Start - 0.005f
+                                )
+                                val markerColor = if (isMarkerInKeraat) keraatRedColor else standardArcColor
+
+                                // Circular Dot background
+                                drawCircle(
+                                    color = surfaceColor,
+                                    radius = 14f,
+                                    center = Offset(dotX, dotY)
+                                )
+                                // Circular Dot border ring
+                                drawCircle(
+                                    color = markerColor,
+                                    radius = 13.5f,
+                                    center = Offset(dotX, dotY),
+                                    style = Stroke(width = 2.2f)
+                                )
+
+                                // Letter centered directly INSIDE the dot
+                                textPaint.color = markerColor.toArgb()
+                                val textCenterY = dotY - ((textPaint.descent() + textPaint.ascent()) / 2)
+                                drawContext.canvas.nativeCanvas.drawText(
+                                    marker.letter,
+                                    dotX,
+                                    textCenterY,
+                                    textPaint
+                                )
+                            }
+
+                            // Moving Indicator Node on the arc
+                            val celAngleRad = Math.PI - (animatedCelProgress.value * Math.PI)
+                            val bodyX = centerX + radiusX * cos(celAngleRad).toFloat()
+                            val bodyY = centerY - radiusY * sin(celAngleRad).toFloat()
+
+                            drawCircle(nodeGlowColor, radius = 18f, center = Offset(bodyX, bodyY))
+                            drawCircle(nodeCoreColor, radius = 7f, center = Offset(bodyX, bodyY))
                         }
 
-                        // Draw Prayer Dots with Initial Letters INSIDE the dot
-                        val textPaint = android.graphics.Paint().apply {
-                            isAntiAlias = true
-                            textSize = 24f
-                            isFakeBoldText = true
-                            textAlign = android.graphics.Paint.Align.CENTER
+                        // Centered Timer Display inside the sky dome
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(bottom = 6.dp).align(Alignment.BottomCenter)
+                        ) {
+                            val nextPrayerLocalized = getLocalizedPrayerName(currentAndNext?.second, strings)
+                            Text(
+                                text = "$nextPrayerLocalized VAKTİNE KALAN SÜRE".uppercase(),
+                                fontSize = 12.sp,
+                                color = primaryColor,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 1.2.sp
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            BoxWithConstraints(Modifier.fillMaxWidth()) {
+                                val countdownStyle = LocalTextStyle.current.copy(
+                                    fontSize = 44.sp,
+                                    lineHeight = 50.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.sp,
+                                    fontFeatureSettings = "tnum"
+                                )
+                                val textMeasurer = rememberTextMeasurer()
+                                val naturalWidth = textMeasurer.measure(
+                                    text = remainingTime,
+                                    style = countdownStyle,
+                                    maxLines = 1,
+                                    softWrap = false
+                                ).size.width.coerceAtLeast(1)
+                                val availableWidth = with(LocalDensity.current) { maxWidth.toPx() }
+                                val fitScale = (availableWidth / naturalWidth).coerceAtMost(1f)
+                                Text(
+                                    text = remainingTime,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    style = countdownStyle.copy(
+                                        fontSize = countdownStyle.fontSize * fitScale,
+                                        lineHeight = countdownStyle.lineHeight * fitScale
+                                    ),
+                                    color = primaryColor,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                )
+                            }
                         }
-
-                        for (marker in prayerMarkers) {
-                            val angleRad = Math.PI - (marker.t * Math.PI)
-                            val dotX = centerX + radiusX * cos(angleRad).toFloat()
-                            val dotY = centerY - radiusY * sin(angleRad).toFloat()
-
-                            val isMarkerInKeraat = isDay && (
-                                marker.t <= k1End + 0.005f ||
-                                (marker.t >= k2Start - 0.005f && marker.t <= k2End + 0.005f) ||
-                                marker.t >= k3Start - 0.005f
-                            )
-                            val markerColor = if (isMarkerInKeraat) keraatRedColor else standardArcColor
-
-                            // Circular Dot background
-                            drawCircle(
-                                color = surfaceColor,
-                                radius = 14f,
-                                center = Offset(dotX, dotY)
-                            )
-                            // Circular Dot border ring
-                            drawCircle(
-                                color = markerColor,
-                                radius = 13.5f,
-                                center = Offset(dotX, dotY),
-                                style = Stroke(width = 2.2f)
-                            )
-
-                            // Letter centered directly INSIDE the dot
-                            textPaint.color = markerColor.toArgb()
-                            val textCenterY = dotY - ((textPaint.descent() + textPaint.ascent()) / 2)
-                            drawContext.canvas.nativeCanvas.drawText(
-                                marker.letter,
-                                dotX,
-                                textCenterY,
-                                textPaint
-                            )
-                        }
-
-                        // Moving Indicator Node on the arc
-                        val celAngleRad = Math.PI - (animatedCelProgress.value * Math.PI)
-                        val bodyX = centerX + radiusX * cos(celAngleRad).toFloat()
-                        val bodyY = centerY - radiusY * sin(celAngleRad).toFloat()
-
-                        drawCircle(nodeGlowColor, radius = 18f, center = Offset(bodyX, bodyY))
-                        drawCircle(nodeCoreColor, radius = 7f, center = Offset(bodyX, bodyY))
                     }
 
-                    // Centered Timer Display inside the sky dome
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(bottom = 6.dp).align(Alignment.BottomCenter)
-                    ) {
-                        val nextPrayerLocalized = getLocalizedPrayerName(currentAndNext?.second, strings)
-                        Text(
-                            text = "$nextPrayerLocalized VAKTİNE KALAN SÜRE".uppercase(),
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.2.sp
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = remainingTime,
-                            modifier = if (showPrayerTimes) Modifier else Modifier.fillMaxWidth(),
-                            fontSize = 44.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary,
-                            letterSpacing = if (showPrayerTimes) 1.5.sp else 0.sp,
-                            textAlign = if (showPrayerTimes) androidx.compose.ui.text.style.TextAlign.Unspecified
-                                else androidx.compose.ui.text.style.TextAlign.Center
-                        )
-                    }
-                }
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = if (isDay) "Doğuş ${timingsObj.Sunrise}" else "Batış ${timingsObj.Maghrib}",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = standardArcColor
-                    )
-                    LinearProgressIndicator(
-                        progress = { progress },
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 14.dp)
-                            .height(5.dp)
-                            .clip(CircleShape),
-                        color = standardArcColor,
-                        trackColor = standardArcColor.copy(alpha = 0.18f)
-                    )
-                    Text(
-                        text = if (isDay) "Batış ${timingsObj.Maghrib}" else "Doğuş ${timingsObj.Imsak}",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = standardArcColor
-                    )
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = if (isDay) "Doğuş ${timingsObj.Sunrise}" else "Batış ${timingsObj.Maghrib}",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = standardArcColor
+                        )
+                        LinearProgressIndicator(
+                            progress = { progress },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 14.dp)
+                                .height(5.dp)
+                                .clip(CircleShape),
+                            color = standardArcColor,
+                            trackColor = standardArcColor.copy(alpha = 0.18f)
+                        )
+                        Text(
+                            text = if (isDay) "Batış ${timingsObj.Maghrib}" else "Doğuş ${timingsObj.Imsak}",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = standardArcColor
+                        )
+                    }
                 }
             }
         }
@@ -2239,37 +2325,58 @@ private fun QuickActionChips(
     modifier: Modifier = Modifier
 ) {
     val spec = LocalThemeSpec.current
-    val colors = LocalThemeColors.current
-    val metrics = LocalThemeMetrics.current
+    val isDark = LocalThemeIsDark.current
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         actions.forEach { action ->
-            Surface(
-                shape = spec.shapes.badgeShape,
-                color = action.tint.copy(alpha = 0.12f),
+            val chipShape = spec.shapes.badgeShape
+            Box(
                 modifier = Modifier
-                    .clip(spec.shapes.badgeShape)
+                    .weight(1f)
+                    .frostedGlassBackdrop(
+                        shape = chipShape,
+                        tintColor = action.tint,
+                        tintAlpha = if (isDark) 0.20f else 0.16f,
+                        surfaceVeilAlpha = if (isDark) 0.26f else 0.32f
+                    )
+                    .border(
+                        BorderStroke(
+                            1.1.dp,
+                            Brush.linearGradient(
+                                listOf(
+                                    Color.White.copy(alpha = if (isDark) 0.46f else 0.78f),
+                                    action.tint.copy(alpha = 0.45f),
+                                    Color.White.copy(alpha = if (isDark) 0.18f else 0.42f)
+                                )
+                            )
+                        ),
+                        chipShape
+                    )
                     .clickable { action.onClick() }
-                    .heightIn(min = 40.dp)
+                    .heightIn(min = 42.dp),
+                contentAlignment = Alignment.Center
             ) {
                 Row(
-                    Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Icon(
                         action.icon,
                         action.label,
                         tint = action.tint,
-                        modifier = Modifier.size(15.dp)
+                        modifier = Modifier.size(16.dp)
                     )
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.width(5.dp))
                     Text(
                         action.label,
                         style = MaterialTheme.typography.labelSmall,
                         color = action.tint,
-                        fontWeight = FontWeight.SemiBold,
+                        fontWeight = FontWeight.Bold,
                         maxLines = 1
                     )
                 }
@@ -2285,14 +2392,32 @@ private fun QuickActionTile(
     shape: androidx.compose.ui.graphics.Shape,
     border: BorderStroke
 ) {
+    val theme = LocalAppTheme.current
+    val isDark = LocalThemeIsDark.current
+    val glassBorder = if (theme != AppTheme.CLASSIC_EMERALD && theme.spec.isGlass) {
+        border
+    } else {
+        BorderStroke(
+            1.2.dp,
+            Brush.linearGradient(
+                listOf(
+                    Color.White.copy(alpha = if (isDark) 0.46f else 0.80f),
+                    action.tint.copy(alpha = 0.46f),
+                    Color.White.copy(alpha = if (isDark) 0.20f else 0.44f)
+                )
+            )
+        )
+    }
     Box(
         modifier = modifier
-            .clip(shape)
-            .background(action.tint.copy(alpha = 0.15f))
-            .border(border, shape)
+            .frostedGlassBackdrop(
+                shape = shape,
+                tintColor = action.tint,
+                tintAlpha = if (isDark) 0.22f else 0.16f,
+                surfaceVeilAlpha = if (isDark) 0.26f else 0.32f
+            )
+            .border(glassBorder, shape)
             .clickable { action.onClick() }
-            // 48dp minimum keeps every action at the accessible touch target
-            // even in the themes that use the densest layout.
             .heightIn(min = 48.dp)
             .padding(vertical = 12.dp, horizontal = 8.dp),
         contentAlignment = Alignment.Center
@@ -2319,3 +2444,253 @@ private fun QuickActionTile(
         }
     }
 }
+
+@Composable
+fun HomeStepsMiniWidget(
+    onNavigateToSteps: () -> Unit
+) {
+    val context = LocalContext.current
+    val store = remember { com.example.steps.StepStore.get(context) }
+    val revision by store.changes.collectAsState()
+    val todayKey = remember { com.example.steps.StepStore.dayKey() }
+
+    val todaySteps = remember(revision, todayKey) {
+        store.day(todayKey).toInt()
+    }
+    val dailyGoal = remember(revision) {
+        com.example.steps.StepCounterService.settings(context).getInt("goal", 6000)
+    }
+    val profile = remember(revision, todayKey) {
+        store.profile(todayKey)
+    }
+
+    val safeGoal = dailyGoal.coerceAtLeast(1000)
+    val progress = (todaySteps.toFloat() / safeGoal.toFloat()).coerceIn(0f, 1f)
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress,
+        animationSpec = tween(durationMillis = 850, easing = FastOutSlowInEasing),
+        label = "home_steps_progress"
+    )
+
+    val estimate = remember(todaySteps, profile) {
+        com.example.steps.WalkingMetrics.estimate(todaySteps.toLong(), profile)
+    }
+    val distanceKm = remember(todaySteps, estimate) {
+        (estimate?.meters ?: (todaySteps * 0.72)) / 1000.0
+    }
+    val caloriesKcal = remember(todaySteps, estimate) {
+        (estimate?.activeKcal ?: (todaySteps * 0.04)).toInt()
+    }
+
+    val last7Days = remember(revision, todayKey, todaySteps) {
+        (6 downTo 0).map { offset ->
+            val d = com.example.steps.WalkingDates.shift(todayKey, com.example.steps.ReportPeriod.DAY, -offset)
+            store.day(d).toInt()
+        }
+    }
+
+    val activeTheme = LocalAppTheme.current
+    val isGlass = activeTheme != AppTheme.CLASSIC_EMERALD && activeTheme.spec.isGlass
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val accentEmerald = Color(0xFF10B981)
+
+    val widgetShape = if (isGlass) activeTheme.cardShape else RoundedCornerShape(22.dp)
+    Surface(
+        shape = widgetShape,
+        color = if (isGlass) glassSurfaceColor(activeTheme) else MaterialTheme.colorScheme.surface.copy(alpha = 0.94f),
+        border = if (isGlass) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.14f)),
+        shadowElevation = if (isGlass) 0.dp else 4.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .then(
+                if (isGlass) {
+                    Modifier.glassmorphicCard(theme = activeTheme, shape = widgetShape, border = activeTheme.buttonBorder)
+                } else {
+                    Modifier
+                }
+            )
+            .clickable { onNavigateToSteps() }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Left: Circular Progress Ring + Step Icon
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.size(56.dp)
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    val strokeWidth = 6.dp.toPx()
+                    drawArc(
+                        color = primaryColor.copy(alpha = 0.15f),
+                        startAngle = -90f,
+                        sweepAngle = 360f,
+                        useCenter = false,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                    )
+                    drawArc(
+                        brush = Brush.sweepGradient(
+                            listOf(primaryColor, accentEmerald, primaryColor)
+                        ),
+                        startAngle = -90f,
+                        sweepAngle = 360f * animatedProgress,
+                        useCenter = false,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                    )
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                        imageVector = Icons.Default.DirectionsWalk,
+                        contentDescription = "Adımsayar",
+                        tint = primaryColor,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        text = "%${(progress * 100).toInt()}",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(14.dp))
+
+            // Middle: Step count, goal & quick pills (km + kcal)
+            Column(modifier = Modifier.weight(1f)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(
+                        text = "ADIMSAYAR",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.sp,
+                        color = primaryColor
+                    )
+                    Surface(
+                        shape = RoundedCornerShape(6.dp),
+                        color = accentEmerald.copy(alpha = 0.14f)
+                    ) {
+                        Text(
+                            text = if (todaySteps >= safeGoal) "Hedef Tamam!" else "Canlı",
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = accentEmerald,
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Text(
+                        text = String.format(Locale("tr", "TR"), "%,d", todaySteps),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Black,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "/ ${String.format(Locale("tr", "TR"), "%,d", safeGoal)} adım",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        modifier = Modifier.padding(bottom = 2.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Place,
+                            contentDescription = null,
+                            tint = primaryColor.copy(alpha = 0.8f),
+                            modifier = Modifier.size(13.dp)
+                        )
+                        Spacer(modifier = Modifier.width(3.dp))
+                        Text(
+                            text = String.format(Locale("tr", "TR"), "%.2f km", distanceKm),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                        )
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.LocalFireDepartment,
+                            contentDescription = null,
+                            tint = Color(0xFFF59E0B),
+                            modifier = Modifier.size(13.dp)
+                        )
+                        Spacer(modifier = Modifier.width(3.dp))
+                        Text(
+                            text = "$caloriesKcal kcal",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Right: 7-Day Mini Sparkline Bars + Chevron
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Canvas(
+                    modifier = Modifier
+                        .width(52.dp)
+                        .height(32.dp)
+                ) {
+                    val maxVal = (last7Days.maxOrNull() ?: safeGoal).coerceAtLeast(safeGoal).toFloat()
+                    val count = last7Days.size.coerceAtLeast(1)
+                    val gap = 3.dp.toPx()
+                    val barWidth = ((size.width - gap * (count - 1)) / count).coerceAtLeast(3f)
+                    last7Days.forEachIndexed { index, value ->
+                        val ratio = (value.toFloat() / maxVal).coerceIn(0.12f, 1f)
+                        val barH = size.height * ratio
+                        val x = index * (barWidth + gap)
+                        val isToday = index == last7Days.lastIndex
+                        drawRoundRect(
+                            color = if (isToday) primaryColor else primaryColor.copy(alpha = 0.32f),
+                            topLeft = Offset(x, size.height - barH),
+                            size = Size(barWidth, barH),
+                            cornerRadius = CornerRadius(3.dp.toPx(), 3.dp.toPx())
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "Detay",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = primaryColor
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "Adımsayar Detayları",
+                        tint = primaryColor,
+                        modifier = Modifier.size(14.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+

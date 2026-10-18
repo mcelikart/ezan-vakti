@@ -243,14 +243,22 @@ class CountdownService : Service() {
                 
                 if (finalAllPrayersString.isNotEmpty()) {
                     val prayersList = finalAllPrayersString.split("|")
+                    val nameIds = intArrayOf(
+                        R.id.tv_name_0, R.id.tv_name_1, R.id.tv_name_2, R.id.tv_name_3,
+                        R.id.tv_name_4, R.id.tv_name_5, R.id.tv_name_6
+                    )
+                    val timeIds = intArrayOf(
+                        R.id.tv_time_0, R.id.tv_time_1, R.id.tv_time_2, R.id.tv_time_3,
+                        R.id.tv_time_4, R.id.tv_time_5, R.id.tv_time_6
+                    )
                     for (i in 0 until minOf(prayersList.size, 7)) {
                         val parts = prayersList[i].split(",")
                         if (parts.size == 2) {
                             val name = parts[0]
                             val time = parts[1]
                             
-                            val nameId = resources.getIdentifier("tv_name_$i", "id", packageName)
-                            val timeId = resources.getIdentifier("tv_time_$i", "id", packageName)
+                            val nameId = nameIds[i]
+                            val timeId = timeIds[i]
                             
                             if (i == activeCurrentIndex) {
                                 val spannableName = android.text.SpannableString(name)

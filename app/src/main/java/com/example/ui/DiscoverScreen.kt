@@ -27,6 +27,8 @@ import com.example.ui.theme.cardShape
 import com.example.ui.theme.buttonBorder
 import com.example.ui.theme.buttonGradient
 import com.example.ui.theme.buttonTextColor
+import com.example.ui.theme.glassmorphicCard
+import com.example.ui.theme.glassSurfaceColor
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.filled.Vibration
@@ -219,6 +221,7 @@ import kotlinx.coroutines.launch
 
 sealed class DiscoverSubScreen {
     object Main : DiscoverSubScreen()
+    object Notes : DiscoverSubScreen()
     object QuranMiracles : DiscoverSubScreen()
     object QazaTracker : DiscoverSubScreen()
     object Surahs : DiscoverSubScreen()
@@ -271,8 +274,12 @@ fun DiscoverScreen(viewModel: PrayerViewModel, onNavigate: (String) -> Unit) {
 
     val primaryColor = MaterialTheme.colorScheme.primary
     val strings = LocalAppStrings.current
+    val activeTheme = LocalAppTheme.current
+    val isDarkTheme = com.example.ui.theme.LocalThemeIsDark.current
+    val isGlassTheme = activeTheme != AppTheme.CLASSIC_EMERALD && activeTheme.spec.isGlass
 
     val items = listOf(
+        DiscoverItem("Not Defteri", "Notlarınız ve kayıtlarınız", Icons.AutoMirrored.Filled.List, DiscoverSubScreen.Notes, primaryColor),
         DiscoverItem("En Yakın Cami", "Konumunuza göre camiler ve yol tarifi", Icons.Default.LocationOn, DiscoverSubScreen.NearestMosque, primaryColor),
         DiscoverItem("Namaz Öğreniyorum", "Hazırlık, adım adım farz namazlar ve dualar", Icons.Default.Book, DiscoverSubScreen.PrayerLearning, primaryColor),
         DiscoverItem("Adımsayar", "Günlük ve aylık yürüyüş kayıtları", Icons.Default.DirectionsWalk, DiscoverSubScreen.Steps, primaryColor),
@@ -317,31 +324,42 @@ fun DiscoverScreen(viewModel: PrayerViewModel, onNavigate: (String) -> Unit) {
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
-                        // The floating navigation bar floats over the content, so
-                        // the grid needs its own bottom inset. Without it the
-                        // final row rests underneath the bar and cannot be scrolled
-                        // clear. The bar is a floating overlay, so the grid
-                        // scrolls under it and reserves its measured height here.
                         contentPadding = PaddingValues(
                             bottom = com.example.ui.theme.navBarBottomPadding()
                         ),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(items) { item ->
+                            val toolCardShape = if (isGlassTheme) activeTheme.cardShape else RoundedCornerShape(16.dp)
+                            val iconBadgeShape = if (isGlassTheme) activeTheme.buttonShape else CircleShape
                             Card(
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)
+                                    containerColor = if (isGlassTheme)
+                                        com.example.ui.theme.glassSurfaceColor(activeTheme, isDarkTheme)
+                                    else
+                                        MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)
                                 ),
-                                shape = RoundedCornerShape(16.dp),
+                                shape = toolCardShape,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
+                                    .then(
+                                        if (isGlassTheme) {
+                                            Modifier.glassmorphicCard(
+                                                theme = activeTheme,
+                                                isDark = isDarkTheme,
+                                                shape = toolCardShape,
+                                                border = activeTheme.buttonBorder
+                                            )
+                                        } else {
+                                            Modifier.border(1.dp, Color.White.copy(alpha = 0.4f), toolCardShape)
+                                        }
+                                    )
                                     .clickable {
                                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                         currentScreen = item.target
@@ -354,8 +372,15 @@ fun DiscoverScreen(viewModel: PrayerViewModel, onNavigate: (String) -> Unit) {
                                     Box(
                                         modifier = Modifier
                                             .size(44.dp)
-                                            .clip(CircleShape)
-                                            .background(item.color.copy(alpha = 0.15f)),
+                                            .clip(iconBadgeShape)
+                                            .background(item.color.copy(alpha = 0.15f))
+                                            .then(
+                                                if (isGlassTheme) {
+                                                    Modifier.border(activeTheme.buttonBorder, iconBadgeShape)
+                                                } else {
+                                                    Modifier
+                                                }
+                                            ),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(
@@ -384,6 +409,7 @@ fun DiscoverScreen(viewModel: PrayerViewModel, onNavigate: (String) -> Unit) {
                     }
                 }
             }
+            DiscoverSubScreen.Notes -> NotesScreen(onBack = { currentScreen = DiscoverSubScreen.Main })
             DiscoverSubScreen.QuranMiracles -> QuranMiraclesScreen(
                 viewModel = viewModel,
                 onNavigateToQuranReading = { currentScreen = DiscoverSubScreen.QuranReading },
@@ -398,7 +424,10 @@ fun DiscoverScreen(viewModel: PrayerViewModel, onNavigate: (String) -> Unit) {
             DiscoverSubScreen.HadithLibrary -> HadithLibraryScreen(viewModel, onBack = { currentScreen = DiscoverSubScreen.Main })
             DiscoverSubScreen.QuranReading -> QuranReadingScreen(viewModel = viewModel, onBack = { currentScreen = DiscoverSubScreen.Main })
             DiscoverSubScreen.Steps -> com.example.steps.StepReportScreen(onBack = { currentScreen = DiscoverSubScreen.Main })
-            DiscoverSubScreen.NearestMosque -> NearestMosqueScreen(onBack = { currentScreen = DiscoverSubScreen.Main })
+            DiscoverSubScreen.NearestMosque -> NearestMosqueScreen(
+                onBack = { currentScreen = DiscoverSubScreen.Main },
+                viewModel = viewModel
+            )
             DiscoverSubScreen.PrayerLearning -> PrayerLearningScreen(onBack = { currentScreen = DiscoverSubScreen.Main })
             DiscoverSubScreen.AppSettings -> SettingsScreen(
                 viewModel = viewModel,
@@ -3098,6 +3127,7 @@ fun SubScreenScaffold(
     actions: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit = {},
     content: @Composable () -> Unit
 ) {
+    androidx.activity.compose.BackHandler { onBack() }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
@@ -3842,16 +3872,85 @@ fun QuranIndexScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                 // ==========================================
                 // TAB 1: THEMATIC SUBJECT INDEX (FİHRİST)
                 // ==========================================
+                androidx.activity.compose.BackHandler(enabled = selectedTopic != null) {
+                    selectedTopic = null
+                }
                 if (selectedTopic == null) {
                     val allTopics = QuranAiSearchEngine.allCuratedTopics
+                    val totalVersesCount = remember(allTopics) { allTopics.sumOf { it.verses.size } }
                     val filteredTopics = remember(topicSearchQuery, selectedCategoryFilter, allTopics) {
                         allTopics.filter { topic ->
                             val matchesCategory = (selectedCategoryFilter == "Tümü" || topic.category == selectedCategoryFilter)
                             val matchesQuery = topicSearchQuery.isBlank() ||
                                     topic.title.contains(topicSearchQuery, ignoreCase = true) ||
                                     topic.description.contains(topicSearchQuery, ignoreCase = true) ||
-                                    topic.verses.any { it.translation.contains(topicSearchQuery, ignoreCase = true) || it.surahName.contains(topicSearchQuery, ignoreCase = true) }
+                                    topic.verses.any {
+                                        it.translation.contains(topicSearchQuery, ignoreCase = true) ||
+                                        it.surahName.contains(topicSearchQuery, ignoreCase = true) ||
+                                        it.tags.any { tag -> tag.contains(topicSearchQuery, ignoreCase = true) }
+                                    }
                             matchesCategory && matchesQuery
+                        }
+                    }
+
+                    // Fihrist Overview & Random Topic Discovery Banner
+                    Surface(
+                        shape = theme.cardShape,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 14.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "${allTopics.size} Ana Konu • $totalVersesCount Seçkin Ayet",
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Ayetleri tefsir notlarıyla inceleyin veya saman kağıdı not defterinize kaydedin",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Surface(
+                                shape = theme.buttonShape,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.clickable {
+                                    if (allTopics.isNotEmpty()) {
+                                        selectedTopic = allTopics.random()
+                                    }
+                                }
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AutoAwesome,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onPrimary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "Keşfet",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimary
+                                    )
+                                }
+                            }
                         }
                     }
 
@@ -4125,6 +4224,26 @@ fun QuranIndexScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                         }
 
                                         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                                            // Save Verse to Straw-Paper Notes
+                                            IconButton(
+                                                onClick = {
+                                                    NotesStore.addQuickNote(
+                                                        context = context,
+                                                        title = "${verseItem.surahName} ${verseItem.verseNumber}. Ayet (${topic.title})",
+                                                        content = "${verseItem.arabic}\n\n“${verseItem.translation}”\n\n📖 Hikmet & Tefsir Notu:\n${verseItem.explanation}",
+                                                        category = "Ayet & Hadis"
+                                                    )
+                                                    Toast.makeText(context, "Ayet not defterine kaydedildi", Toast.LENGTH_SHORT).show()
+                                                },
+                                                modifier = Modifier.size(36.dp)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Star,
+                                                    contentDescription = "Notlara Kaydet",
+                                                    tint = MaterialTheme.colorScheme.primary,
+                                                    modifier = Modifier.size(18.dp)
+                                                )
+                                            }
                                             IconButton(
                                                 onClick = {
                                                     clipboardManager.setText(AnnotatedString("${verseItem.arabic}\n\n${verseItem.translation}\n(${verseItem.surahName}, ${verseItem.verseNumber}. Ayet)"))
@@ -4145,7 +4264,9 @@ fun QuranIndexScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                                         type = "text/plain"
                                                         putExtra(Intent.EXTRA_TEXT, "${verseItem.arabic}\n\n${verseItem.translation}\n(${verseItem.surahName}, ${verseItem.verseNumber}. Ayet)")
                                                     }
-                                                    context.startActivity(Intent.createChooser(intent, "Ayet Paylaş"))
+                                                    runCatching {
+                                                        context.startActivity(Intent.createChooser(intent, "Ayet Paylaş"))
+                                                    }
                                                 },
                                                 modifier = Modifier.size(36.dp)
                                             ) {
@@ -4175,98 +4296,152 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
     val coroutineScope = androidx.compose.runtime.rememberCoroutineScope()
-    
+
     val favoriteHadiths by viewModel.favoriteHadithsFlow.collectAsState()
     val memorizedHadiths by viewModel.memorizedHadithsFlow.collectAsState()
-    
-    val allHadiths = com.example.data.HadithData.allHadiths
-    
+
+    val allHadiths = remember { com.example.data.HadithData.allHadiths }
+    val categories = remember { com.example.data.HadithData.categories }
+
     var searchQuery by remember { mutableStateOf("") }
-    val categories = listOf("Hepsi", "Ahlak", "İlim", "Kardeşlik", "İbadet", "İman", "Sosyal Hayat")
     var selectedCategory by remember { mutableStateOf("Hepsi") }
-    
+
     // 0: Tüm Hadisler, 1: Favorilerim, 2: Ezberlediklerim
-    var selectedTab by remember { mutableStateOf(0) }
-    
-    var activeHadiths by remember { mutableStateOf(allHadiths) }
-    
-    // Hadith of the Day (seeded on first launch / state)
-    var dailyHadithIndex by remember { mutableStateOf(0) }
-    LaunchedEffect(Unit) {
-        // Simple daily seed based on the current day of the year
+    var selectedTab by remember { androidx.compose.runtime.mutableIntStateOf(0) }
+
+    // Hadith of the Day (deterministic daily seed with manual shuffle option)
+    var dailyHadithIndex by remember {
         val calendar = java.util.Calendar.getInstance()
         val dayOfYear = calendar.get(java.util.Calendar.DAY_OF_YEAR)
-        dailyHadithIndex = dayOfYear % allHadiths.size
+        androidx.compose.runtime.mutableIntStateOf(if (allHadiths.isNotEmpty()) dayOfYear % allHadiths.size else 0)
     }
-    val dailyHadith = allHadiths[dailyHadithIndex]
-    
+    val dailyHadith = allHadiths.getOrElse(dailyHadithIndex) { allHadiths.first() }
+
     // Expanded Hadith explanations map
     val expandedExplanations = remember { mutableStateMapOf<String, Boolean>() }
-    
+
     // Card generator state
     var showCardDialogForHadith by remember { mutableStateOf<com.example.data.Hadith?>(null) }
-    
-    LaunchedEffect(searchQuery, selectedCategory, selectedTab, favoriteHadiths, memorizedHadiths) {
-        activeHadiths = allHadiths.filter { hadith ->
-            val matchesSearch = hadith.text.lowercase().contains(searchQuery.lowercase()) ||
-                               hadith.source.lowercase().contains(searchQuery.lowercase()) ||
-                               (hadith.explanation?.lowercase()?.contains(searchQuery.lowercase()) ?: false)
-            
-            val matchesCategory = selectedCategory == "Hepsi" || hadith.category == selectedCategory
-            
+
+    val activeHadiths = remember(searchQuery, selectedCategory, selectedTab, favoriteHadiths, memorizedHadiths, allHadiths) {
+        val q = searchQuery.trim().lowercase(Locale("tr", "TR"))
+        allHadiths.filter { hadith ->
+            val matchesSearch = q.isEmpty() ||
+                hadith.text.lowercase(Locale("tr", "TR")).contains(q) ||
+                hadith.source.lowercase(Locale("tr", "TR")).contains(q) ||
+                hadith.narrator.lowercase(Locale("tr", "TR")).contains(q) ||
+                hadith.explanation.lowercase(Locale("tr", "TR")).contains(q)
+
+            val matchesCategory = when (selectedCategory) {
+                "Hepsi", "Tümü" -> true
+                "40 Hadis" -> hadith.isArbain
+                else -> hadith.category == selectedCategory
+            }
+
             val matchesTab = when (selectedTab) {
                 0 -> true
                 1 -> favoriteHadiths.contains(hadith.id)
                 2 -> memorizedHadiths.contains(hadith.id)
                 else -> true
             }
-            
+
             matchesSearch && matchesCategory && matchesTab
         }
     }
-    
+
     fun pickRandomHadith() {
-        val random = allHadiths.random()
-        searchQuery = ""
-        selectedCategory = random.category
-        selectedTab = 0
-        activeHadiths = listOf(random)
+        if (allHadiths.size > 1) {
+            var nextIdx = kotlin.random.Random.nextInt(allHadiths.size)
+            if (nextIdx == dailyHadithIndex) {
+                nextIdx = (nextIdx + 1) % allHadiths.size
+            }
+            dailyHadithIndex = nextIdx
+        }
     }
-    
-    SubScreenScaffold(title = "Hadis Kütüphanesi", onBack = onBack) {
+
+    val memorizedRatio = remember(memorizedHadiths.size, allHadiths.size) {
+        if (allHadiths.isEmpty()) 0f else (memorizedHadiths.size.toFloat() / allHadiths.size.toFloat()).coerceIn(0f, 1f)
+    }
+
+    SubScreenScaffold(title = "Hadis Külliyatı & 40 Hadis", onBack = onBack) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Search & Tabs Sticky Header
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.background)
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .padding(horizontal = 16.dp, vertical = 10.dp)
             ) {
+                // Memorization Progress Strip
+                Surface(
+                    shape = RoundedCornerShape(14.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 14.dp, vertical = 8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Hadis Ezber & Okuma İlerlemesi",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text(
+                                text = "${memorizedHadiths.size} / ${allHadiths.size} Ezberlendi (%${(memorizedRatio * 100).toInt()})",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        LinearProgressIndicator(
+                            progress = { memorizedRatio },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(6.dp)
+                                .clip(RoundedCornerShape(50)),
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Hadislerde veya açıklamalarda ara...", fontSize = 14.sp) },
+                    placeholder = { Text("Hadis metni, râvî, kaynak veya hikmette ara...", fontSize = 13.sp) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { searchQuery = "" }) {
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Temizle", modifier = Modifier.size(16.dp))
+                                Icon(imageVector = Icons.Default.Close, contentDescription = "Temizle", modifier = Modifier.size(16.dp))
                             }
                         }
                     },
                     singleLine = true
                 )
-                
-                Spacer(modifier = Modifier.height(12.dp))
-                
+
+                Spacer(modifier = Modifier.height(10.dp))
+
                 // Tabs: Tüm, Favoriler, Ezberlediklerim
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    val tabs = listOf("Tüm Hadisler", "Sık Kullanılanlar", "Ezberlediklerim")
+                    val tabs = listOf("Tüm Hadisler", "Favorilerim", "Ezberlediklerim")
                     tabs.forEachIndexed { index, title ->
                         val isSelected = selectedTab == index
                         val count = when (index) {
@@ -4275,18 +4450,18 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                             2 -> memorizedHadiths.size
                             else -> 0
                         }
-                        
+
                         Box(
                             modifier = Modifier
                                 .weight(1f)
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(
                                     if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                                    else Color.White.copy(alpha = 0.03f)
+                                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
                                 )
                                 .border(
                                     width = 1.dp,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .clickable { selectedTab = index }
@@ -4298,21 +4473,21 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                     text = title,
                                     fontSize = 11.sp,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                                 )
                                 Text(
                                     text = "($count)",
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.8f) else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
+                                    color = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.85f) else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                                 )
                             }
                         }
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(10.dp))
-                
+
                 // Categories Horizontal Scroll
                 val scrollState = rememberScrollState()
                 Row(
@@ -4327,7 +4502,7 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                             modifier = Modifier
                                 .clip(RoundedCornerShape(30.dp))
                                 .background(
-                                    if (isSelected) MaterialTheme.colorScheme.primary else Color.White.copy(alpha = 0.08f)
+                                    if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
                                 )
                                 .clickable { selectedCategory = cat }
                                 .padding(horizontal = 14.dp, vertical = 6.dp),
@@ -4337,13 +4512,13 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                 text = cat,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
                 }
             }
-            
+
             // Hadith List & Custom Top Banner
             LazyColumn(
                 modifier = Modifier
@@ -4352,17 +4527,17 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Show "Hadith of the Day" Banner only on "All" tab when search and category is reset
+                // Show "Hadith of the Day" Banner on "All" tab when search is empty
                 if (selectedTab == 0 && selectedCategory == "Hepsi" && searchQuery.isEmpty()) {
-                    item {
+                    item(key = "daily_hadith_banner") {
                         Card(
                             colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.09f)
                             ),
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
+                                .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.32f), RoundedCornerShape(20.dp))
                         ) {
                             Column(modifier = Modifier.padding(18.dp)) {
                                 Row(
@@ -4372,58 +4547,68 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Icon(
-                                            imageVector = Icons.Default.Star,
+                                            imageVector = Icons.Default.AutoAwesome,
                                             contentDescription = null,
                                             tint = MaterialTheme.colorScheme.primary,
                                             modifier = Modifier.size(20.dp)
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
-                                        Text(
-                                            text = "Günün Hadis-i Şerifi",
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 15.sp,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
+                                        Column {
+                                            Text(
+                                                text = "Günün Hadis-i Şerifi",
+                                                fontWeight = FontWeight.ExtraBold,
+                                                fontSize = 15.sp,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                            if (dailyHadith.narrator.isNotBlank()) {
+                                                Text(
+                                                    text = "Râvî: ${dailyHadith.narrator} • ${dailyHadith.authenticity}",
+                                                    fontSize = 10.sp,
+                                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
+                                                )
+                                            }
+                                        }
                                     }
-                                    
+
                                     IconButton(
                                         onClick = { pickRandomHadith() },
-                                        modifier = Modifier.size(32.dp)
+                                        modifier = Modifier.size(34.dp)
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Refresh,
-                                            contentDescription = "Rastgele",
+                                            contentDescription = "Başka Bir Hadis Getir",
                                             tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(18.dp)
+                                            modifier = Modifier.size(19.dp)
                                         )
                                     }
                                 }
-                                
+
                                 Spacer(modifier = Modifier.height(12.dp))
-                                
-                                if (!dailyHadith.arabicText.isNullOrEmpty()) {
+
+                                if (dailyHadith.arabicText.isNotEmpty()) {
                                     Text(
                                         text = dailyHadith.arabicText,
-                                        fontSize = 18.sp,
+                                        fontSize = 19.sp,
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.primary,
                                         textAlign = TextAlign.Right,
+                                        lineHeight = 28.sp,
                                         modifier = Modifier.fillMaxWidth()
                                     )
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
-                                
+
                                 Text(
                                     text = "“${dailyHadith.text}”",
                                     fontSize = 15.sp,
-                                    fontWeight = FontWeight.Medium,
+                                    fontWeight = FontWeight.SemiBold,
                                     fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
                                     color = MaterialTheme.colorScheme.onBackground,
                                     lineHeight = 22.sp
                                 )
-                                
-                                Spacer(modifier = Modifier.height(8.dp))
-                                
+
+                                Spacer(modifier = Modifier.height(10.dp))
+
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -4433,10 +4618,25 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                         text = dailyHadith.source,
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+                                        modifier = Modifier.weight(1f)
                                     )
-                                    
+
                                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                        IconButton(
+                                            onClick = {
+                                                NotesStore.addQuickNote(
+                                                    context = context,
+                                                    title = "Hadis-i Şerif (${dailyHadith.category})",
+                                                    content = "${dailyHadith.arabicText}\n\n“${dailyHadith.text}”\n\n🎙️ Râvî: ${dailyHadith.narrator}\n📚 Kaynak: ${dailyHadith.source}\n\n💡 Hikmeti:\n${dailyHadith.explanation}",
+                                                    category = "Ayet & Hadis"
+                                                )
+                                                Toast.makeText(context, "Hadis not defterine eklendi", Toast.LENGTH_SHORT).show()
+                                            },
+                                            modifier = Modifier.size(32.dp)
+                                        ) {
+                                            Icon(imageVector = Icons.Default.Star, contentDescription = "Notlara Kaydet", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(17.dp))
+                                        }
                                         IconButton(
                                             onClick = {
                                                 clipboardManager.setText(AnnotatedString("${dailyHadith.text}\n(${dailyHadith.source})"))
@@ -4444,7 +4644,7 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                             },
                                             modifier = Modifier.size(32.dp)
                                         ) {
-                                            Icon(imageVector = Icons.Default.Done, contentDescription = "Kopyala", modifier = Modifier.size(16.dp))
+                                            Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Kopyala", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
                                         }
                                         IconButton(
                                             onClick = {
@@ -4459,17 +4659,17 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                             }
                         }
                     }
-                    
-                    item {
+
+                    item(key = "daily_hadith_divider") {
                         HorizontalDivider(
                             modifier = Modifier.padding(vertical = 4.dp),
-                            color = Color.White.copy(alpha = 0.08f)
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
                         )
                     }
                 }
-                
+
                 if (activeHadiths.isEmpty()) {
-                    item {
+                    item(key = "empty_hadiths_state") {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -4492,9 +4692,9 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Arama kriterlerinizi veya filtrelerinizi değiştirerek tekrar deneyin.",
+                                text = "Arama kriterlerinizi veya kategori filtrelerinizi değiştirerek tekrar deneyin.",
                                 fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.45f),
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -4504,39 +4704,73 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                         val isFav = favoriteHadiths.contains(hadith.id)
                         val isMem = memorizedHadiths.contains(hadith.id)
                         val isExpanded = expandedExplanations[hadith.id] ?: false
-                        
+
                         Card(
                             colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f)
                             ),
-                            shape = RoundedCornerShape(16.dp),
+                            shape = RoundedCornerShape(18.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(16.dp))
+                                .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.22f), RoundedCornerShape(18.dp))
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
-                                // Top Meta Info
+                                // Top Meta Info: Category + 40 Hadis Badge + Authenticity Grade
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(6.dp))
-                                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
-                                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    ) {
-                                        Text(
-                                            text = hadith.category,
-                                            fontSize = 10.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                    }
-                                    
                                     Row(
                                         horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(6.dp))
+                                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
+                                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                        ) {
+                                            Text(
+                                                text = hadith.category,
+                                                fontSize = 10.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                        if (hadith.isArbain) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .clip(RoundedCornerShape(6.dp))
+                                                    .background(Color(0xFFD97706).copy(alpha = 0.16f))
+                                                    .padding(horizontal = 7.dp, vertical = 4.dp)
+                                            ) {
+                                                Text(
+                                                    text = "40 Hadis #${hadith.arbainNumber}",
+                                                    fontSize = 10.sp,
+                                                    fontWeight = FontWeight.ExtraBold,
+                                                    color = Color(0xFFD97706)
+                                                )
+                                            }
+                                        }
+                                        Box(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(6.dp))
+                                                .background(Color(0xFF10B981).copy(alpha = 0.14f))
+                                                .padding(horizontal = 7.dp, vertical = 4.dp)
+                                        ) {
+                                            Text(
+                                                text = hadith.authenticity,
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFF10B981)
+                                            )
+                                        }
+                                    }
+
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         // Ezberledim (Mark as Memorized) Toggle
@@ -4547,25 +4781,25 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                             Icon(
                                                 imageVector = if (isMem) Icons.Default.CheckCircle else Icons.Default.Check,
                                                 contentDescription = "Ezberledim",
-                                                tint = if (isMem) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
+                                                tint = if (isMem) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.35f),
                                                 modifier = Modifier.size(18.dp)
                                             )
                                         }
-                                        
-                                        // Favorilere Ekle (Add to Favorites) Toggle
+
+                                        // Favorilere Ekle Toggle
                                         IconButton(
                                             onClick = { viewModel.toggleFavoriteHadith(hadith.id) },
                                             modifier = Modifier.size(32.dp)
                                         ) {
                                             Icon(
                                                 imageVector = if (isFav) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                                                contentDescription = "Sık Kullanılan",
-                                                tint = if (isFav) Color.Red else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
+                                                contentDescription = "Favorilere Ekle",
+                                                tint = if (isFav) Color(0xFFEF4444) else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.35f),
                                                 modifier = Modifier.size(18.dp)
                                             )
                                         }
-                                        
-                                        // Görsel Kart Tasarla (Create Visual Card) Button
+
+                                        // Görsel Kart Tasarla Button
                                         IconButton(
                                             onClick = { showCardDialogForHadith = hadith },
                                             modifier = Modifier.size(32.dp)
@@ -4579,11 +4813,11 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                         }
                                     }
                                 }
-                                
+
                                 Spacer(modifier = Modifier.height(12.dp))
-                                
-                                // Arabic Text (if exists)
-                                if (!hadith.arabicText.isNullOrEmpty()) {
+
+                                // Arabic Text
+                                if (hadith.arabicText.isNotEmpty()) {
                                     Text(
                                         text = hadith.arabicText,
                                         fontSize = 19.sp,
@@ -4591,69 +4825,98 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                         color = MaterialTheme.colorScheme.primary,
                                         textAlign = TextAlign.Right,
                                         modifier = Modifier.fillMaxWidth(),
-                                        lineHeight = 26.sp
+                                        lineHeight = 28.sp
                                     )
                                     Spacer(modifier = Modifier.height(10.dp))
                                 }
-                                
+
                                 // Turkish Meaning
                                 Text(
                                     text = "“${hadith.text}”",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.Medium,
                                     color = MaterialTheme.colorScheme.onBackground,
-                                    lineHeight = 21.sp
+                                    lineHeight = 22.sp
                                 )
-                                
+
                                 Spacer(modifier = Modifier.height(8.dp))
-                                
-                                // Source Book
+
+                                // Narrator & Source Book Row
+                                if (hadith.narrator.isNotBlank()) {
+                                    Text(
+                                        text = "🎙️ Râvî: ${hadith.narrator}",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+                                    )
+                                    Spacer(modifier = Modifier.height(3.dp))
+                                }
+
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = hadith.source,
+                                        text = "📚 ${hadith.source}",
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.Medium,
-                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                                        modifier = Modifier.weight(1f)
                                     )
-                                    
+
                                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                        // Save to Straw-Paper Notes
+                                        IconButton(
+                                            modifier = Modifier.size(32.dp),
+                                            onClick = {
+                                                NotesStore.addQuickNote(
+                                                    context = context,
+                                                    title = "Hadis: ${hadith.category} (${hadith.narrator.ifBlank { hadith.source }})",
+                                                    content = "${hadith.arabicText}\n\n“${hadith.text}”\n\n🎙️ Râvî: ${hadith.narrator}\n📚 Kaynak: ${hadith.source}\n\n💡 Hikmet & Şerh:\n${hadith.explanation}",
+                                                    category = "Ayet & Hadis"
+                                                )
+                                                Toast.makeText(context, "Hadis not defterine kaydedildi", Toast.LENGTH_SHORT).show()
+                                            }
+                                        ) {
+                                            Icon(imageVector = Icons.Default.Star, contentDescription = "Notlara Kaydet", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+                                        }
+
                                         // Quick Copy
                                         IconButton(
                                             modifier = Modifier.size(32.dp),
                                             onClick = {
-                                                clipboardManager.setText(AnnotatedString("${hadith.text}\n(${hadith.source})"))
-                                                Toast.makeText(context, "Kopyalandı", Toast.LENGTH_SHORT).show()
+                                                clipboardManager.setText(AnnotatedString("${hadith.arabicText}\n\n“${hadith.text}”\n(${hadith.narrator} - ${hadith.source})"))
+                                                Toast.makeText(context, "Hadis panoya kopyalandı", Toast.LENGTH_SHORT).show()
                                             }
                                         ) {
-                                            Icon(imageVector = Icons.Default.Done, contentDescription = "Kopyala", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(15.dp))
+                                            Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Kopyala", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(15.dp))
                                         }
-                                        
-                                        // Quick Share (Text only)
+
+                                        // Quick Share
                                         IconButton(
                                             modifier = Modifier.size(32.dp),
                                             onClick = {
                                                 val intent = Intent(Intent.ACTION_SEND).apply {
                                                     type = "text/plain"
-                                                    putExtra(Intent.EXTRA_TEXT, "“${hadith.text}”\n\n- ${hadith.source}")
+                                                    putExtra(Intent.EXTRA_TEXT, "${hadith.arabicText}\n\n“${hadith.text}”\n\n- ${hadith.narrator} (${hadith.source})")
                                                 }
-                                                context.startActivity(Intent.createChooser(intent, "Hadis Paylaş"))
+                                                runCatching {
+                                                    context.startActivity(Intent.createChooser(intent, "Hadis Paylaş"))
+                                                }
                                             }
                                         ) {
                                             Icon(imageVector = Icons.Default.Share, contentDescription = "Paylaş", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(15.dp))
                                         }
                                     }
                                 }
-                                
-                                // Explanation / Tafsir section
-                                if (!hadith.explanation.isNullOrEmpty()) {
+
+                                // Explanation / Şerh & Hikmet section
+                                if (hadith.explanation.isNotEmpty()) {
                                     Spacer(modifier = Modifier.height(6.dp))
-                                    HorizontalDivider(color = Color.White.copy(alpha = 0.05f))
+                                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f))
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    
+
                                     Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -4663,13 +4926,13 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
-                                            text = "Hadis-i Şerif Açıklaması (Detay)",
+                                            text = "💡 Hadis-i Şerif Şerhi & Hikmeti",
                                             fontSize = 12.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f)
                                         )
                                         Icon(
-                                            imageVector = if (isExpanded) Icons.Default.PlayArrow else Icons.Default.PlayArrow,
+                                            imageVector = Icons.Default.PlayArrow,
                                             contentDescription = null,
                                             tint = MaterialTheme.colorScheme.primary,
                                             modifier = Modifier
@@ -4677,16 +4940,22 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                                 .rotate(if (isExpanded) 90f else 0f)
                                         )
                                     }
-                                    
+
                                     if (isExpanded) {
                                         Spacer(modifier = Modifier.height(6.dp))
-                                        Text(
-                                            text = hadith.explanation,
-                                            fontSize = 13.sp,
-                                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-                                            lineHeight = 18.sp,
-                                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                                        )
+                                        Surface(
+                                            shape = RoundedCornerShape(10.dp),
+                                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.07f),
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Text(
+                                                text = hadith.explanation,
+                                                fontSize = 13.sp,
+                                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f),
+                                                lineHeight = 19.sp,
+                                                modifier = Modifier.padding(10.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -4694,7 +4963,8 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                     }
                 }
             }
-    
+        }
+    }
     // Custom Dialog for Hadith Visual Card Designer
     showCardDialogForHadith?.let { hadith ->
         var selectedCardTheme by remember { mutableStateOf(HadithCardTheme.EMERALD_GOLD) }
@@ -4957,8 +5227,6 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
             }
         }
     }
-}
-}
 }
 
 // --- SUB-SCREEN: 16 - Kuran Okuma ve Tefsir Karşılaştırma ---

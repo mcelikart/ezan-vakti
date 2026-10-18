@@ -18,6 +18,21 @@
 
 ---
 
+## 🚀 Son Güncellemeler (18 Ekim 2026)
+
+- ⏱️ **Ana Ekran Geri Sayım Kartı Sadeleştirmesi & Tipografi:**
+  - Geri sayım kartındaki gereksiz dekoratif kubbe, ilave yaylar ve yuvarlak motifler kaldırılarak göz yormayan, sade ve modern bir tasarıma geçildi; ana güneş yayı ve vakit göstergesi korundu.
+  - Sayaç yazı boyutu **36 sp'den 44 sp'ye** büyütüldü. Dar ekran boyutlarında (320dp) veya sistemin büyük yazı tipi modlarında metnin taşmasını önleyen esnek sığdırma mantığı entegre edildi.
+- 🧘‍♂️ **Namaz Öğrenme Bölümü & Yüksek Çözünürlüklü Duruş Rehberi:**
+  - Eski sade çizimler yerine, detaylı ve yüksek çözünürlüklü **7 yeni ibadet duruşu görseli** (`drawable-nodpi/prayer_pose_*.png`) entegre edildi.
+  - Her aşama için hem **Erkek** hem de **Kadın** duruşları ayrı ayrı hazırlandı (toplam 14 duruş varyasyonu). Kullanıcı tek tıkla cinsiyet duruşunu değiştirebilir.
+  - İbadet duruşlarına dokunulduğunda açılan **tam ekran görsel büyütme (Zoom / Modal Dialog)** özelliği eklendi.
+  - Tüm görseller doğrudan APK içerisine gömüldü; internet bağlantısı olmadan tamamen **çevrimdışı (offline)** çalışır.
+- 📝 **İbadet ve Kişisel Notlar:** Uygulamaya yeni `NotesSection` bileşeni dahil edildi.
+- 🧪 **Kapsamlı Ekran Doğrulama ve Roborazzi Testleri:** 11 temanın farklı çözünürlüklerde (320dp - 420dp) ve 1.5× metin ölçeklerinde taşma testleri başarıyla tamamlandı.
+
+---
+
 ## 📌 Genel Bakış
 
 **Ezan Vakti**, modern Android tasarım ilkeleri (Material 3) ve saf Jetpack Compose kullanılarak inşa edilmiş kapsamlı bir mobil uygulamadır. Geleneksel ezan vakti uygulamalarının ötesine geçerek; yapay zeka destekli Kur'an araştırması, bilimsel Kur'an mucizeleri ansiklopedisi, sesli tilavet, hassas sensör destekli kıble pusulası, adım sayar ve akıllı widget desteğini tek bir çatı altında birleştirir.
@@ -29,28 +44,34 @@
 <div align="center">
   <table>
     <tr>
-      <td align="center"><b>🕌 Ezan Vakitleri (Selçuklu)</b></td>
+      <td align="center"><b>🕌 Ezan Vakitleri (Yeni Sayaç)</b></td>
       <td align="center"><b>🧭 Kıble Pusulası</b></td>
       <td align="center"><b>📿 Akıllı Zikirmatik</b></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="screenshots/01_ana_ekran_selcuklu.png" width="230" alt="Ezan Vakitleri" /></td>
+      <td align="center"><img src="screenshots/02_kible_pusulasi.png" width="230" alt="Kıble Pusulası" /></td>
+      <td align="center"><img src="screenshots/03_zikirmatik.png" width="230" alt="Zikirmatik" /></td>
+    </tr>
+    <tr>
       <td align="center"><b>🔬 Kur'an Mucizeleri</b></td>
-    </tr>
-    <tr>
-      <td align="center"><img src="screenshots/01_ana_ekran_selcuklu.png" width="220" alt="Ezan Vakitleri" /></td>
-      <td align="center"><img src="screenshots/02_kible_pusulasi.png" width="220" alt="Kıble Pusulası" /></td>
-      <td align="center"><img src="screenshots/03_zikirmatik.png" width="220" alt="Zikirmatik" /></td>
-      <td align="center"><img src="screenshots/04_kuran_mucizeleri.png" width="220" alt="Kur'an Mucizeleri" /></td>
-    </tr>
-    <tr>
       <td align="center"><b>🚶‍♂️ Adımsayar & Sağlık</b></td>
-      <td align="center"><b>🤲 Namaz Rehberi</b></td>
+      <td align="center"><b>🤲 Namaz Öğreniyorum (Görsel Rehber)</b></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="screenshots/04_kuran_mucizeleri.png" width="230" alt="Kur'an Mucizeleri" /></td>
+      <td align="center"><img src="screenshots/05_adimsayar_raporu.png" width="230" alt="Adımsayar Raporu" /></td>
+      <td align="center"><img src="screenshots/06_namaz_ogreniyorum.png" width="230" alt="Namaz Öğreniyorum" /></td>
+    </tr>
+    <tr>
       <td align="center"><b>🌙 Gece Çinisi (Koyu Tema)</b></td>
       <td align="center"><b>🎨 Zengin Tema Galerisi</b></td>
+      <td align="center"><b>🔍 Duruş Büyütme (Kadın/Erkek)</b></td>
     </tr>
     <tr>
-      <td align="center"><img src="screenshots/05_adimsayar_raporu.png" width="220" alt="Adımsayar Raporu" /></td>
-      <td align="center"><img src="screenshots/06_namaz_ogreniyorum.png" width="220" alt="Namaz Öğreniyorum" /></td>
-      <td align="center"><img src="screenshots/07_ana_ekran_gece_cinisi.png" width="220" alt="Gece Çinisi Koyu Tema" /></td>
-      <td align="center"><img src="screenshots/08_tema_galerisi.png" width="220" alt="Tema Galerisi" /></td>
+      <td align="center"><img src="screenshots/07_ana_ekran_gece_cinisi.png" width="230" alt="Gece Çinisi Koyu Tema" /></td>
+      <td align="center"><img src="screenshots/08_tema_galerisi.png" width="230" alt="Tema Galerisi" /></td>
+      <td align="center"><img src="screenshots/09_namaz_durus_detayi.png" width="230" alt="Duruş Detayı Büyütme" /></td>
     </tr>
   </table>
 </div>
@@ -61,7 +82,7 @@
 
 ### 1. 🕌 Hassas Ezan ve Namaz Vakitleri
 - **Konum Tabanlı Otomatik Hesaplama:** GPS veya manuel şehir seçimi ile Diyanet ve Aladhan uyumlu milimetrik vakit hesaplama.
-- **Sonraki Vakte Geri Sayım:** Canlı kronometre ile sonraki namaz vaktine kalan süreyi saniye saniye takip edebilme.
+- **Sonraki Vakte Geri Sayım:** Canlı kronometre ile sonraki namaz vaktine kalan süreyi saniye saniye takip edebilme (44 sp büyük, okunaklı font).
 - **Gelişmiş Bildirimler:** Vakit girdiğinde veya vakit öncesinde sesli/titreşimli ezan bildirimleri.
 - **Genişletilebilir Bildirim Kartı:** Kilit ekranından veya bildirim panelinden günün tüm vakitlerini tek bakışta görebilme.
 
@@ -93,8 +114,9 @@ Modern bilimin 20. ve 21. yüzyılda keşfettiği evren kanunlarının Kur'an'da
 
 ### 7. 🤲 Adım Adım Namaz Öğrenme Rehberi
 - Sabah, Öğle, İkindi, Akşam, Yatsı, Vitir ve Cuma namazlarının görsel anlatımı.
+- Yüksek kaliteli görsel duruş rehberi (Kadın ve erkek için ayrı çizimler, tam ekran büyütme).
 - Abdest alma, boy abdesti (gusül), teyemmüm rehberi.
-- Rekat rekat kılınış tabloları, okunacak dualar ve sureler.
+- Rekat rekat kılınış tabloları, sesli meal ve dua desteği.
 
 ### 8. 📅 Hicri Takvim & Dini Günler
 - Kandiller (Mevlid, Regaip, Miraç, Berat), Kadir Gecesi, Ramazan ve Kurban Bayramı tarihleri.
@@ -128,6 +150,7 @@ Modern bilimin 20. ve 21. yüzyılda keşfettiği evren kanunlarının Kur'an'da
 | **Sensör Yönetimi** | Android SensorManager (Compass / Step Counter) |
 | **Arka Plan İşleri** | Android Foreground Service, BroadcastReceiver |
 | **Widget Desteği** | Android AppWidgetProvider & RemoteViews |
+| **Görsel Doğrulama** | Roborazzi & Robolectric Native Graphics Screenshot Testing |
 | **Yapı Sistemi** | Gradle Kotlin DSL (`build.gradle.kts`) |
 
 ---
@@ -138,28 +161,24 @@ Modern bilimin 20. ve 21. yüzyılda keşfettiği evren kanunlarının Kur'an'da
 ezan-vakti/
 ├── app/
 │   ├── src/
-│   │   └── main/
-│   │       ├── java/com/example/
-│   │       │   ├── data/              # API servisleri, modeller, veri kaynakları ve mucize veritabanı
-│   │       │   │   ├── AladhanApiService.kt
-│   │       │   │   ├── GeminiApiClient.kt
-│   │       │   │   ├── QuranAiSearchEngine.kt
-│   │       │   │   ├── QuranMiracles*.kt
-│   │       │   │   └── WeatherApiService.kt
-│   │       │   ├── steps/             # Adımsayar servisi, hesaplama algoritmaları ve raporlama
-│   │       │   │   ├── StepCounterService.kt
-│   │       │   │   └── WalkingMetrics.kt
-│   │       │   ├── ui/                # Jetpack Compose ekranları, ViewModel ve UI bileşenleri
-│   │       │   │   ├── HomeScreen.kt
-│   │       │   │   ├── CompassScreen.kt
-│   │       │   │   ├── DhikrScreen.kt
-│   │       │   │   ├── PrayerLearningScreen.kt
-│   │       │   │   ├── PrayerViewModel.kt
-│   │       │   │   ├── PrayerWidgetProvider.kt
-│   │       │   │   └── theme/         # Renk paletleri, tipografi, miras temaları ve desenler
-│   │       │   └── MainActivity.kt    # Ana aktivite ve navigasyon yönlendiricisi
-│   │       └── res/                   # İkonlar, layout'lar, renkler ve XML tanımları
+│   │   ├── main/
+│   │   │   ├── java/com/example/
+│   │   │   │   ├── data/              # API servisleri, modeller, veri kaynakları ve mucize veritabanı
+│   │   │   │   ├── steps/             # Adımsayar servisi, hesaplama algoritmaları ve raporlama
+│   │   │   │   ├── ui/                # Jetpack Compose ekranları, ViewModel ve UI bileşenleri
+│   │   │   │   │   ├── HomeScreen.kt
+│   │   │   │   │   ├── CompassScreen.kt
+│   │   │   │   │   ├── DhikrScreen.kt
+│   │   │   │   │   ├── PrayerLearningScreen.kt
+│   │   │   │   │   ├── NotesSection.kt
+│   │   │   │   │   ├── PrayerViewModel.kt
+│   │   │   │   │   ├── PrayerWidgetProvider.kt
+│   │   │   │   │   └── theme/         # Renk paletleri, miras temaları ve desenler
+│   │   │   │   └── MainActivity.kt
+│   │   │   └── res/                   # İkonlar, yüksek çözünürlüklü duruş görselleri (drawable-nodpi), layout'lar
+│   │   └── test/                      # Roborazzi görsel regresyon ve birim testleri
 │   └── build.gradle.kts
+├── screenshots/                       # Dokümantasyon önizleme ekran görüntüleri
 ├── gradle/
 ├── build.gradle.kts
 ├── settings.gradle.kts
@@ -216,3 +235,10 @@ Projeye katkıda bulunmak isterseniz:
 ## 📄 Lisans
 
 Bu proje açık kaynaklı olup **MIT Lisansı** ile lisanslanmıştır. Detaylar için `LICENSE` dosyasına göz atabilirsiniz.
+
+---
+
+## 📬 İletişim
+
+Görüş, öneri, hata bildirimi veya iş birliği için:
+📧 **E-posta:** [mcelik.art@gmail.com](mailto:mcelik.art@gmail.com)

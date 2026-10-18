@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -122,27 +123,83 @@ fun LocationSearchScreen(
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
             )
 
-            Row(
+            val autoLocationEnabled by viewModel.autoLocationEnabled.collectAsState()
+            val currentCity by viewModel.cityFlow.collectAsState()
+            val isLoadingLocation by viewModel.isLoading.collectAsState()
+
+            androidx.compose.material3.Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        viewModel.updateLocation()
-                        onBack()
-                    }
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f)
+                )
             ) {
-                Icon(
-                    imageVector = Icons.Default.MyLocation,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.padding(end = 16.dp)
-                )
-                Text(
-                    "Otomatik Konum Bul",
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Column(modifier = Modifier.padding(14.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                viewModel.updateLocation()
+                                onBack()
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MyLocation,
+                            contentDescription = "Otomatik Konum Bul",
+                            tint = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier.padding(end = 12.dp)
+                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                "Şu Anki Konumumu Otomatik Al",
+                                color = MaterialTheme.colorScheme.secondary,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "Mevcut: ${currentCity ?: "Konum Seçiliyor..."}",
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                        if (isLoadingLocation) {
+                            androidx.compose.material3.CircularProgressIndicator(
+                                modifier = Modifier.padding(start = 8.dp),
+                                strokeWidth = 2.dp
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Yeni Konuma Gidince Otomatik Güncelle",
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Text(
+                                text = "Seyahat ettiğinizde veya şehir/ilçe değiştirdiğinizde namaz vakitlerini ve kıbleyi otomatik günceller",
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                        androidx.compose.material3.Switch(
+                            checked = autoLocationEnabled,
+                            onCheckedChange = { enabled ->
+                                viewModel.setAutoLocationEnabled(enabled)
+                            }
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
