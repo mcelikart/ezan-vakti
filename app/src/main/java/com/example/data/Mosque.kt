@@ -22,7 +22,9 @@ data class Mosque(
     val lat: Double? = null,
     val lon: Double? = null,
     val center: MosqueCenter? = null,
-    val tags: Map<String, String>? = null
+    val tags: Map<String, String>? = null,
+    val name: String? = null,
+    val distance: Double? = null
 ) {
     val latitude: Double get() = lat ?: center?.lat ?: 0.0
     val longitude: Double get() = lon ?: center?.lon ?: 0.0
@@ -38,8 +40,9 @@ data class Mosque(
     val isSmallPrayerRoom: Boolean
         get() {
             val t = tags.orEmpty()
-            val text = listOf("name", "amenity", "building", "description", "note")
-                .mapNotNull { t[it] }.joinToString(" ").lowercase(TR)
+            val text = (listOf("name", "amenity", "building", "description", "note")
+                .mapNotNull { t[it] } + listOfNotNull(name))
+                .joinToString(" ").lowercase(TR)
             return t["amenity"] == "prayer_room" ||
                 t["building"] in setOf("moscid", "mescit") ||
                 listOf("mescid", "mescit", "musalla", "prayer room", "prayer_room")
@@ -47,7 +50,7 @@ data class Mosque(
         }
 
     val displayName: String
-        get() = tag("name", "name:tr", "name:en", "official_name").ifBlank {
+        get() = name?.takeIf { it.isNotBlank() } ?: tag("name", "name:tr", "name:en", "official_name").ifBlank {
             if (isSmallPrayerRoom) "Mescit" else "Cami"
         }
 

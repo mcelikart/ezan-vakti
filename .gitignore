@@ -40,3 +40,7 @@ fix_imports.sh
 .opencode/
 metadata.json
 opencode.jsonc
+
+# Bundled offline search data/licenses and reproducible release tooling
+!app/src/main/assets/quran_search/*.txt
+!scripts/*.py

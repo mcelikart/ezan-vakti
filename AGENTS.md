@@ -1,0 +1,11 @@
+# VakitBox Pro geliştirme kuralları
+
+- Sürümün tek kaynağı `version.properties` dosyasıdır; Hakkında ve Android paket bilgileri buradan gelir.
+- Her değişen geliştirme paketinde sürümü ilerletin. Hata düzeltmesi için normal paketleme yama sürümünü otomatik artırır. Yeni özellikte `-PversionBump=minor`, geriye uyumsuz büyük değişiklikte `-PversionBump=major` kullanın. Aynı kaynakları yeniden paketlerken yeniden artırmayın; Android `versionCode` değerini düşürmeyin. `VERSIONING.md` akışını izleyin.
+- Kur’an fihristi tamamen çevrimdışı çalışmalıdır. Arama, Arapça ve meal görüntüleme için ağ istemcisi veya API anahtarı eklemeyin. Ayet ve meal metinlerini üretmeyin, kısaltmayın veya yeniden yazmayın; kaynak notları ve lisansları koruyun.
+- Model, tokenizer veya dizin değiştiğinde gerçek model eşdeğerlik ve konu arama testlerini; bildirim değiştiğinde zamanlama/kalıcılık/otomatik kapanma testlerini çalıştırın. Arayüz değişikliklerini dar ekranda ve büyük yazıda görsel olarak kontrol edin.
+- Projedeki mevcut bağımsız kullanıcı değişikliklerini koruyun.
+
+- Alt menü için bütün rotalar `FloatingNavigationScaffold` içindeki güvenli içerik alanını kullanır. `NavHost` yalnız üst boşlukla tekrar tam ekrana yayılmamalıdır. Bu alanda menü boşluğu zaten ayrıldığı için ekranlarda ikinci kez menü yüksekliği eklemeyin; `navBarBottomPadding(extra)` yalnız ek tasarım boşluğunu verir. Yeni rotaları ortak alanın dışına çıkarmayın. Menü veya klavye yerleşiminde gerçek ortak kabukla son kontrolün kırpılmamış sınırlarını ve menünün üst kenarını karşılaştıran testleri çalıştırın.
+
+- Güneş alarmı `alarm/` modülündedir. Günlük saati yalnız tarihli `PrayerTimeCache` güneş verisinden hesaplayın; eski günü kopyalamayın. `setAlarmClock` kesin planlamasını ve yeniden başlatma/konum/saat yenilemesini koruyun. Çalma servisi yalnız gerçek kullanıcı alarmı tesliminde veya görünür alarm ekranından başlar; açılış alıcısı ses başlatmaz. Kalıcı geri sayımın 1001 kimliğine dokunmayın. Tam ekran alarm bildirimine `setSilent(true)` eklemeyin; grup bastırması tam ekranı engelleyebilir. Alarm sesi geçici yükseltilirse önceki seviyeyi kullanıcı sonradan değiştirmediyse geri yükleyin. Değişiklikte `com.example.alarm.*` testlerini ve ortak alt menü görsel kontrollerini çalıştırın.

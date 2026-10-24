@@ -4,6 +4,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,7 +37,6 @@ import kotlin.math.sin
 fun CompassScreen(viewModel: PrayerViewModel) {
     val rawAzimuth by viewModel.azimuthFlow.collectAsState()
     val qiblaAngle by viewModel.qiblaAngle.collectAsState()
-    val haptic = LocalHapticFeedback.current
 
     // Smooth out the azimuth reading
     val azimuth by animateFloatAsState(
@@ -43,13 +45,25 @@ fun CompassScreen(viewModel: PrayerViewModel) {
         label = "azimuth"
     )
 
+    val hasSensors = remember { viewModel.hasCompassSensors() }
+    CompassContent(azimuth, qiblaAngle, hasSensors)
+}
+
+@Composable
+internal fun CompassContent(azimuth: Float, qiblaAngle: Float, hasSensors: Boolean) {
+    val haptic = LocalHapticFeedback.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth().testTag("compass-scroll-content").verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = "Kıble Pusulası",
                 style = MaterialTheme.typography.headlineMedium,
@@ -57,7 +71,6 @@ fun CompassScreen(viewModel: PrayerViewModel) {
                 fontWeight = FontWeight.Bold
             )
             
-            val hasSensors = remember { viewModel.hasCompassSensors() }
             if (!hasSensors) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -131,7 +144,8 @@ fun CompassScreen(viewModel: PrayerViewModel) {
                 modifier = Modifier
                     .padding(horizontal = 32.dp)
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .heightIn(min = 60.dp)
+                    .testTag("compass-alignment-status")
                     .background(
                         if (isCorrect) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
                         shape = MaterialTheme.shapes.medium
@@ -159,7 +173,10 @@ fun CompassDialDetailed(azimuth: Float, qiblaAngle: Float) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(320.dp)
+            .testTag("compass-dial")
+            .widthIn(max = 320.dp)
+            .fillMaxWidth()
+            .aspectRatio(1f)
             .shadow(16.dp, CircleShape)
             .background(surfaceColor, CircleShape)
     ) {

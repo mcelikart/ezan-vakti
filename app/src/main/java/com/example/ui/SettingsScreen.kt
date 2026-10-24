@@ -8,6 +8,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,9 +29,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.BuildConfig
+import com.example.R
 import com.example.ui.theme.*
 
 data class ThemeInfo(
@@ -229,7 +235,7 @@ fun SettingsScreen(
                     icon = Icons.Default.Info,
                     iconTint = MaterialTheme.colorScheme.primary,
                     title = "Uygulama Hakkında",
-                    subtitle = "Sürüm 2.5 ve Geliştirici Bilgileri",
+                    subtitle = "Sürüm ${BuildConfig.VERSION_NAME} • Geliştirici Bilgileri",
                     onClick = { activeSubScreen = "about" }
                 )
             }
@@ -332,6 +338,7 @@ private fun HijriSettingsSubScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -450,6 +457,7 @@ private fun AutoSilentSubScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -458,7 +466,7 @@ private fun AutoSilentSubScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Ezan vakitlerinde telefonu otomatik sessize al", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text("Ezan vakitlerinde telefonu otomatik sessize al", modifier = Modifier.weight(1f).padding(end = 12.dp), fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 Switch(
                     checked = enabled,
                     onCheckedChange = {
@@ -496,6 +504,7 @@ private fun LanguageSettingsSubScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -618,9 +627,37 @@ private fun QuranMealSettingsSubScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AboutSubScreen(
+internal fun AboutSubScreen(
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    var showLicenses by remember { mutableStateOf(false) }
+    val notices = remember(context) {
+        listOf("NOTICE.txt", "LICENSE-CC-BY-SA-4.0.txt", "MODEL-NOTICE.txt")
+            .mapNotNull { filename ->
+                runCatching {
+                    context.assets.open("quran_search/$filename").bufferedReader(Charsets.UTF_8).use { it.readText() }
+                }.getOrNull()?.takeIf { it.isNotBlank() }?.let { "$filename\n\n$it" }
+            }.joinToString("\n\n──────────\n\n")
+    }
+    if (showLicenses) {
+        AlertDialog(
+            onDismissRequest = { showLicenses = false },
+            title = { Text("Kaynaklar ve lisanslar") },
+            text = {
+                SelectionContainer {
+                    Column(Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                        Text(
+                            notices.ifBlank { "Kaynak ve lisans bilgileri bu pakette bulunamadı." },
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp
+                        )
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { showLicenses = false }) { Text("Kapat") } }
+        )
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -637,7 +674,8 @@ private fun AboutSubScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -651,8 +689,8 @@ private fun AboutSubScreen(
                 Icon(Icons.Default.Mosque, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(44.dp))
             }
 
-            Text("Ezan Vakti & İslami Rehber", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Text("Sürüm 2.5 (Kurumsal & Güncel)", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+            Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text("Sürüm ${BuildConfig.VERSION_NAME} • Yapı ${BuildConfig.VERSION_CODE}", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
 
             Card(
                 shape = RoundedCornerShape(16.dp),
@@ -662,13 +700,19 @@ private fun AboutSubScreen(
                 Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text("Uygulama Hakkında", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.primary)
                     Text(
-                        "Bu uygulama, Muhammet ÇELİK tarafından Müslümanların günlük ibadetlerini en doğru ve hassas vakitlerle ifa edebilmeleri, Kur'an-ı Kerim tefsir ile meallerini huzurla inceleyebilmeleri ve dijital ortamda kapsamlı bir İslami rehbere erişebilmeleri amacıyla yüksek kalite standartları doğrultusunda geliştirilmiştir.\n\nKonum bazlı hassas namaz vakitleri, Diyanet ve Dini Danışma entegrasyonlu yapay zeka rehberi, özelleştirilebilir interaktif zikirmatik, kıble pusulası ve zengin görsel tema seçenekleri ile modern teknolojiyi manevi değerlerimizle buluşturmayı hedeflemektedir.",
+                        "Muhammet ÇELİK tarafından günlük ibadetlere yardımcı olmak için geliştirilmiştir. Namaz vakitleri, Kur’an ve meal, çevrimdışı ayet arama, kıble pusulası ve zikirmatik sunar.",
                         fontSize = 14.sp,
                         lineHeight = 22.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.88f)
                     )
                 }
             }
+            Text(
+                "Kur’an metni: Tanzil · Türkçe meal: QuranEnc (Rowwad)",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            TextButton(onClick = { showLicenses = true }) { Text("Kaynaklar ve lisanslar") }
         }
     }
 }

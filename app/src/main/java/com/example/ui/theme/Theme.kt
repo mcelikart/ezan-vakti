@@ -803,6 +803,8 @@ fun Modifier.paperLiftShadow(
     }
 }
 
+// Legacy overlay inset. The shared navigation scaffold already reserves its
+// measured bar and provides zero here, so screens retain only their extra gap.
 val LocalNavBarHeight = staticCompositionLocalOf { 0.dp }
 
 @Composable

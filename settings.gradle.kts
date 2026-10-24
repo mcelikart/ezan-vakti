@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Ezan Vakti"
+rootProject.name = "VakitBox Pro"
 
 include(":app")

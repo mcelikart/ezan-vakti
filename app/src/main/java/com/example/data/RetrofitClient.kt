@@ -13,6 +13,7 @@ object RetrofitClient {
 
     private const val WEATHER_BASE_URL = "https://api.open-meteo.com/v1/"
     private const val OVERPASS_BASE_URL = "https://overpass-api.de/api/"
+    private const val EVP_CONTENT_BASE_URL = "https://service-content.ezanvaktipro.com/"
 
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -76,6 +77,15 @@ object RetrofitClient {
             .create(OverpassService::class.java)
     }
 
+    val evpMosqueService: EvpMosqueService by lazy {
+        Retrofit.Builder()
+            .baseUrl(EVP_CONTENT_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(EvpMosqueService::class.java)
+    }
+
     val mosqueRepository: MosqueRepository by lazy {
         val fallback1 = Retrofit.Builder()
             .baseUrl("https://overpass.private.coffee/api/")
@@ -87,6 +97,11 @@ object RetrofitClient {
             .client(overpassOkHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build().create(OverpassService::class.java)
-        MosqueRepository(overpassService, fallback1, listOf(fallback2))
+        MosqueRepository(
+            service = overpassService,
+            fallback = fallback1,
+            extraFallbacks = listOf(fallback2),
+            evpService = evpMosqueService
+        )
     }
 }

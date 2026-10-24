@@ -1,4 +1,4 @@
-package com.example.ui
+﻿package com.example.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -577,7 +577,7 @@ fun CalendarItem(dayData: TimingsData, isToday: Boolean = false) {
                 }
                 
                 dayData.date.hijri?.let { hijri ->
-                    val monthName = hijri.month?.en?.let { getTurkishHijriMonth(it) } ?: ""
+                    val monthName = getTurkishHijriMonth(hijri.month?.number, hijri.month?.en)
                     Text(
                         text = "${hijri.day} $monthName ${hijri.year}",
                         color = secondaryTextColor,
@@ -660,23 +660,33 @@ private fun calculateSabahCal(sunrise: String): String {
     return sunrise
 }
 
-fun getTurkishHijriMonth(engMonth: String): String {
+fun getTurkishHijriMonth(engMonth: String): String = getTurkishHijriMonth(null, engMonth)
+
+fun getTurkishHijriMonth(monthNumber: Int?, engMonth: String? = null): String {
+    val monthNames = listOf(
+        "Muharrem", "Safer", "Rebi-ül Evvel", "Rebi-ül Ahir",
+        "Cemazi-el Evvel", "Cemazi-el Ahir", "Recep", "Şaban",
+        "Ramazan", "Şevval", "Zilkade", "Zilhicce"
+    )
+    if (monthNumber != null && monthNumber in 1..12) {
+        return monthNames[monthNumber - 1]
+    }
+    val eng = engMonth ?: return ""
     return when {
-        engMonth.contains("Muharram", true) -> "Muharrem"
-        engMonth.contains("Safar", true) -> "Safer"
-        engMonth.contains("Rabi", true) && engMonth.contains("Awwal", true) -> "Rebiülevvel"
-        engMonth.contains("Rabi", true) && engMonth.contains("Thani", true) -> "Rebiülahir"
-        engMonth.contains("Rabi", true) && engMonth.contains("Akhir", true) -> "Rebiülahir"
-        engMonth.contains("Jumada", true) && engMonth.contains("Awwal", true) -> "Cemaziyelevvel"
-        engMonth.contains("Jumada", true) && engMonth.contains("Ula", true) -> "Cemaziyelevvel"
-        engMonth.contains("Jumada", true) && engMonth.contains("Akhir", true) -> "Cemaziyelahir"
-        engMonth.contains("Jumada", true) && engMonth.contains("Thani", true) -> "Cemaziyelahir"
-        engMonth.contains("Rajab", true) -> "Recep"
-        engMonth.contains("Shaban", true) || engMonth.contains("Sha'ban", true) -> "Şaban"
-        engMonth.contains("Ramadan", true) -> "Ramazan"
-        engMonth.contains("Shawwal", true) -> "Şevval"
-        engMonth.contains("Dhu", true) && (engMonth.contains("Qidah", true) || engMonth.contains("Qi'dah", true)) -> "Zilkade"
-        engMonth.contains("Dhu", true) && engMonth.contains("Hijjah", true) -> "Zilhicce"
-        else -> engMonth
+        eng.contains("Muharram", true) -> "Muharrem"
+        eng.contains("Safar", true) -> "Safer"
+        eng.contains("Rabi", true) && (eng.contains("Awwal", true) || eng.contains("1", true)) -> "Rebi-ül Evvel"
+        eng.contains("Rabi", true) -> "Rebi-ül Ahir"
+        eng.contains("Jumad", true) || eng.contains("ūlá", true) || eng.contains("ula", true) -> {
+            if (eng.contains("Thani", true) || eng.contains("Akhir", true) || eng.contains("2", true)) "Cemazi-el Ahir"
+            else "Cemazi-el Evvel"
+        }
+        eng.contains("Rajab", true) -> "Recep"
+        eng.contains("Shaban", true) || eng.contains("Sha'ban", true) || eng.contains("Shaʿbān", true) -> "Şaban"
+        eng.contains("Ramadan", true) -> "Ramazan"
+        eng.contains("Shawwal", true) -> "Şevval"
+        eng.contains("Qidah", true) || eng.contains("Qi'dah", true) || eng.contains("Qiʿdah", true) -> "Zilkade"
+        eng.contains("Hijjah", true) || eng.contains("Ḥijjah", true) -> "Zilhicce"
+        else -> eng
     }
 }

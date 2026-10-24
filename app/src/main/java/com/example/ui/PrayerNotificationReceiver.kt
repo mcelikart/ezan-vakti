@@ -19,6 +19,7 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
         when (intent.action) {
             PrayerAlarmScheduler.ACTION_EXACT_PRAYER_ALARM,
             PrayerAlarmScheduler.ACTION_WARNING_PRAYER_ALARM -> deliver(context, intent)
+            PrayerAlertExpiry.ACTION -> PrayerAlertExpiry.receive(context, intent)
             Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_USER_UNLOCKED, Intent.ACTION_USER_PRESENT,
             Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED,
@@ -42,7 +43,8 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
         val time = intent.getLongExtra(PrayerAlarmScheduler.EXTRA_PRAYER_TIME_MILLIS, 0L)
         val warning = intent.action == PrayerAlarmScheduler.ACTION_WARNING_PRAYER_ALARM
         if (name !in PrayerAlarmScheduler.PRAYER_NAMES ||
-            !PrayerAlertIdentity.isTimely(time, warning, System.currentTimeMillis())) return
+            !PrayerAlertIdentity.isTimely(time, warning, System.currentTimeMillis()) ||
+            !PrayerAlarmScheduler.isCurrentSchedule(context, name, time)) return
         val prefs = context.getSharedPreferences("alarm_prefs", Context.MODE_PRIVATE)
         val prefix = if (warning) "key_10min" else "key_exact"
         if (!prefs.getBoolean("${prefix}_enabled_$name", true)) return
@@ -51,12 +53,13 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
         val vibration = prefs.getBoolean("key_vibration_enabled_$name", true)
         val patternId = prefs.getInt("key_vibration_pattern_$name", 0)
         val pattern = VibrationPatternManager.getPatternById(patternId)
-        val channelId = "prayer_alert_v2_${PrayerAlarmScheduler.PRAYER_NAMES.indexOf(name)}_${warning}_${vibration}_$patternId"
+        val channelId = "prayer_alert_v3_${PrayerAlarmScheduler.PRAYER_NAMES.indexOf(name)}_${warning}_${vibration}_$patternId"
         val manager = context.getSystemService(NotificationManager::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             manager.createNotificationChannel(NotificationChannel(channelId,
                 if (warning) "$name 10 Dakika Önce" else "$name Vakti",
-                NotificationManager.IMPORTANCE_HIGH).apply {
+                NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = "Kalıcı sayacın altında gösterilen geçici vakit uyarısı"
                 setSound(null, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
                 enableVibration(vibration)
                 if (vibration) vibrationPattern = pattern
@@ -78,6 +81,7 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
 
         val open = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val expiresAt = time + PrayerAlertExpiry.AFTER_PRAYER_MILLIS
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(if (warning) "$name Vaktine 10 Dakika Kaldı" else "$name Vakti Girdi")
@@ -88,18 +92,28 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
             .setOnlyAlertOnce(true)
             .setGroup(PRAYER_GROUP)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
-            .setSortKey(if (warning) "02_warning" else "01_prayer")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSortKey(if (warning) "11_warning" else "10_prayer")
+            .setWhen(time)
+            .setTimeoutAfter((expiresAt - System.currentTimeMillis()).coerceAtLeast(1L))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setVibrate(if (vibration) pattern else longArrayOf(0L))
             .build()
-        manager.notify(if (warning) NOTIFICATION_ID_WARNING else NOTIFICATION_ID_EXACT, notification)
+        PrayerAlertExpiry.attach(notification, expiresAt)
+        if (!warning) PrayerAlertExpiry.cancel(context, NOTIFICATION_ID_WARNING)
+        val notificationId = if (warning) NOTIFICATION_ID_WARNING else NOTIFICATION_ID_EXACT
+        manager.notify(notificationId, notification)
+        PrayerAlertExpiry.schedule(context, notificationId, expiresAt)
         // Sound has a single owner; vibration is handled only by the notification channel.
         NotificationSoundManager.playSound(context.applicationContext,
             prefs.getInt("${prefix}_sound_$name", if (warning) 5 else 2))
         PrayerAlarmScheduler.scheduleAllPrayerAlarms(context)
-        BackgroundServices.startCountdown(context)
+        // Leave an existing countdown untouched. Recover it only if the system
+        // removed the service; the recovery notification is always silent.
+        if (manager.activeNotifications.none { it.id == 1001 }) {
+            BackgroundServices.startCountdown(context)
+        }
     }
 
     companion object {

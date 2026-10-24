@@ -30,7 +30,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
@@ -53,7 +52,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -73,10 +71,10 @@ import com.example.ui.CompassScreen
 import com.example.ui.DhikrScreen
 import com.example.ui.DiscoverScreen
 import com.example.ui.HomeScreen
+import com.example.ui.FloatingNavigationScaffold
 import com.example.ui.PrayerViewModel
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.AppTheme
-import com.example.ui.theme.LocalNavBarHeight
 import com.example.ui.theme.drawPaperTexture
 import com.example.ui.theme.frostedGlassBackdrop
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -84,12 +82,14 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 class MainActivity : ComponentActivity() {
     private val viewModel: PrayerViewModel by viewModels()
+    private var alarmOpenRequest by androidx.compose.runtime.mutableIntStateOf(0)
     private var stepOpenRequest by androidx.compose.runtime.mutableIntStateOf(0)
 
     override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
         if (intent.action == com.example.steps.StepCounterService.ACTION_OPEN_STEPS) stepOpenRequest++
+        if (intent.action == com.example.alarm.SunriseAlarmScheduler.ACTION_OPEN_ALARMS) alarmOpenRequest++
     }
 
     override fun onResume() {
@@ -97,6 +97,10 @@ class MainActivity : ComponentActivity() {
         com.example.steps.StepCounterService.startIfEnabled(this)
         com.example.ui.BackgroundServices.startCountdown(this)
         viewModel.onAppResumed()
+        com.example.alarm.SunriseAlarmScheduler.refresh(this)
+        com.example.alarm.SunriseAlarmReceiver.armRefresh(this)
+        com.example.alarm.SunriseAlarmAudio.recoverVolumeIfIdle(this)
+        com.example.alarm.SunriseAlarmDataRefresh.request(this)
     }
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent?): Boolean {
@@ -122,6 +126,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent.action == com.example.steps.StepCounterService.ACTION_OPEN_STEPS) stepOpenRequest++
+        if (intent.action == com.example.alarm.SunriseAlarmScheduler.ACTION_OPEN_ALARMS) alarmOpenRequest++
         enableEdgeToEdge()
         // MapLibre must be initialised before any MapView exists, so this has to
         // happen before setContent, not lazily from a composable.
@@ -188,7 +193,7 @@ class MainActivity : ComponentActivity() {
                                 colorVariant = themeColorVariant
                             )
                     ) {
-                        MainApp(viewModel, stepOpenRequest)
+                        MainApp(viewModel, stepOpenRequest, alarmOpenRequest)
                     }
                 }
             }
@@ -197,8 +202,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
+fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0, alarmOpenRequest: Int = 0) {
     val navController = rememberNavController()
+    val alarmContext = androidx.compose.ui.platform.LocalContext.current
+    LaunchedEffect(alarmOpenRequest) {
+        if (alarmOpenRequest > 0) navController.navigate("sunrise_alarms") { launchSingleTop = true }
+    }
     LaunchedEffect(stepOpenRequest) {
         if (stepOpenRequest > 0) navController.navigate("steps") { launchSingleTop = true }
     }
@@ -207,16 +216,13 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
     
     val isReadingSurah by viewModel.isReadingSurah.collectAsState()
 
-    // Published to the destinations so a scrolling screen can reserve exactly
-    // the bar's measured height as bottom content padding.
-    val navBarHeight = remember { mutableStateOf(0) }
 
     LaunchedEffect(currentRoute) {
         viewModel.setCurrentRoute(currentRoute)
     }
 
-    Scaffold(
-        containerColor = androidx.compose.ui.graphics.Color.Transparent,
+    FloatingNavigationScaffold(
+        showBottomBar = currentRoute != "quran_reading" || !isReadingSurah,
         bottomBar = {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
@@ -395,7 +401,6 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .onSizeChanged { navBarHeight.value = it.height }
                         .windowInsetsPadding(WindowInsets.navigationBars)
                         .padding(horizontal = outerPadding, vertical = if (navStyle == com.example.ui.theme.NavStyle.UNDERLINE) 0.dp else 8.dp)
                 ) {
@@ -442,18 +447,11 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                 }
             }
         }
-    ) { innerPadding ->
-        androidx.compose.runtime.CompositionLocalProvider(
-            LocalNavBarHeight provides with(androidx.compose.ui.platform.LocalDensity.current) { navBarHeight.value.toDp() }
-        ) {
+    ) {
         NavHost(
             navController = navController,
             startDestination = "home",
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    top = innerPadding.calculateTopPadding()
-                )
+            modifier = Modifier.fillMaxSize()
         ) {
             composable("home") { 
                 HomeScreen(
@@ -463,8 +461,24 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                     onNavigateToAssistant = { navController.navigate("ai_assistant") },
                     onNavigateToDiscover = { navController.navigate("discover") },
                     onNavigateToSettings = { navController.navigate("settings") },
-                    onNavigateToSteps = { navController.navigate("steps") }
+                    onNavigateToSteps = { navController.navigate("steps") },
+                    onNavigateToAlarms = { navController.navigate("sunrise_alarms") }
                 ) 
+            }
+            composable("sunrise_alarms") {
+                fun refreshAlarms() {
+                    com.example.alarm.SunriseAlarmScheduler.refresh(alarmContext)
+                    com.example.alarm.SunriseAlarmReceiver.armRefresh(alarmContext)
+                    com.example.alarm.SunriseAlarmDataRefresh.request(alarmContext)
+                }
+                LaunchedEffect(Unit) { refreshAlarms() }
+                com.example.alarm.SunriseAlarmScreen(
+                    onBack = { navController.popBackStack() },
+                    onAlarmChanged = ::refreshAlarms,
+                    permissionContent = {
+                        com.example.alarm.SunriseAlarmPermissionPanel(onPermissionsChanged = ::refreshAlarms)
+                    }
+                )
             }
             composable("compass") { CompassScreen(viewModel) }
             composable("dhikr") { DhikrScreen(viewModel) }
@@ -486,7 +500,6 @@ fun MainApp(viewModel: PrayerViewModel, stepOpenRequest: Int = 0) {
                     onBack = { navController.popBackStack() }
                 )
             }
-        }
         }
     }
 }

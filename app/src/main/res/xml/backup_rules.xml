@@ -6,6 +6,11 @@
    See https://developer.android.com/about/versions/12/backup-restore
 -->
 <full-backup-content>
+    <!-- User alarm definitions are backed up; device-specific live state is not. -->
+    <exclude domain="sharedpref" path="sunrise_alarm_runtime.xml" />
+    <exclude domain="sharedpref" path="sunrise_alarm_ringing.xml" />
+    <exclude domain="sharedpref" path="sunrise_alarm_volume_lease.xml" />
+    <exclude domain="sharedpref" path="sunrise_alarm_data_refresh.xml" />
     <!--
    <include domain="sharedpref" path="."/>
    <exclude domain="sharedpref" path="device.xml"/>

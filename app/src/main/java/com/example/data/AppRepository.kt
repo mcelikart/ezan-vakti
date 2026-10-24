@@ -113,6 +113,7 @@ class AppRepository(private val context: Context) {
             prefs[LONGITUDE_KEY] = lng
             prefs[CITY_KEY] = city
         }
+        com.example.alarm.SunriseAlarmScheduler.refresh(context)
     }
 
     suspend fun saveAutoLocationEnabled(enabled: Boolean) {
@@ -437,6 +438,7 @@ class AppRepository(private val context: Context) {
 
     fun saveCachedTodayTimings(timings: TimingsData) {
         PrayerTimeCache.save(context, timings)
+        com.example.alarm.SunriseAlarmScheduler.refresh(context)
         try {
             val prefs = context.getSharedPreferences("prayer_timings_cache", Context.MODE_PRIVATE)
             val json = timingsAdapter.toJson(timings)
@@ -458,6 +460,7 @@ class AppRepository(private val context: Context) {
 
     fun saveCachedMonthlyCalendar(data: List<TimingsData>) {
         data.forEach { PrayerTimeCache.save(context, it) }
+        com.example.alarm.SunriseAlarmScheduler.refresh(context)
         try {
             val prefs = context.getSharedPreferences("prayer_timings_cache", Context.MODE_PRIVATE)
             val json = calendarListAdapter.toJson(data)

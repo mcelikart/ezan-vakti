@@ -1,0 +1,79 @@
+OFFLINE QURAN SEARCH CORPUS — SOURCES AND TERMS
+
+Coverage: 114 surahs, 6,236 ayahs, canonical Hafs/Kufan numbering.
+Arabic, Turkish translation and 29 footnote entries are preserved verbatim.
+verses.json holds the unchanged Arabic and Turkish text. footnotes.json holds
+unchanged publisher footnotes keyed by surah:ayah; retain and display these notes
+with their referenced translations. Surah display names come from this app's
+QuranData metadata. Container keys/serialization changed; text strings did not.
+The source convention includes the opening bismillah inside the first ayah text
+of surahs other than 1 and 9; it is preserved rather than silently removed.
+
+Dataset packaging: Quran JSON by Risan.
+https://github.com/risan/quran-json
+Pinned revision: 6523a9ad3b73bb7e8cb3a9cdf0ea774b8bab3123
+https://github.com/risan/quran-json/tree/6523a9ad3b73bb7e8cb3a9cdf0ea774b8bab3123
+Packaging/adaptation license: Creative Commons Attribution-ShareAlike 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+Full packaging license: LICENSE-CC-BY-SA-4.0.txt.
+Underlying texts retain the source-specific conditions below. This notice does
+not change the application's code license or grant new rights in source texts.
+The preparation only joined/rekeyed the source records and added display names.
+SOURCE.json records pinned source URLs and SHA-256 hashes.
+verses.json SHA-256: 116d658d6f727555c9382dc4648c2548ac2697729e6cb06075b89c369fa3b69e
+footnotes.json SHA-256: d131a16895363b61c41fef11a81bda8eb9c72b045a7ff97cb3603644aeb77526
+
+ARABIC — TANZIL PROJECT, UTHMANI VERSION 1.1
+Source: https://tanzil.net/
+Download: https://tanzil.net/docs/download
+Terms: https://tanzil.net/docs/text_license
+Pinned snapshot: https://github.com/risan/quran-json/blob/6523a9ad3b73bb7e8cb3a9cdf0ea774b8bab3123/data/tanzil/uthmani.json
+
+Tanzil Quran Text
+Copyright (C) 2007-2021 Tanzil Project
+License: Creative Commons Attribution 3.0
+https://creativecommons.org/licenses/by/3.0/
+
+This copy of the Quran text is carefully produced, highly
+verified and continuously monitored by a group of specialists
+in Tanzil Project.
+
+TERMS OF USE:
+
+- Permission is granted to copy and distribute verbatim copies
+  of this text, but CHANGING IT IS NOT ALLOWED.
+
+- This Quran text can be used in any website or application,
+  provided that its source (Tanzil Project) is clearly indicated,
+  and a link is made to tanzil.net to enable users to keep
+  track of changes.
+
+- This copyright notice shall be included in all verbatim copies
+  of the text, and shall be reproduced appropriately in all files
+  derived from or containing substantial portion of this text.
+
+Please check updates at: http://tanzil.net/updates/
+
+TURKISH — ROWWAD TRANSLATION CENTER / QURANENC.COM, VERSION 1.0.4
+Title: Turkish Translation - Rowwad Translation Center
+Publisher description: Translated by the team of the Rowwad Translation Center, in cooperation with the Rabwah Dawah Association, the Islamic Content Service Association in Languages, and the IslamHouse.com website.
+Edition: https://quranenc.com/en/browse/turkish_rwwad/
+Download: https://quranenc.com/downloads/sqlite/turkish_rwwad.zip
+Terms: https://quranenc.com/en/home/api
+Pinned snapshot: https://github.com/risan/quran-json/blob/6523a9ad3b73bb7e8cb3a9cdf0ea774b8bab3123/data/quranenc/turkish_rwwad.json
+
+Contents of the translations can be downloaded and re-published, with the
+following terms and conditions:
+1. No modification, addition, or deletion of the content.
+2. Clearly referring to the publisher and the source (QuranEnc.com).
+3. Mentioning the version number when re-publishing the translation.
+4. Keeping the transcript information inside the document.
+5. Notifying the source (QuranEnc.com) of any note on the translation.
+6. Updating the translation according to the latest version issued from the
+   source (QuranEnc.com).
+7. Inappropriate advertisements must not be included when displaying
+   translations of the meanings of the Noble Quran.
+
+This is a local retrieval corpus. Source texts and commentary are never
+fabricated by the search engine. The shipped source notices and edition/version
+must remain available to users when the content is displayed or redistributed.

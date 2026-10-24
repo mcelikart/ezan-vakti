@@ -117,7 +117,8 @@ fun HomeScreen(
     onNavigateToAssistant: () -> Unit,
     onNavigateToDiscover: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    onNavigateToSteps: () -> Unit = {}
+    onNavigateToSteps: () -> Unit = {},
+    onNavigateToAlarms: () -> Unit = {}
 ) {
     val timings by viewModel.timings.collectAsState()
     val city by viewModel.cityFlow.collectAsState()
@@ -289,6 +290,10 @@ fun HomeScreen(
             }
         }
 
+        item(key = "sunrise-alarm-entry") {
+            com.example.alarm.HomeSunriseAlarmEntry(onClick = onNavigateToAlarms)
+        }
+
         if (isLoading && timings == null) {
             item {
                 Box(modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center) {
@@ -391,7 +396,7 @@ fun HomeScreen(
             item {
                 val timingsObj = timings?.timings
                 if (timingsObj != null) {
-                    ThemePrayerScene(timingsObj, remainingTime, currentAndNext, progress)
+                    ThemePrayerScene(timingsObj, remainingTime, currentAndNext, progress, todayHijri = timings?.date?.hijri)
                 }
             }
 
@@ -1604,321 +1609,18 @@ fun HeroStyleGokKubbe(
     currentAndNext: Pair<String?, String?>?,
     progress: Float,
     strings: AppStrings,
-    showPrayerTimes: Boolean = true
+    showPrayerTimes: Boolean = true,
+    todayHijri: com.example.data.HijriDate? = null
 ) {
-    val now = Calendar.getInstance()
-    val nowMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
-    val sunriseMinutes = parseToMinutes(timingsObj.Sunrise)
-    val sunsetMinutes = parseToMinutes(timingsObj.Maghrib)
-    val dhuhrMinutes = parseToMinutes(timingsObj.Dhuhr)
-    val asrMinutes = parseToMinutes(timingsObj.Asr)
-    val imsakMinutes = parseToMinutes(timingsObj.Imsak)
-    val ishaMinutes = parseToMinutes(timingsObj.Isha)
-
-    val isDay = nowMinutes in sunriseMinutes..sunsetMinutes
-    val totalDayMinutes = (sunsetMinutes - sunriseMinutes).coerceAtLeast(1)
-    val totalNightMinutes = (if (sunriseMinutes > sunsetMinutes) (1440 - sunsetMinutes) + sunriseMinutes else sunriseMinutes + (1440 - sunsetMinutes)).coerceAtLeast(1)
-
-    val celProgress = if (isDay) {
-        if (totalDayMinutes > 0) ((nowMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f) else 0f
-    } else {
-        val currentNightMinutes = if (nowMinutes >= sunsetMinutes) nowMinutes - sunsetMinutes else (1440 - sunsetMinutes) + nowMinutes
-        if (totalNightMinutes > 0) (currentNightMinutes.toFloat() / totalNightMinutes).coerceIn(0f, 1f) else 0f
-    }
-
-    val animatedCelProgress = remember { androidx.compose.animation.core.Animatable(0f) }
-    LaunchedEffect(celProgress) {
-        animatedCelProgress.animateTo(celProgress, animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing))
-    }
-
-    val arcTheme = LocalAppTheme.current
-    val themeColors = LocalThemeColors.current
-    val isDarkArc = LocalThemeIsDark.current
-
-    // Colors matching day (Yellow/Gold) / night (Celestial/Theme Gold)
-    val standardArcColor = if (isDay) Color(0xFFFFB300) else themeColors.primary
-    val keraatRedColor = Color(0xFFE53935)   // Vibrant Red for Keraat intervals
-    val nodeGlowColor = if (isDay) Color(0xFFFFD54F).copy(alpha = 0.45f) else themeColors.glowColor.copy(alpha = 0.45f)
-    val nodeCoreColor = if (isDay) Color(0xFFFF8F00) else themeColors.goldMotifColor
-    val isGlassArc = arcTheme != AppTheme.CLASSIC_EMERALD && arcTheme.spec.isGlass
     Column(modifier = Modifier.fillMaxWidth()) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 8.dp)
-                .glassmorphicCard(theme = arcTheme, isDark = isDarkArc),
-            colors = CardDefaults.cardColors(
-                containerColor = glassSurfaceColor(theme = arcTheme, isDark = isDarkArc)
-            ),
-            shape = arcTheme.cardShape,
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = if (isGlassArc) {
-                                listOf(
-                                    Color.White.copy(alpha = if (isDarkArc) 0.08f else 0.22f),
-                                    themeColors.primaryContainer.copy(alpha = if (isDarkArc) 0.18f else 0.15f),
-                                    Color.Transparent
-                                )
-                            } else {
-                                listOf(
-                                    themeColors.primaryContainer.copy(alpha = if (isDarkArc) 0.55f else 0.45f),
-                                    MaterialTheme.colorScheme.surface,
-                                    themeColors.surfaceVariant.copy(alpha = if (isDarkArc) 0.45f else 0.35f)
-                                )
-                            }
-                        )
-                    )
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 16.dp)
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(168.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val onBgColor = MaterialTheme.colorScheme.onSurface
-                        val surfaceColor = MaterialTheme.colorScheme.surface
-                        val primaryColor = MaterialTheme.colorScheme.primary
-
-                        // Keraat segments along daytime arc
-                        val k1End = (45f / totalDayMinutes).coerceIn(0.01f, 0.35f)
-                        val k2Start = ((dhuhrMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
-                        val k2End = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.05f, 0.95f)
-                        val k3Start = ((sunsetMinutes - 45 - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0.65f, 0.99f)
-                        val k3End = 1.0f
-
-                        // Prayer points along the upward arc
-                        data class PrayerMarker(val letter: String, val t: Float, val name: String, val isKeraat: Boolean)
-
-                        val prayerMarkers = if (isDay) {
-                            val dhuhrT = ((dhuhrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
-                            val asrT = ((asrMinutes - sunriseMinutes).toFloat() / totalDayMinutes).coerceIn(0f, 1f)
-                            listOf(
-                                PrayerMarker("G", 0f, "Güneş", true),
-                                PrayerMarker("Ö", dhuhrT, "Öğle", false),
-                                PrayerMarker("İ", asrT, "İkindi", false),
-                                PrayerMarker("A", 1f, "Akşam", true)
-                            )
-                        } else {
-                            val ishaT = (((ishaMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
-                            val imsakT = (((imsakMinutes - sunsetMinutes + 1440) % 1440).toFloat() / totalNightMinutes).coerceIn(0f, 1f)
-                            listOf(
-                                PrayerMarker("A", 0f, "Akşam", false),
-                                PrayerMarker("Y", ishaT, "Yatsı", false),
-                                PrayerMarker("İ", imsakT, "İmsak", false),
-                                PrayerMarker("G", 1f, "Güneş", false)
-                            )
-                        }
-
-                        Canvas(modifier = Modifier.fillMaxSize()) {
-                            val w = size.width
-                            val h = size.height
-                            val margin = 36f
-                            val radiusX = (w - margin * 2) / 2
-                            val radiusY = h - 30f
-                            val centerX = w / 2
-                            val centerY = h - 6f
-
-                            // Keep the countdown backdrop clear; the sun path is the only arc.
-                            // Baseline horizon
-                            drawLine(
-                                color = onBgColor.copy(alpha = 0.15f),
-                                start = Offset(6f, centerY),
-                                end = Offset(w - 6f, centerY),
-                                strokeWidth = 2f
-                            )
-
-                            val pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
-
-                            // Upward Arc Drawing
-                            if (isDay) {
-                                // 5 Arc segments with distinct colors (Red for Keraat intervals)
-                                data class ArcSegment(val startT: Float, val endT: Float, val isKeraat: Boolean)
-                                val segments = listOf(
-                                    ArcSegment(0f, k1End, true),             // Sabah Keraheti -> Kırmızı
-                                    ArcSegment(k1End, k2Start, false),        // Kuşluk / Normal -> Standart
-                                    ArcSegment(k2Start, k2End, true),         // Öğle Keraheti -> Kırmızı
-                                    ArcSegment(k2End, k3Start, false),        // Öğle & İkindi -> Standart
-                                    ArcSegment(k3Start, k3End, true)          // Akşam Keraheti -> Kırmızı
-                                )
-
-                                for (seg in segments) {
-                                    if (seg.endT <= seg.startT) continue
-                                    val segStartAngle = 180f + (seg.startT * 180f)
-                                    val segSweep = (seg.endT - seg.startT) * 180f
-                                    val segColor = if (seg.isKeraat) keraatRedColor else standardArcColor
-                                    val segStrokeWidth = if (seg.isKeraat) 4.5f else 3.5f
-
-                                    drawArc(
-                                        color = segColor,
-                                        startAngle = segStartAngle,
-                                        sweepAngle = segSweep,
-                                        useCenter = false,
-                                        topLeft = Offset(centerX - radiusX, centerY - radiusY),
-                                        size = Size(radiusX * 2, radiusY * 2),
-                                        style = Stroke(width = segStrokeWidth, pathEffect = pathEffect, cap = StrokeCap.Round)
-                                    )
-                                }
-                            } else {
-                                // Night Arc
-                                drawArc(
-                                    color = standardArcColor,
-                                    startAngle = 180f,
-                                    sweepAngle = 180f,
-                                    useCenter = false,
-                                    topLeft = Offset(centerX - radiusX, centerY - radiusY),
-                                    size = Size(radiusX * 2, radiusY * 2),
-                                    style = Stroke(width = 3.5f, pathEffect = pathEffect, cap = StrokeCap.Round)
-                                )
-                            }
-
-                            // Draw Prayer Dots with Initial Letters INSIDE the dot
-                            val textPaint = android.graphics.Paint().apply {
-                                isAntiAlias = true
-                                textSize = 24f
-                                isFakeBoldText = true
-                                textAlign = android.graphics.Paint.Align.CENTER
-                            }
-
-                            for (marker in prayerMarkers) {
-                                val angleRad = Math.PI - (marker.t * Math.PI)
-                                val dotX = centerX + radiusX * cos(angleRad).toFloat()
-                                val dotY = centerY - radiusY * sin(angleRad).toFloat()
-
-                                val isMarkerInKeraat = isDay && (
-                                    marker.t <= k1End + 0.005f ||
-                                    (marker.t >= k2Start - 0.005f && marker.t <= k2End + 0.005f) ||
-                                    marker.t >= k3Start - 0.005f
-                                )
-                                val markerColor = if (isMarkerInKeraat) keraatRedColor else standardArcColor
-
-                                // Circular Dot background
-                                drawCircle(
-                                    color = surfaceColor,
-                                    radius = 14f,
-                                    center = Offset(dotX, dotY)
-                                )
-                                // Circular Dot border ring
-                                drawCircle(
-                                    color = markerColor,
-                                    radius = 13.5f,
-                                    center = Offset(dotX, dotY),
-                                    style = Stroke(width = 2.2f)
-                                )
-
-                                // Letter centered directly INSIDE the dot
-                                textPaint.color = markerColor.toArgb()
-                                val textCenterY = dotY - ((textPaint.descent() + textPaint.ascent()) / 2)
-                                drawContext.canvas.nativeCanvas.drawText(
-                                    marker.letter,
-                                    dotX,
-                                    textCenterY,
-                                    textPaint
-                                )
-                            }
-
-                            // Moving Indicator Node on the arc
-                            val celAngleRad = Math.PI - (animatedCelProgress.value * Math.PI)
-                            val bodyX = centerX + radiusX * cos(celAngleRad).toFloat()
-                            val bodyY = centerY - radiusY * sin(celAngleRad).toFloat()
-
-                            drawCircle(nodeGlowColor, radius = 18f, center = Offset(bodyX, bodyY))
-                            drawCircle(nodeCoreColor, radius = 7f, center = Offset(bodyX, bodyY))
-                        }
-
-                        // Centered Timer Display inside the sky dome
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(bottom = 6.dp).align(Alignment.BottomCenter)
-                        ) {
-                            val nextPrayerLocalized = getLocalizedPrayerName(currentAndNext?.second, strings)
-                            Text(
-                                text = "$nextPrayerLocalized VAKTİNE KALAN SÜRE".uppercase(),
-                                fontSize = 12.sp,
-                                color = primaryColor,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 1.2.sp
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            BoxWithConstraints(Modifier.fillMaxWidth()) {
-                                val countdownStyle = LocalTextStyle.current.copy(
-                                    fontSize = 44.sp,
-                                    lineHeight = 50.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = 0.sp,
-                                    fontFeatureSettings = "tnum"
-                                )
-                                val textMeasurer = rememberTextMeasurer()
-                                val naturalWidth = textMeasurer.measure(
-                                    text = remainingTime,
-                                    style = countdownStyle,
-                                    maxLines = 1,
-                                    softWrap = false
-                                ).size.width.coerceAtLeast(1)
-                                val availableWidth = with(LocalDensity.current) { maxWidth.toPx() }
-                                val fitScale = (availableWidth / naturalWidth).coerceAtMost(1f)
-                                Text(
-                                    text = remainingTime,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    style = countdownStyle.copy(
-                                        fontSize = countdownStyle.fontSize * fitScale,
-                                        lineHeight = countdownStyle.lineHeight * fitScale
-                                    ),
-                                    color = primaryColor,
-                                    maxLines = 1,
-                                    softWrap = false,
-                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = if (isDay) "Doğuş ${timingsObj.Sunrise}" else "Batış ${timingsObj.Maghrib}",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = standardArcColor
-                        )
-                        LinearProgressIndicator(
-                            progress = { progress },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 14.dp)
-                                .height(5.dp)
-                                .clip(CircleShape),
-                            color = standardArcColor,
-                            trackColor = standardArcColor.copy(alpha = 0.18f)
-                        )
-                        Text(
-                            text = if (isDay) "Batış ${timingsObj.Maghrib}" else "Doğuş ${timingsObj.Imsak}",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = standardArcColor
-                        )
-                    }
-                }
-            }
-        }
+        CountdownCardPager(
+            timingsObj = timingsObj,
+            remainingTime = remainingTime,
+            currentAndNext = currentAndNext,
+            progress = progress,
+            strings = strings,
+            todayHijri = todayHijri
+        )
 
         if (showPrayerTimes) PrayerTimesGrid(timings = timingsObj, currentAndNext = currentAndNext)
     }

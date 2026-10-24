@@ -1,0 +1,29 @@
+{
+  "format": "QSV2",
+  "dimensions": 384,
+  "rows": 7912,
+  "verses": 6236,
+  "conceptFormat": "QCA1",
+  "concepts": 122,
+  "anchors": 1187,
+  "model": "intfloat/multilingual-e5-small",
+  "revision": "ccc66d3",
+  "encoder": "onnx/model_qint8_avx512_vnni.onnx",
+  "maxTokens": 128,
+  "pooling": "attention-mask mean; L2 normalization; corpus mean removal; L2 normalization",
+  "prefixes": [
+    "query: ",
+    "passage: "
+  ],
+  "ranking": "centered passage cosine plus gated query-space concept anchors; per-verse passage evidence ranks concept candidates",
+  "sha256": {
+    "encoder.onnx": "dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+    "verses.json": "116d658d6f727555c9382dc4648c2548ac2697729e6cb06075b89c369fa3b69e",
+    "vectors.bin": "70b77b7cfab8d83f43a28c74c198cbddddb8f5a4da66de3f47d9aff4beb36145",
+    "centroid.bin": "a5d171421ea15e6edbf0a5b4318bcdd3d619c07e3d3d331430973261e9c84b5d",
+    "semantic-topics.json": "e39092a1c3d87ac6666fd6fd321138aaac9bbd9459aca3a5c101bf7b7345c588",
+    "concept-anchors.bin": "b9f80707c7e856c285a1771d73f91b5f56cb798fffe1ee4857b3ffa4dee56436",
+    "unigram-vocab.bin": "d15c701d04ee3c890ff19505625472e198ee284645fca4c5601f3aed8d2f5e59",
+    "unigram-normalizer.bin": "0942789e0111452f1cc446f70036e26d24458c3c7858c53cc12ca4d87531279b"
+  }
+}

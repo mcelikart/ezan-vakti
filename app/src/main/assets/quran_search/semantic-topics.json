@@ -1,0 +1,2773 @@
+[
+  {
+    "id": "hardship-hope",
+    "title": "Zorluk içinde umut",
+    "description": "İşler üst üste ters gittiğinde insan yaşadığı sıkıntının hiç bitmeyeceğini düşünebilir. Bu konu, zorlukla birlikte bir çıkış aramayı ve taşıdığı yük karşısında umudunu korumayı anlatan bir arayış içindir.",
+    "verses": [
+      "94:5",
+      "94:6",
+      "2:286",
+      "3:139"
+    ],
+    "examples": [
+      "Bir süredir neye elimi atsam ters gidiyor, dayanacak gücü nereden bulabilirim?",
+      "Bu kadar ağır bir dönemden sonra hayatımın ferahlayabileceğine inanmak istiyorum.",
+      "Üstümdeki yük bana fazla geliyor, bunu taşımak için bir dayanak arıyorum."
+    ],
+    "aliases": [
+      "zorluk",
+      "sıkıntı",
+      "ferahlık",
+      "ümidi korumak",
+      "dayanma gücü"
+    ]
+  },
+  {
+    "id": "future-anxiety",
+    "title": "Gelecek kaygısı",
+    "description": "Yarın ne olacağını bilememek, işini kaybetmekten veya geçinememekten korkmak insanı sürekli endişeli tutabilir. Kişi elinden geleni yaptıktan sonra her şeyi kontrol etme ihtiyacını bırakmak ve geleceğe güvenle bakmak istiyordur.",
+    "verses": [
+      "65:2",
+      "65:3",
+      "11:6",
+      "3:159"
+    ],
+    "examples": [
+      "Gelecek ay ne olacağını düşünmekten bugünümü yaşayamıyorum.",
+      "Her ihtimali hesaplasam da başıma gelecekleri kontrol edememekten korkuyorum.",
+      "Önümde ne olduğunu bilmeden nasıl daha güvenli adım atabilirim?"
+    ],
+    "aliases": [
+      "gelecek kaygısı",
+      "endişe",
+      "geçim korkusu",
+      "yarın korkusu"
+    ]
+  },
+  {
+    "id": "feeling-alone",
+    "title": "Yalnız ve terk edilmiş hissetmek",
+    "description": "İnsan derdini kimsenin anlamadığını ve yanında hiç kimse kalmadığını hissedebilir. Bu arayış, içinden geçenleri duyurabileceği bir yakınlık bulmak ve bütünüyle terk edilmediğini hatırlamak isteyen kişiye ilişkindir.",
+    "verses": [
+      "2:186",
+      "50:16",
+      "57:4",
+      "93:3"
+    ],
+    "examples": [
+      "Herkesle aynı odadayım ama içimdekini anlatabileceğim kimsem yok.",
+      "En zor günümde sesimi duyacak birinin var olduğunu hissetmeye ihtiyacım var.",
+      "Kimse beni arayıp sormayınca bütünüyle unutulmuş gibi hissediyorum."
+    ],
+    "aliases": [
+      "yalnızlık",
+      "terk edilmişlik",
+      "kimsesizlik",
+      "Allah bana yakın mı"
+    ]
+  },
+  {
+    "id": "grief-loss",
+    "title": "Yas ve kayıp",
+    "description": "Sevdiği birini kaybeden veya hayatındaki büyük bir eksilmeyle karşılaşan kişi acısını nasıl taşıyacağını bilemeyebilir. Bu konu, üzüntüsünü bastırmadan yas tutmak ve ayrılık karşısında dayanacak bir anlam aramakla ilgilidir.",
+    "verses": [
+      "2:155",
+      "2:156",
+      "2:157",
+      "12:86"
+    ],
+    "examples": [
+      "Bir yakınımı kaybettim, içimdeki boşlukla nasıl yaşamaya devam edeceğim?",
+      "Artık yanımda olmayan sevdiğim insanı düşününce gözyaşlarımı tutamıyorum.",
+      "Elimden alınan şeyleri geri getiremiyorum, bu acıyı taşıyacak bir söz arıyorum."
+    ],
+    "aliases": [
+      "yas",
+      "kayıp",
+      "vefat acısı",
+      "sevdiğini kaybetmek",
+      "üzüntü"
+    ]
+  },
+  {
+    "id": "anger-control",
+    "title": "Öfkeyi yönetmek",
+    "description": "Bir söz ya da haksızlık insanı çok öfkelendirdiğinde hemen karşılık vermek ve karşısındakini incitmek isteyebilir. Bu konu, sinirliyken kendini tutmak ve öfkesini saldırıya dönüştürmeden davranmak isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "3:134",
+      "42:37",
+      "41:34",
+      "7:199"
+    ],
+    "examples": [
+      "Sinirlendiğimde ağzımdan sonradan pişman olacağım sözler çıkıyor.",
+      "Beni kışkırtan kişiye hemen saldırmak yerine kendimi durdurmak istiyorum.",
+      "Çok öfkeliyim ama bu öfkeyle birini incitmek istemiyorum."
+    ],
+    "aliases": [
+      "öfke",
+      "öfkelenmek",
+      "sinirlenmek",
+      "hiddet",
+      "öfkesini yutmak"
+    ]
+  },
+  {
+    "id": "despair",
+    "title": "Ümitsizliğe kapılmak",
+    "description": "Bir insan uzun süren bekleyişin ya da yaptığı hataların ardından kendisi için artık hiçbir iyilik kalmadığını düşünebilir. Bu konu, her şeyin bittiğine inanmak yerine yeniden umut kurabilmek ve affa kapıyı kapatmamakla ilgilidir.",
+    "verses": [
+      "12:87",
+      "15:56",
+      "39:53"
+    ],
+    "examples": [
+      "Artık benim için iyi bir ihtimal kalmadığını düşünüyorum.",
+      "Ne kadar beklesem de hiçbir şey değişmeyecekmiş gibi geliyor.",
+      "Her kapının kapandığını hissediyorum, yeniden umut edebilir miyim?"
+    ],
+    "aliases": [
+      "ümitsizlik",
+      "umutsuzluk",
+      "yeis",
+      "Allahın rahmetinden ümit kesmek"
+    ]
+  },
+  {
+    "id": "inner-peace",
+    "title": "İç huzuru aramak",
+    "description": "Dışarıdan her şey yolunda görünse bile insanın içi daralabilir ve zihni bir türlü sakinleşmeyebilir. Bu arayış, kalbinin yatışmasını isteyen kişinin Allah'ı hatırlamak ve manevi bir güven bulmakla kurduğu bağı anlatır.",
+    "verses": [
+      "13:28",
+      "48:4",
+      "2:152"
+    ],
+    "examples": [
+      "Hayatımda belirgin bir sorun yok ama içim bir türlü rahat etmiyor.",
+      "Zihnim susmuyor, kalbimin sakinleşmesini istiyorum.",
+      "Gün boyunca içimde taşıdığım huzursuzluğu hafifletecek manevi bir dayanak arıyorum."
+    ],
+    "aliases": [
+      "huzur",
+      "iç huzuru",
+      "kalp huzuru",
+      "zikir",
+      "sükûnet"
+    ]
+  },
+  {
+    "id": "patient-endurance",
+    "title": "Sabır ve dayanıklılık",
+    "description": "Hemen çözülemeyen bir sorunla yaşamak, beklemek ve doğru davranmaya devam etmek insana zor gelebilir. Bu konu, güçlük karşısında vazgeçmeden dayanmak ve sabrını ibadetle desteklemek isteyen kişi içindir.",
+    "verses": [
+      "2:153",
+      "2:155",
+      "3:200",
+      "16:127"
+    ],
+    "examples": [
+      "Çözümü benim elimde olmayan bir mesele için uzun zamandır bekliyorum.",
+      "Bunca zorluğa rağmen doğru bildiğim yolda kalmak istiyorum.",
+      "Bir an önce bitsin dediğim bu sürece nasıl daha dayanıklı yaklaşabilirim?"
+    ],
+    "aliases": [
+      "sabır",
+      "sabretmek",
+      "sebat",
+      "tahammül",
+      "dayanıklılık"
+    ]
+  },
+  {
+    "id": "gratitude",
+    "title": "Şükretmek",
+    "description": "İnsan sahip olmadığı şeylere odaklanırken elindekilerin değerini fark etmeyebilir. Bu konu, kendisine verilen imkânları görmek, bunları hak edilmiş saymamak ve teşekkür duygusuyla yaşamakla ilgilidir.",
+    "verses": [
+      "14:7",
+      "31:12",
+      "16:78",
+      "2:152"
+    ],
+    "examples": [
+      "Sürekli eksiklerimi düşünüyorum, sahip olduklarımın kıymetini nasıl fark edebilirim?",
+      "Bana verilen güzellikleri olağan sayıp teşekkür etmeyi unutuyorum.",
+      "İyi giden şeyleri gördüğümde bunu Rabbime nasıl yöneltebilirim?"
+    ],
+    "aliases": [
+      "şükür",
+      "şükretmek",
+      "nimet",
+      "nankörlük",
+      "minnettarlık"
+    ]
+  },
+  {
+    "id": "envy-comparison",
+    "title": "Kıskançlık ve kendini başkalarıyla kıyaslamak",
+    "description": "Başkalarının başarısı, kazancı veya hayatı insanda içten içe kıskançlık uyandırabilir. Bu arayış, başkasındaki nimetin yok olmasını istemeden kendi hayatına bakmak ve kıyaslamanın verdiği huzursuzluğu aşmakla ilgilidir.",
+    "verses": [
+      "4:54",
+      "2:109",
+      "4:32",
+      "113:5",
+      "59:9"
+    ],
+    "examples": [
+      "Arkadaşımın başarısına sevinmek istiyorum ama içimde rahatsızlık duyuyorum.",
+      "Başkalarının hayatına bakıp kendiminkini değersiz bulmayı bırakmak istiyorum.",
+      "Birinde gördüğüm imkânın bende olmaması yüzünden neden bu kadar üzülüyorum?"
+    ],
+    "aliases": [
+      "haset",
+      "kıskançlık",
+      "çekememe",
+      "çekememezlik"
+    ]
+  },
+  {
+    "id": "mortality",
+    "title": "Ölüm ve hayatın geçiciliği",
+    "description": "Ölüm düşüncesi insana korku verebilir veya hayatını nasıl geçirdiğini sorgulatabilir. Bu konu, dünyanın kalıcı olmadığını bilerek yaşamının sorumluluğunu ve ölüm karşısındaki tutumunu düşünmek isteyen kişi içindir.",
+    "verses": [
+      "3:185",
+      "21:35",
+      "29:57",
+      "67:2"
+    ],
+    "examples": [
+      "Bir gün öleceğimi düşününce hayatımı ne için yaşadığımı sorguluyorum.",
+      "Elimdeki her şeyin geçici olması beni hem korkutuyor hem düşündürüyor.",
+      "Yaşamımın sonuna hazırlanırken neyin değerli olduğuna bakmak istiyorum."
+    ],
+    "aliases": [
+      "ölüm",
+      "ölümlülük",
+      "fani hayat",
+      "dünyanın geçiciliği",
+      "ecel"
+    ]
+  },
+  {
+    "id": "illness",
+    "title": "Hastalık ve şifa dileği",
+    "description": "Hastalık insanın gücünü azaltabilir ve çaresiz hissetmesine yol açabilir. Bu konu, rahatsızlığı sırasında derdini Allah'a açmak ve şifa umudunu korumak isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "26:80",
+      "21:83",
+      "21:84",
+      "38:41"
+    ],
+    "examples": [
+      "Rahatsızlığım uzadıkça kendimi güçsüz hissediyorum, Rabbime içimi açmak istiyorum.",
+      "Sağlığıma kavuşmayı beklerken manevi olarak ayakta kalmaya ihtiyacım var.",
+      "Hastalık sırasında şifa istemenin Kur'an'daki örneklerini öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "hastalık",
+      "hasta olmak",
+      "şifa",
+      "iyileşmek",
+      "Eyyubun duası"
+    ]
+  },
+  {
+    "id": "repentance",
+    "title": "Hata sonrası tövbe",
+    "description": "Yaptığı bir yanlışın ardından insan kendini suçlu hissedebilir ve değişmek için çok geç kaldığını düşünebilir. Bu arayış, hatasını kabul ederek ondan dönmek, bağışlanma dilemek ve hayatında gerçek bir değişiklik yapmakla ilgilidir.",
+    "verses": [
+      "39:53",
+      "66:8",
+      "25:70",
+      "4:110"
+    ],
+    "examples": [
+      "Geçmişimi düşününce kendimden utanıyorum, yine de yeni bir sayfa açabilir miyim?",
+      "Yaptığım yanlışa geri dönmeden hayatımı değiştirmeye karar verdim.",
+      "Çok hata ettim diye Rabbimin beni artık kabul etmeyeceğinden korkuyorum."
+    ],
+    "aliases": [
+      "tövbe",
+      "tevbe",
+      "pişmanlık",
+      "istiğfar",
+      "günahtan dönmek"
+    ]
+  },
+  {
+    "id": "forgiving-others",
+    "title": "Kırgınlık ve affetmek",
+    "description": "Bir insan kendisini inciten kişiye karşı kırgınlığını ve intikam isteğini uzun süre taşıyabilir. Bu konu, hakkını bilirken affetmenin ve barışmanın mümkün olup olmadığını düşünmek isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "42:40",
+      "42:43",
+      "24:22",
+      "3:134"
+    ],
+    "examples": [
+      "Beni inciten birine duyduğum kırgınlığı yıllardır taşıyorum.",
+      "Hakkımdan vazgeçmeden içimdeki intikam duygusunu nasıl bırakabilirim?",
+      "Bana kötülük yapmış birini bağışlamayı düşünüyorum ama bunu başarmak zor geliyor."
+    ],
+    "aliases": [
+      "affetmek",
+      "bağışlamak",
+      "kırgınlık",
+      "kin tutmamak",
+      "kusuru örtmek"
+    ]
+  },
+  {
+    "id": "effort-perseverance",
+    "title": "Emek vermek ve yeniden başlamak",
+    "description": "Başarısızlık veya yorgunluk insanın çalışmaya devam etme isteğini azaltabilir. Bu konu, elinden gelen çabayı göstermek, bir işi bitirdikten sonra yeni bir sorumluluğa yönelmek ve değişim için adım atmakla ilgilidir.",
+    "verses": [
+      "53:39",
+      "53:40",
+      "94:7",
+      "13:11"
+    ],
+    "examples": [
+      "İlk denemem başarısız oldu, yeniden başlamak için kendimi toparlamak istiyorum.",
+      "Bir sonuca ulaşmak için çaba gösteriyorum ama yorulup bırakacak gibiyim.",
+      "Hayatımın değişmesini beklemek yerine nereden harekete geçeceğimi düşünüyorum."
+    ],
+    "aliases": [
+      "emek",
+      "çabalamak",
+      "gayret",
+      "azim",
+      "yeniden başlamak"
+    ]
+  },
+  {
+    "id": "livelihood",
+    "title": "Geçim ve rızık",
+    "description": "İş bulamamak veya evin ihtiyaçlarını karşılayamamak insanda geçim sıkıntısı oluşturabilir. Bu arayış, kazanç için emek verirken rızık endişesi karşısında güvenini ve umudunu korumak isteyen kişiye ilişkindir.",
+    "verses": [
+      "67:15",
+      "29:60",
+      "11:6",
+      "65:3"
+    ],
+    "examples": [
+      "Eve para getiremediğim için kendimi çok sıkışmış hissediyorum.",
+      "İş aramaya devam ederken geçim korkusunun beni tüketmesini istemiyorum.",
+      "Rızkımın nereden geleceğini bilemiyorum ama çalışmayı da bırakmak istemiyorum."
+    ],
+    "aliases": [
+      "rızık",
+      "geçim",
+      "kazanç",
+      "geçinmek",
+      "rızkını aramak"
+    ]
+  },
+  {
+    "id": "pride-humility",
+    "title": "Kibir ve alçak gönüllülük",
+    "description": "İnsan başarısı, serveti veya konumu yüzünden kendini başkalarından üstün görmeye başlayabilir. Bu konu, insanları küçümsememek ve kendini olduğundan büyük göstermeden ağırbaşlı yaşamakla ilgilidir.",
+    "verses": [
+      "31:18",
+      "31:19",
+      "17:37",
+      "25:63"
+    ],
+    "examples": [
+      "Başarı kazandıkça insanlara tepeden bakmaya başladığımı fark ediyorum.",
+      "Kendimi övmek yerine daha sade ve ağırbaşlı davranmak istiyorum.",
+      "Makamım yüzünden başkalarını küçümsemekten nasıl uzak durabilirim?"
+    ],
+    "aliases": [
+      "kibir",
+      "büyüklenmek",
+      "böbürlenmek",
+      "tevazu",
+      "alçakgönüllülük"
+    ]
+  },
+  {
+    "id": "careful-speech",
+    "title": "Düşünerek ve güzel konuşmak",
+    "description": "Tartışırken ağzından çıkan bir söz insanları incitebilir ve anlaşmazlığı büyütebilir. Bu arayış, doğruyu söylemenin yanında nasıl söyleyeceğini de düşünmek ve dilinin sorumluluğunu taşımak isteyen kişi içindir.",
+    "verses": [
+      "33:70",
+      "17:53",
+      "49:11",
+      "50:18"
+    ],
+    "examples": [
+      "Doğru bir şeyi söylerken bile karşımdakinin kalbini kırıyorum.",
+      "Tartışmayı büyütmeden derdimi nasıl dile getirebileceğimi düşünüyorum.",
+      "Ağzımdan çıkan sözün sorumluluğunu daha çok hissetmek istiyorum."
+    ],
+    "aliases": [
+      "güzel söz",
+      "doğru konuşmak",
+      "kırmadan konuşmak",
+      "üslup",
+      "dilini tutmak"
+    ]
+  },
+  {
+    "id": "prayer",
+    "title": "Namaz ve günlük ibadet",
+    "description": "Günün telaşı içinde insan namazını aksatabilir veya ibadetinin davranışlarına nasıl yansıyacağını merak edebilir. Bu konu, namazı vaktinde yerine getirmek ve sıkıntılı zamanlarında namazla destek bulmakla ilgilidir.",
+    "verses": [
+      "4:103",
+      "20:14",
+      "29:45",
+      "2:153"
+    ],
+    "examples": [
+      "Günün koşturmacasında namazlarımı ertelemeyi bırakmak istiyorum.",
+      "Kıldığım namazın günlük davranışlarımda karşılığını görmek istiyorum.",
+      "Sıkıştığım zamanlarda namazla Allah'ın yardımını aramak istiyorum."
+    ],
+    "aliases": [
+      "namaz",
+      "salât",
+      "namaz vakti",
+      "huşu",
+      "ibadet"
+    ]
+  },
+  {
+    "id": "supplication",
+    "title": "Dua etmek",
+    "description": "İnsan bir ihtiyacı ya da sıkıntısı olduğunda Allah'a nasıl sesleneceğini düşünebilir. Bu arayış, içtenlikle yardım dilemek ve duasını gösterişten uzak bir yakınlık içinde yapmak isteyen kişiye ilişkindir.",
+    "verses": [
+      "2:186",
+      "40:60",
+      "7:55",
+      "7:56"
+    ],
+    "examples": [
+      "İçimde ne varsa Allah'la paylaşmak istiyorum ama nereden başlayacağımı bilmiyorum.",
+      "Bir dileğimi gösteriş yapmadan Rabbime açmak istiyorum.",
+      "Yardım isterken sesimi yükseltmek zorunda mıyım, içimden de seslenebilir miyim?"
+    ],
+    "aliases": [
+      "dua",
+      "dua etmek",
+      "yalvarmak",
+      "Allaha yakarmak",
+      "duanın kabulü"
+    ]
+  },
+  {
+    "id": "charity-sharing",
+    "title": "Muhtaçlarla paylaşmak",
+    "description": "İmkânı olan kişi zor durumda yaşayan insanların ihtiyaçlarını nasıl karşılayabileceğini düşünebilir. Bu konu, karşılık beklemeden malından ayırmak ve aç, yoksul veya korunmaya muhtaç insanlarla paylaşmakla ilgilidir.",
+    "verses": [
+      "2:261",
+      "76:8",
+      "2:215",
+      "2:177"
+    ],
+    "examples": [
+      "Kazancımın bir kısmıyla çevremde karnı aç insanlara destek olmak istiyorum.",
+      "Elimdekini yalnız kendime harcamak yerine ihtiyacı olanlarla paylaşmak istiyorum.",
+      "Kime yardım edeceğimi düşünürken yakınlarımı ve yoksulları nasıl gözetmeliyim?"
+    ],
+    "aliases": [
+      "infak",
+      "sadaka",
+      "yardımlaşma",
+      "hayır yapmak",
+      "paylaşmak"
+    ]
+  },
+  {
+    "id": "dignified-giving",
+    "title": "Yardım ederken incitmemek",
+    "description": "Birine yardım ettikten sonra bunu başına kakmak veya herkesin önünde anlatmak yardım alanı küçük düşürebilir. Bu arayış, ihtiyaç sahibinin onurunu koruyarak ve gösteriş yapmadan destek olmak isteyen kişi içindir.",
+    "verses": [
+      "2:262",
+      "2:263",
+      "2:264",
+      "2:271",
+      "2:273"
+    ],
+    "examples": [
+      "Birine destek olurken kendisini borçlu ve küçük hissettirmemek istiyorum.",
+      "Yaptığım yardımı insanların önünde anlatmam doğru olur mu?",
+      "İyilik ettiğim kişiye sonra bunu hatırlatınca yardımımın değeri ne olur?"
+    ],
+    "aliases": [
+      "başa kakmak",
+      "yardımı başa kakmak",
+      "sadakada gizlilik",
+      "incitmeden yardım"
+    ]
+  },
+  {
+    "id": "fasting",
+    "title": "Oruç ve mazeretler",
+    "description": "Oruç tutmak isteyen kişi hastalık, yolculuk veya günlük hayatındaki güçlükler karşısında ne yapacağını merak edebilir. Bu konu, orucun sorumluluğunu ve oruç sırasında gözetilen kolaylıkları anlamaya yöneliktir.",
+    "verses": [
+      "2:183",
+      "2:184",
+      "2:185",
+      "2:187"
+    ],
+    "examples": [
+      "Yolculuğa çıkacağım günlerde oruç sorumluluğumu nasıl yerine getireceğimi öğrenmek istiyorum.",
+      "Hastayken tutamadığım oruçlar için Kur'an'da hangi kolaylıkların bulunduğunu merak ediyorum.",
+      "Ramazanda ne zamana kadar yiyip içebileceğimi ayetlerden öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "oruç",
+      "savm",
+      "oruç tutmak",
+      "oruç mazereti",
+      "oruç fidyesi"
+    ]
+  },
+  {
+    "id": "sincerity",
+    "title": "İbadette samimiyet ve gösteriş",
+    "description": "İnsan bir iyiliği veya ibadeti gerçekten inandığı için mi yoksa başkaları görsün diye mi yaptığını sorgulayabilir. Bu konu, görünür olmaya çalışmadan samimi bir niyetle davranmak ve ibadeti içi boş bir alışkanlığa çevirmemekle ilgilidir.",
+    "verses": [
+      "98:5",
+      "39:2",
+      "2:264",
+      "4:38"
+    ],
+    "examples": [
+      "Kimse görmese de aynı iyiliği yapar mıydım diye kendime soruyorum.",
+      "İbadet ederken insanların beni beğenmesini beklediğimi fark ettim.",
+      "Yaptığım hayrın alkış toplamak için olmasını istemiyorum."
+    ],
+    "aliases": [
+      "ihlas",
+      "ihlâs",
+      "samimiyet",
+      "riya",
+      "gösteriş"
+    ]
+  },
+  {
+    "id": "work-worship-balance",
+    "title": "İş, dünya hayatı ve ibadet dengesi",
+    "description": "Geçimini kazanmak ve ibadetlerine zaman ayırmak arasında sıkışan insan bu sorumlulukları nasıl bir arada taşıyacağını düşünebilir. Bu arayış, dünya hayatından bütünüyle kopmadan ibadeti ve kalıcı sorumlulukları ihmal etmemekle ilgilidir.",
+    "verses": [
+      "62:9",
+      "62:10",
+      "73:20",
+      "28:77"
+    ],
+    "examples": [
+      "İşimi sürdürürken Rabbime karşı sorumluluklarımı ihmal etmek istemiyorum.",
+      "Dünya işleriyle uğraşmam ibadete önem vermediğim anlamına mı gelir?",
+      "Kazanç peşinde koşarken ahireti bütünüyle unutmuş gibi yaşamak istemiyorum."
+    ],
+    "aliases": [
+      "dünya ahiret dengesi",
+      "iş ve ibadet",
+      "çalışmak ve namaz",
+      "dünya nasibi"
+    ]
+  },
+  {
+    "id": "consultation-trust",
+    "title": "Karar verirken danışmak",
+    "description": "Önemli bir kararın sorumluluğunu taşımak insanı kararsız bırakabilir. Bu konu, başkalarının görüşünü alarak değerlendirme yapmak ve karar verdikten sonra sonucu bütünüyle kontrol etmeye çalışmadan güvenle ilerlemek isteyen kişi içindir.",
+    "verses": [
+      "3:159",
+      "42:38",
+      "65:3",
+      "11:123"
+    ],
+    "examples": [
+      "Büyük bir karar almadan önce güvenilir insanların görüşlerini duymak istiyorum.",
+      "Kararımı verdim ama sonucu düşünmekten bir türlü adım atamıyorum.",
+      "Elimden geleni değerlendirdikten sonra gerisini Allah'a bırakmayı öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "istişare",
+      "şûra",
+      "danışmak",
+      "ortak karar",
+      "meşveret"
+    ]
+  },
+  {
+    "id": "parents",
+    "title": "Anne babaya davranış",
+    "description": "Yaşlanan anne babayla ilgilenmek veya onlarla anlaşmazlık yaşamak insanı zorlayabilir. Bu arayış, farklı düşündüğü zamanlarda da saygıyı ve iyiliği korumak ve anne babasına karşı sorumluluğunu yerine getirmekle ilgilidir.",
+    "verses": [
+      "17:23",
+      "17:24",
+      "31:14",
+      "31:15",
+      "46:15"
+    ],
+    "examples": [
+      "Babam yaşlandıkça aynı şeyi tekrar soruyor, sabrımı kaybedip onu kırıyorum.",
+      "Annemle farklı düşünüyoruz ama ona karşı saygımı korumak istiyorum.",
+      "Beni büyüten anne babama şimdi nasıl iyi bir evlat olabilirim?"
+    ],
+    "aliases": [
+      "anne baba",
+      "ebeveyn",
+      "ana baba hakkı",
+      "anneye saygı",
+      "babaya iyilik"
+    ]
+  },
+  {
+    "id": "marriage-kindness",
+    "title": "Evlilikte sevgi ve iyi geçinmek",
+    "description": "Eşler zaman içinde birbirlerinden uzaklaşabilir veya birbirlerine nasıl daha iyi davranabileceklerini düşünebilir. Bu konu, evlilikte yakınlığı, karşılıklı desteği ve hoşlanılmayan durumlarda bile hakkaniyetli davranmayı anlamak isteyen kişiler içindir.",
+    "verses": [
+      "30:21",
+      "4:19",
+      "2:187",
+      "4:128"
+    ],
+    "examples": [
+      "Eşimle birbirimize karşı sevgimizi ve anlayışımızı kaybetmek istemiyorum.",
+      "Birlikte yaşarken hoşuma gitmeyen yanlarına rağmen eşime iyi davranmak istiyorum.",
+      "Evliliğimizin ikimiz için de güven ve yakınlık anlamına gelmesini istiyorum."
+    ],
+    "aliases": [
+      "evlilik",
+      "nikâh",
+      "eşler",
+      "karı koca",
+      "eşe iyi davranmak"
+    ]
+  },
+  {
+    "id": "marital-conflict",
+    "title": "Evlilikte anlaşmazlık",
+    "description": "Eşler arasındaki bir sorun kendi aralarında çözülemeyecek kadar büyüyebilir. Bu arayış, uzlaşma imkânını değerlendirmek, güvenilir bir arabulucudan destek almak ve ayrılık durumunda da birbirine zarar vermemekle ilgilidir.",
+    "verses": [
+      "4:35",
+      "4:128",
+      "2:231",
+      "4:130"
+    ],
+    "examples": [
+      "Eşimle konuşmalarımız sonuçsuz kalıyor, aramızı düzeltmek için destek alabilir miyiz?",
+      "Birlikte kalıp kalmamaya karar verirken birbirimize zarar vermek istemiyoruz.",
+      "Evdeki anlaşmazlıkları çözmek için iki tarafın da güveneceği birini arıyoruz."
+    ],
+    "aliases": [
+      "eşler arası anlaşmazlık",
+      "evlilik sorunları",
+      "aile hakemliği",
+      "geçimsizlik"
+    ]
+  },
+  {
+    "id": "fair-divorce",
+    "title": "Ayrılırken hakkı korumak",
+    "description": "Bir evlilik bittiğinde öfke, maddi bağımlılık veya intikam isteği tarafların birbirine baskı kurmasına yol açabilir. Bu konu, boşanma sırasında hakları gözetmek, barınma ve geçim sorumluluklarını yerine getirmek ve ayrılan kişiyi engellememekle ilgilidir.",
+    "verses": [
+      "2:229",
+      "2:231",
+      "2:232",
+      "65:6",
+      "65:7"
+    ],
+    "examples": [
+      "Ayrıldığım eşimi öfkem yüzünden zor durumda bırakmak istemiyorum.",
+      "Boşanırken maddi hakları geri alıp karşı tarafı sıkıştırmam doğru olur mu?",
+      "Evliliğim bitiyor, ayrılık sürecinde hangi hakları korumam gerektiğini düşünüyorum."
+    ],
+    "aliases": [
+      "boşanma",
+      "talak",
+      "ayrılık",
+      "boşanırken haklar",
+      "iddet"
+    ]
+  },
+  {
+    "id": "children-care",
+    "title": "Çocuklara karşı sorumluluk",
+    "description": "Anne baba çocuklarının geçimi ve yetişmesi konusunda kaygı duyabilir veya onlara nasıl öğüt vereceğini düşünebilir. Bu arayış, çocuğu bir yük gibi görmeden hayatını korumak ve ona inançla davranış konusunda rehberlik etmek isteyen kişilere ilişkindir.",
+    "verses": [
+      "6:151",
+      "17:31",
+      "31:13",
+      "31:17",
+      "64:15"
+    ],
+    "examples": [
+      "Çocuğuma öğüt verirken ona nasıl doğru bir yol gösterebilirim?",
+      "Geçim kaygımın çocuğumun hayatını değersiz görmeme yol açmasını istemiyorum.",
+      "Evladımın büyümesinde yalnız maddi ihtiyaçlardan mı sorumluyum?"
+    ],
+    "aliases": [
+      "çocuk",
+      "evlat",
+      "çocuk yetiştirmek",
+      "çocuklara öğüt",
+      "evlat sorumluluğu"
+    ]
+  },
+  {
+    "id": "orphans",
+    "title": "Yetimin hakkını korumak",
+    "description": "Korunmaya muhtaç bir çocuğun bakımını veya malını üstlenen kişi büyük bir sorumluluk taşır. Bu konu, yetimi hor görmeden desteklemek ve onun imkânlarını kendi çıkarı için kullanmamakla ilgilidir.",
+    "verses": [
+      "4:2",
+      "4:6",
+      "4:10",
+      "93:9",
+      "107:2"
+    ],
+    "examples": [
+      "Anne babası olmayan bir çocuğun parasını yönetiyorum, hakkını nasıl gözetmeliyim?",
+      "Korunmaya muhtaç çocuğa destek olurken onu ezip incitmek istemiyorum.",
+      "Bana emanet edilen yetim malını kendi ihtiyaçlarım için kullanabilir miyim?"
+    ],
+    "aliases": [
+      "yetim",
+      "yetim hakkı",
+      "yetim malı",
+      "öksüz",
+      "yetimi korumak"
+    ]
+  },
+  {
+    "id": "family-ties",
+    "title": "Akrabalık bağları",
+    "description": "Aile içindeki kırgınlıklar insanı akrabalarından bütünüyle uzaklaşmaya itebilir. Bu arayış, yakınlarına karşı iyilik ve yardımlaşma sorumluluğunu düşünmek ve ilişkileri koparmanın sonuçlarını değerlendirmekle ilgilidir.",
+    "verses": [
+      "4:36",
+      "16:90",
+      "17:26",
+      "47:22",
+      "47:23"
+    ],
+    "examples": [
+      "Uzun süredir akrabalarımla konuşmuyorum, bu kopukluğu düşünmek istiyorum.",
+      "Yakınım maddi sıkıntı içindeyken ona karşı sorumluluğumu merak ediyorum.",
+      "Ailemdeki kırgınlık yüzünden bütün bağları kesmek üzereyim."
+    ],
+    "aliases": [
+      "akraba",
+      "akrabalık",
+      "sıla-i rahim",
+      "akraba ziyareti",
+      "aile bağı"
+    ]
+  },
+  {
+    "id": "women-men-fairness",
+    "title": "Kadın ve erkek için hakkaniyet",
+    "description": "Bir insan cinsiyeti yüzünden emeğinin, kişiliğinin veya haklarının daha değersiz görülmesine itiraz edebilir. Bu konu, kadınla erkeğin ahlaki sorumluluğunu ve yaptıkları iyiliklerin karşılığını düşünmek, hakları cinsiyete göre yok saymamakla ilgilidir.",
+    "verses": [
+      "4:1",
+      "4:7",
+      "4:32",
+      "33:35",
+      "16:97"
+    ],
+    "examples": [
+      "Kadın olmamın yaptığım iyiliklerin değerini azalttığını düşünmek istemiyorum.",
+      "Kız evlat olduğum için mirastan bütünüyle dışlanmamı sorguluyorum.",
+      "Allah karşısında kadın ve erkeğin iyi davranışlarının nasıl değerlendirildiğini öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "kadın erkek",
+      "kadın hakları",
+      "erkek ve kadın sorumluluğu",
+      "kadına adalet"
+    ]
+  },
+  {
+    "id": "coercion-against-women",
+    "title": "Kadınlara baskı ve sömürü",
+    "description": "Bir kadın istemediği bir ilişkiye zorlanabilir veya ekonomik ve ailevi baskılarla iradesi yok sayılabilir. Bu arayış, kadınları mal gibi görmekten ve onları zor kullanarak sömürmekten doğan haksızlığı anlamakla ilgilidir.",
+    "verses": [
+      "4:19",
+      "24:33",
+      "81:8",
+      "81:9"
+    ],
+    "examples": [
+      "Bir kadının iradesinin mal gibi devredilip yok sayılmasını anlayamıyorum.",
+      "Maddi çıkar için bir kadını istemediği ilişkiye zorlamanın sorumluluğunu merak ediyorum.",
+      "Kız çocuklarının değersiz görülmesine karşı Kur'an'da ne bulabilirim?"
+    ],
+    "aliases": [
+      "kadına baskı",
+      "kadını zorlamak",
+      "kadın istismarı",
+      "kız çocuklarını öldürmek"
+    ]
+  },
+  {
+    "id": "neighbors-greetings",
+    "title": "Komşuluk ve günlük nezaket",
+    "description": "Aynı çevrede yaşayan insanlar birbirlerinin hâlini gözetmeye ve günlük ilişkilerinde saygıya ihtiyaç duyar. Bu konu, komşuya iyi davranmak, selamı karşılıksız bırakmamak ve başkasının alanına izin almadan girmemekle ilgilidir.",
+    "verses": [
+      "4:36",
+      "4:86",
+      "24:27"
+    ],
+    "examples": [
+      "Apartmanımdaki insanlara karşı nasıl daha düşünceli davranabilirim?",
+      "Beni selamlayan birini görmezden gelmem doğru olur mu?",
+      "Komşumun evine girmeden önce izin istemem gerektiğini hatırlamak istiyorum."
+    ],
+    "aliases": [
+      "komşu",
+      "komşuluk",
+      "selam",
+      "selamlaşmak",
+      "eve izinle girmek"
+    ]
+  },
+  {
+    "id": "family-maintenance",
+    "title": "Ailenin geçimi ve bakım giderleri",
+    "description": "Çocuk bakımının veya ayrılık sonrası barınmanın masrafları aile içinde anlaşmazlığa dönüşebilir. Bu arayış, imkânı ölçüsünde geçim sorumluluğunu yerine getirmek ve maddi konuları karşı tarafa zarar vermenin aracı yapmamakla ilgilidir.",
+    "verses": [
+      "2:233",
+      "65:6",
+      "65:7"
+    ],
+    "examples": [
+      "Ayrıldıktan sonra çocuğumun ve annesinin bakım masraflarını nasıl gözetmeliyim?",
+      "Gelirim azaldı ama ailemin geçimine karşı sorumluluğumu bırakmak istemiyorum.",
+      "Çocuğumuzun ihtiyaçlarını birbirimizi cezalandırmak için kullanmak istemiyoruz."
+    ],
+    "aliases": [
+      "nafaka",
+      "ailenin geçimi",
+      "çocuğun masrafı",
+      "emzirme ücreti",
+      "bakım gideri"
+    ]
+  },
+  {
+    "id": "different-belief-family",
+    "title": "Aileyle inanç farkı",
+    "description": "İnsan ailesinden farklı bir inancı benimsediğinde hem kendi vicdanını korumak hem yakınlarıyla ilişkisini sürdürmek isteyebilir. Bu konu, yanlış bulduğu bir inanca zorlandığında uymadan anne babasına iyi davranmak ve kendisiyle savaşmayan insanlara adil yaklaşmakla ilgilidir.",
+    "verses": [
+      "31:15",
+      "29:8",
+      "60:8"
+    ],
+    "examples": [
+      "Anne babamla aynı inancı paylaşmıyorum, yine de onlara iyi davranmak istiyorum.",
+      "Ailem bana inanç konusunda baskı yapınca vicdanımı nasıl koruyabilirim?",
+      "Yakınlarıma saygı duymam yanlış bulduğum her inancı kabul etmemi gerektirir mi?"
+    ],
+    "aliases": [
+      "inançsız anne baba",
+      "aileyle inanç farkı",
+      "farklı inançtan yakınlar"
+    ]
+  },
+  {
+    "id": "impartial-justice",
+    "title": "Tarafsız adalet",
+    "description": "Bir anlaşmazlıkta kendi çıkarı veya sevdiği insanların tarafı gerçeği görmesini zorlaştırabilir. Bu arayış, yakınlarına ya da hoşlanmadığı kişilere karşı da aynı ölçüyle adil davranmak ve hakkı sahibine vermek isteyen kişi içindir.",
+    "verses": [
+      "4:135",
+      "5:8",
+      "4:58",
+      "16:90"
+    ],
+    "examples": [
+      "Bir konuda haklı olan kişi sevmediğim biri, yine de hakkını savunmak istiyorum.",
+      "Kendi ailem zarar görecek diye doğruyu gizleme düşüncesi beni rahatsız ediyor.",
+      "Çıkarım başka yönde olsa bile adil bir karar verebilmek istiyorum."
+    ],
+    "aliases": [
+      "adalet",
+      "adil olmak",
+      "tarafsızlık",
+      "düşmana adalet",
+      "hakkaniyet"
+    ]
+  },
+  {
+    "id": "nepotism-merit",
+    "title": "Torpil ve liyakat",
+    "description": "Bir işe alınırken veya bir görev dağıtılırken yetenek yerine akrabalığın ve tanıdıkların belirleyici olması haksızlık doğurabilir. Bu konu, sorumlulukları güvenilir ve işin ehli kişilere vermek ve yakını olduğu için birini kayırmamakla ilgilidir.",
+    "verses": [
+      "4:58",
+      "4:135",
+      "28:26",
+      "12:55"
+    ],
+    "examples": [
+      "Kuzenimi ondan daha uygun adaylar varken işe almam doğru olur mu?",
+      "Yöneticiyken boşalan görevi kime vereceğime nasıl karar vermeliyim?",
+      "Bir işi yapacak kişinin dostum olmasına mı, işi bilmesine mi bakmalıyım?"
+    ],
+    "aliases": [
+      "liyakat",
+      "torpil",
+      "kayırmacılık",
+      "işi ehline vermek",
+      "ehliyet"
+    ]
+  },
+  {
+    "id": "fair-trade",
+    "title": "Alışverişte dürüstlük",
+    "description": "Satış yaparken ölçüyü eksiltmek veya alırken başkasından daha fazlasını istemek karşı tarafın hakkını azaltır. Bu arayış, alışverişte doğru ölçü kullanmak ve kazancını müşteriyi aldatarak artırmamakla ilgilidir.",
+    "verses": [
+      "83:1",
+      "83:2",
+      "83:3",
+      "26:181",
+      "26:182",
+      "17:35"
+    ],
+    "examples": [
+      "Müşteriye sattığım ürünün miktarını fark ettirmeden eksiltmemin sorumluluğunu düşünüyorum.",
+      "Alırken kendime tam hak isteyip satarken eksik vermek istemiyorum.",
+      "Dükkânımda ölçü ve tartıyı dürüst tutmak için ayetlerden öğüt arıyorum."
+    ],
+    "aliases": [
+      "ticaret",
+      "alışveriş",
+      "ölçü tartı",
+      "hileli tartı",
+      "dürüst satıcı"
+    ]
+  },
+  {
+    "id": "debt-contracts",
+    "title": "Borç ve ödeme güçlüğü",
+    "description": "Borç alıp verirken anlaşmanın unutulması veya borçlunun ödeme imkânını kaybetmesi tarafları zor durumda bırakabilir. Bu konu, borcu açıkça kaydetmek, güveni korumak ve gerçekten darda olan kişiye ödeme için zaman tanımakla ilgilidir.",
+    "verses": [
+      "2:282",
+      "2:283",
+      "2:280",
+      "2:279"
+    ],
+    "examples": [
+      "Arkadaşıma verdiğim paranın miktarını ve ödeme gününü yazılı belirlemeli miyim?",
+      "Bana borcu olan kişi gerçekten sıkıştı, kendisine daha fazla zaman vermeyi düşünüyorum.",
+      "Birbirimize güvensek de borç anlaşmasını açıkça kayda geçirmek istiyorum."
+    ],
+    "aliases": [
+      "borç",
+      "borçlu",
+      "borç ödemek",
+      "ödeme güçlüğü",
+      "sözleşme"
+    ]
+  },
+  {
+    "id": "usury",
+    "title": "Faizli kazanç",
+    "description": "Bir kişi borç vererek elde ettiği fazlalığın veya kullandığı faizli işlemlerin ahlaki karşılığını merak edebilir. Bu arayış, ticaret ile borç üzerinden faiz almanın farkını ve faizi bırakma sorumluluğunu anlamak isteyen kişiye ilişkindir.",
+    "verses": [
+      "2:275",
+      "2:276",
+      "2:278",
+      "2:279",
+      "3:130"
+    ],
+    "examples": [
+      "Borç verdiğim paradan fazlasını geri istememin ticaretten farkını merak ediyorum.",
+      "Faizle elde ettiğim kazancı sürdürmek istemiyorum, bu konuda ayet arıyorum.",
+      "Alacağımın anaparasını korurken fazladan istediğim tutarı bırakmayı düşünüyorum."
+    ],
+    "aliases": [
+      "faiz",
+      "riba",
+      "tefecilik",
+      "faizli borç",
+      "faizli kazanç"
+    ]
+  },
+  {
+    "id": "bribery",
+    "title": "Rüşvet ve haksız kazanç",
+    "description": "Bir işin görülmesi için para veya çıkar sunulması insanı haksız bir düzenin parçası hâline getirebilir. Bu konu, yetkili kişileri menfaatle etkilemek ve başkasının hakkını bu yolla ele geçirmekle ilgili bir arayış içindir.",
+    "verses": [
+      "2:188",
+      "4:29",
+      "5:42"
+    ],
+    "examples": [
+      "Bir yetkiliye para vererek başkasının önüne geçmemin yanlışlığını düşünüyorum.",
+      "İşimi halletmesi için görevliye çıkar teklif etmem doğru olur mu?",
+      "Bir hakkı kazanmak için gizlice menfaat dağıtan düzene katılmak istemiyorum."
+    ],
+    "aliases": [
+      "rüşvet",
+      "yolsuzluk",
+      "haksız kazanç",
+      "hakime rüşvet"
+    ]
+  },
+  {
+    "id": "property-rights",
+    "title": "Başkasının malına el uzatmak",
+    "description": "Bir insan kendisine ait olmayan bir parayı veya eşyayı kullanmayı küçük ve önemsiz bir şey sayabilir. Bu arayış, başkasının malını izinsiz almak, haksız biçimde kazanmak ve kendisine bırakılan şeyi sahibine vermekle ilgili sorumluluğu anlatır.",
+    "verses": [
+      "4:29",
+      "2:188",
+      "5:38",
+      "4:58"
+    ],
+    "examples": [
+      "Bana ait olmayan parayı kimse anlamayacak diye kullanmak istemiyorum.",
+      "Karşı tarafın rızası olmadan elde ettiğim kazancın sorumluluğunu düşünüyorum.",
+      "Elimde duran başkasına ait eşyayı sahibine geri vermeliyim."
+    ],
+    "aliases": [
+      "kul hakkı",
+      "hırsızlık",
+      "çalmak",
+      "mal hakkı",
+      "haksız mal edinmek",
+      "başkasının malı"
+    ]
+  },
+  {
+    "id": "keeping-promises",
+    "title": "Sözünde durmak",
+    "description": "Bir söz vermek kolay olsa da şartlar değiştiğinde onu yerine getirmek zor gelebilir. Bu konu, yapılan anlaşmaya ve verilen söze bağlı kalmak ve kendisine güvenen insanları yarı yolda bırakmamak isteyen kişi içindir.",
+    "verses": [
+      "5:1",
+      "17:34",
+      "16:91",
+      "23:8"
+    ],
+    "examples": [
+      "Söz verdikten sonra vazgeçmek bana daha kolay geliyor ama güveni bozmak istemiyorum.",
+      "Şartlar değişse de yaptığım anlaşmaya sadık kalmaya çalışıyorum.",
+      "Verdiğim sözü unuttuğumda bunun sorumluluğunu ciddiye almak istiyorum."
+    ],
+    "aliases": [
+      "sözünde durmak",
+      "ahde vefa",
+      "verilen söz",
+      "antlaşma",
+      "sözleşmeye uymak"
+    ]
+  },
+  {
+    "id": "labor-pay",
+    "title": "Emeğin karşılığı",
+    "description": "Bir insan verdiği hizmetin ücretini alamadığında veya başka birini çalıştırırken adil davranıp davranmadığını düşündüğünde emeğin hakkını sorgulayabilir. Bir iş için güvenilir kişiyi seçmek, çalışma şartlarını konuşmak ve kararlaştırılan hizmetin ücretini güzelce ödemek bu sorumluluğun parçalarıdır.",
+    "verses": [
+      "65:6",
+      "2:233",
+      "28:26",
+      "28:27"
+    ],
+    "examples": [
+      "Bana hizmet veren kişinin kararlaştırdığımız ücretini geciktirmek istemiyorum.",
+      "Birini çalıştırmadan önce süre ve karşılığı konusunda anlaşmak istiyorum.",
+      "Ücret karşılığı iş vereceğim kişinin güvenilir olmasına dikkat etmeli miyim?"
+    ],
+    "aliases": [
+      "işçi hakkı",
+      "işveren",
+      "emek karşılığı",
+      "ücret",
+      "çalışanın hakkı"
+    ]
+  },
+  {
+    "id": "wealth-arrogance",
+    "title": "Zenginliğe kapılmak",
+    "description": "Maddi başarı insanın sahip olduklarıyla övünmesine ve başkalarının ihtiyaçlarını görmezden gelmesine yol açabilir. Bu arayış, serveti kendini üstün görmenin aracı yapmadan kullanmak ve daha çok biriktirme yarışının hayatını kaplamasını önlemekle ilgilidir.",
+    "verses": [
+      "28:76",
+      "28:77",
+      "28:78",
+      "102:1",
+      "102:2"
+    ],
+    "examples": [
+      "Param arttıkça bunu yalnız kendi üstünlüğümün sonucu saymaya başladım.",
+      "Daha çok biriktirme yarışı yüzünden yaşamımdaki her şeyi geri plana attım.",
+      "Servetimle övünürken çevremdeki insanların ihtiyaçlarını görmezden gelmek istemiyorum."
+    ],
+    "aliases": [
+      "servet",
+      "mal biriktirmek",
+      "zenginliğe güvenmek",
+      "Karun",
+      "mal çokluğu"
+    ]
+  },
+  {
+    "id": "waste-consumption",
+    "title": "İsraf ve tüketim",
+    "description": "İhtiyacından fazla alışveriş yapmak veya yiyeceği ve imkânları düşünmeden harcamak insana normal gelebilir. Bu konu, kendini bütünüyle mahrum bırakmadan ölçülü tüketmek ve elindekini gereksiz yere saçıp savurmamakla ilgilidir.",
+    "verses": [
+      "7:31",
+      "17:26",
+      "17:27",
+      "25:67",
+      "6:141"
+    ],
+    "examples": [
+      "İhtiyacım olmadığı halde alıyor, sonra kullanmadıklarımı çöpe atıyorum.",
+      "Sofrada yiyebileceğimden çok daha fazlasını hazırlamayı bırakmak istiyorum.",
+      "Paramı ne savurmak ne de kendime ve başkalarına hiçbir şey harcamamak istiyorum."
+    ],
+    "aliases": [
+      "israf",
+      "savurganlık",
+      "aşırı tüketim",
+      "ölçülü harcamak",
+      "cimrilik ve israf"
+    ]
+  },
+  {
+    "id": "sanctity-life",
+    "title": "İnsan hayatını korumak",
+    "description": "Öfke, çatışma veya çıkar uğruna bir insanın hayatını değersiz görmek çok ağır bir haksızlık doğurur. Bu arayış, öldürmenin sorumluluğunu ve bir hayatı korumanın değerini anlamaya yöneliktir.",
+    "verses": [
+      "5:32",
+      "17:33",
+      "6:151",
+      "25:68"
+    ],
+    "examples": [
+      "Bir insanı öldürmenin yalnız onun ailesini ilgilendiren bir mesele olmadığını düşünüyorum.",
+      "Öfkemi birinin hayatına kastetmeye dönüştürmekten uzak durmak istiyorum.",
+      "Tehlikedeki bir insanın hayatta kalmasına yardım etmenin değerini öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "öldürmek",
+      "cinayet",
+      "can güvenliği",
+      "yaşama hakkı",
+      "canı korumak"
+    ]
+  },
+  {
+    "id": "peace-reconciliation",
+    "title": "Kavga edenleri barıştırmak",
+    "description": "İki kişi veya topluluk arasındaki çatışma çevresindeki insanları da taraf olmaya zorlayabilir. Bu konu, anlaşmazlıkta adaleti gözeterek arabuluculuk yapmak ve barış imkânı ortaya çıktığında onu değerlendirmekle ilgilidir.",
+    "verses": [
+      "49:9",
+      "49:10",
+      "8:61",
+      "4:114"
+    ],
+    "examples": [
+      "İki arkadaşım birbirine düşman oldu, adil biçimde aralarını bulmak istiyorum.",
+      "Çatışan taraflardan biri barışmak istiyor, bu fırsatı kaçırmak istemiyorum.",
+      "Taraf tutup kavgayı büyütmek yerine insanların arasını düzeltmek istiyorum."
+    ],
+    "aliases": [
+      "barış",
+      "barıştırmak",
+      "arabuluculuk",
+      "kavga",
+      "sulh"
+    ]
+  },
+  {
+    "id": "resisting-oppression",
+    "title": "Haksızlığa karşı durmak",
+    "description": "Zulme uğrayan kişi kendisini korumanın ve hakkını aramanın yanlış olup olmadığını düşünebilir. Bu arayış, ezilenlerin yanında durmak ve bir saldırıya karşılık verirken haddi aşmamakla ilgilidir.",
+    "verses": [
+      "4:75",
+      "42:41",
+      "16:126",
+      "22:39"
+    ],
+    "examples": [
+      "Haksızlığa uğradığımda hakkımı aramam yanlış mı olur?",
+      "Kendini koruyamayan insanların ezilmesine seyirci kalmak istemiyorum.",
+      "Bana yapılan saldırıya karşı koyarken aşırıya gitmek istemiyorum."
+    ],
+    "aliases": [
+      "zulüm",
+      "mazlum",
+      "haksızlık",
+      "zalim",
+      "haksızlığa karşı durmak"
+    ]
+  },
+  {
+    "id": "refuge-displacement",
+    "title": "Sığınma ve yerinden edilmek",
+    "description": "Tehdit altında olduğu için yaşadığı yeri bırakmak zorunda kalan kişi güvenli bir yere ve insanların desteğine ihtiyaç duyar. Bu konu, sığınma isteyen kişiyi korumak ve yurdundan ayrılanlara yardım etmekle ilgilidir.",
+    "verses": [
+      "9:6",
+      "4:100",
+      "59:9"
+    ],
+    "examples": [
+      "Can güvenliğim kalmadığı için yurdumdan ayrılmak zorunda kaldım.",
+      "Benden güvenli bir yere sığınmak isteyen kişiyi korumak istiyorum.",
+      "Yaşadığı yeri terk etmiş insanlara elimden geldiğince destek olmak istiyorum."
+    ],
+    "aliases": [
+      "mülteci",
+      "sığınmacı",
+      "hicret",
+      "göç",
+      "yurdundan ayrılmak"
+    ]
+  },
+  {
+    "id": "freeing-people",
+    "title": "Esaretten kurtarmak",
+    "description": "Bir insanın özgürlüğünün başkasının elinde olması ve kendi hayatına yön verememesi ağır bir bağımlılık oluşturur. Bu arayış, tarihsel kölelik bağlamında özgürlüğe kavuşturmayı ve bağımlı durumdaki insanı sömürmemeyi ele alan ayetlerle ilgilidir.",
+    "verses": [
+      "90:13",
+      "24:33",
+      "4:92",
+      "58:3"
+    ],
+    "examples": [
+      "Bir insanın özgürlüğünü yeniden kazanmasına yardım etmenin değerini merak ediyorum.",
+      "Başkasına bağımlı tutulan kişinin bu bağdan kurtulmasına destek olmak istiyorum.",
+      "Kur'an'da köleleri serbest bırakmayla ilgili ayetleri öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "köle azadı",
+      "kölelik",
+      "esaret",
+      "özgürleştirmek",
+      "köleleri kurtarmak"
+    ]
+  },
+  {
+    "id": "backbiting",
+    "title": "Gıybet ve arkadan konuşmak",
+    "description": "Bir insanın arkasından, duysa incineceği şeyleri konuşmak veya böyle bir sohbete katılmak günlük hayatta kolayca sıradanlaşabilir. Bu konu, başkalarının kusurlarını çekiştirmekten kaçınmak ve kendisi hakkında konuşulduğunda yaşadığı kırgınlığı anlamlandırmak isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "49:12",
+      "104:1",
+      "68:11"
+    ],
+    "examples": [
+      "Arkadaşım yanımızda değilken kusurlarını konuşmaya katılıyorum ve bundan rahatsızım.",
+      "Birinin duyarsa üzüleceği sözleri arkasından söylemeyi bırakmak istiyorum.",
+      "Başkalarının hatalarını çekiştiren sohbetlerden uzak durmak istiyorum."
+    ],
+    "aliases": [
+      "gıybet",
+      "dedikodu",
+      "arkadan konuşmak",
+      "çekiştirmek",
+      "kusur araştırmak"
+    ]
+  },
+  {
+    "id": "mockery-bullying",
+    "title": "Alay ve zorbalık",
+    "description": "Bir kişiyi görünüşü, geçmişi veya farklılığı yüzünden küçümsemek ve ona incitici bir ad takmak dışlanmış hissetmesine yol açabilir. Bu arayış, topluluk içinde dalga geçmekten ve küçük düşürücü bakışlarla insanı incitmekten uzak durmakla ilgilidir.",
+    "verses": [
+      "49:11",
+      "104:1",
+      "83:29",
+      "83:30",
+      "83:32"
+    ],
+    "examples": [
+      "Arkadaşlarımla eğleniyoruz derken birini küçük düşürdüğümüzü fark ettim.",
+      "Bana takılan incitici lakap yüzünden insanların yanına çıkmak istemiyorum.",
+      "Birinin görünüşüyle dalga geçmenin hafif bir şaka olmadığını düşünüyorum."
+    ],
+    "aliases": [
+      "alay",
+      "alay etmek",
+      "zorbalık",
+      "lakap takmak",
+      "küçümsemek"
+    ]
+  },
+  {
+    "id": "privacy",
+    "title": "Özel hayatın sınırları",
+    "description": "Merak duygusu insanı başkasının gizli hâllerini araştırmaya veya kişisel alanına izinsiz girmeye itebilir. Bu konu, insanların mahremiyetini korumak ve ev içinde bile uygun zamanda izin istemekle ilgilidir.",
+    "verses": [
+      "49:12",
+      "24:27",
+      "24:28",
+      "24:58",
+      "24:59"
+    ],
+    "examples": [
+      "Merakıma yenilip birinin saklı hayatını araştırmak istiyorum, kendimi durdurmalıyım.",
+      "Evde yakınımın odasına habersiz girmenin sınırlarını düşünüyorum.",
+      "İzin verilmeyen kişisel alana saygı göstermeyi öğrenmek istiyorum."
+    ],
+    "aliases": [
+      "mahremiyet",
+      "özel hayat",
+      "tecessüs",
+      "izinsiz eve girmek",
+      "başkasını gözetlemek"
+    ]
+  },
+  {
+    "id": "verify-news",
+    "title": "Haberi doğrulamak",
+    "description": "Duyduğu veya internette gördüğü bir iddiayı hemen paylaşmak, olayın aslını bilmeden birine zarar verebilir. Bu arayış, güvenilir bilgiye ulaşmadan hüküm vermemek ve doğruluğunu bilmediği sözü yaymamak isteyen kişiye ilişkindir.",
+    "verses": [
+      "49:6",
+      "17:36",
+      "24:15",
+      "24:16",
+      "24:12"
+    ],
+    "examples": [
+      "Bana gelen çarpıcı bir iddiayı doğru mu diye bakmadan başkalarına gönderdim.",
+      "Bir haber yüzünden insanları suçlamadan önce olayın aslını araştırmak istiyorum.",
+      "Hakkında bilgim olmayan sözü herkes söylüyor diye tekrarlamak istemiyorum."
+    ],
+    "aliases": [
+      "haber doğrulama",
+      "teyit",
+      "asılsız haber",
+      "duyduğuna inanmak",
+      "araştırmadan paylaşmak"
+    ]
+  },
+  {
+    "id": "slander",
+    "title": "İftira ve asılsız suçlama",
+    "description": "Bir kişi yapmadığı bir şeyle suçlanabilir veya bir başkası hakkında kanıtsız ağır bir iddia ortaya atabilir. Bu konu, insanın onuruna zarar veren suçlamaların ve iftiranın sorumluluğunu anlamakla ilgilidir.",
+    "verses": [
+      "24:4",
+      "24:11",
+      "24:12",
+      "24:15",
+      "33:58"
+    ],
+    "examples": [
+      "Yapmadığım bir şeyle suçlanıyorum, bu haksızlığın ağırlığını anlamak istiyorum.",
+      "Birinin onurunu zedeleyen iddiayı kanıt olmadan söylememin sorumluluğunu düşünüyorum.",
+      "Başkasına asılsız suç atarak kendimi kurtarmak istemiyorum."
+    ],
+    "aliases": [
+      "iftira",
+      "suçlama",
+      "asılsız suçlama",
+      "namus iftirası",
+      "iftiraya uğramak"
+    ]
+  },
+  {
+    "id": "harmful-private-talk",
+    "title": "Laf taşımak ve kötü niyetli konuşmalar",
+    "description": "İnsanların arasını bozmak için söz taşımak veya kapalı bir grupta başkasına zarar verecek işler konuşmak güvensizlik oluşturabilir. Bu arayış, gizli konuşmayı kötülük için kullanmamak ve insanları barıştıran söze yönelmekle ilgilidir.",
+    "verses": [
+      "68:11",
+      "58:9",
+      "58:10",
+      "4:114"
+    ],
+    "examples": [
+      "Birinden duyduğum sözü diğerine taşıyıp aralarının bozulmasına yol açtım.",
+      "Kapalı bir grupta başkasına zarar verecek planlara ortak olmak istemiyorum.",
+      "Gizli konuşmalarımızın düşmanlık üretmesinden rahatsız oluyorum."
+    ],
+    "aliases": [
+      "laf taşımak",
+      "nemime",
+      "fitne amaçlı konuşma",
+      "gizli konuşma",
+      "kötü niyetli fısıltı"
+    ]
+  },
+  {
+    "id": "truthful-speech",
+    "title": "Yalan söylememek",
+    "description": "Kendi çıkarını korumak ya da bir durumdan kurtulmak için gerçeği değiştirmek insana kolay bir yol gibi görünebilir. Bu konu, sözü doğru tutmak ve yalanı ya da sahte bir anlatımı normalleştirmemek isteyen kişi içindir.",
+    "verses": [
+      "22:30",
+      "33:70",
+      "16:105",
+      "25:72"
+    ],
+    "examples": [
+      "Zor durumdan kurtulmak için olayı olduğundan farklı anlatmayı düşünüyorum.",
+      "Küçük çıkarlar uğruna gerçeği eğip bükmeyi bırakmak istiyorum.",
+      "Söylediğim sözün doğru olmasını insanlar inanmasa da önemsemek istiyorum."
+    ],
+    "aliases": [
+      "yalan",
+      "yalancılık",
+      "doğruluk",
+      "yalan söylemek",
+      "asılsız söz"
+    ]
+  },
+  {
+    "id": "responding-with-good",
+    "title": "Kötülüğe iyilikle karşılık vermek",
+    "description": "Kendisine kaba veya kötü davranıldığında insan aynı şekilde karşılık vermeyi doğal bulabilir. Bu arayış, kırıcı bir davranışın etkisini iyilikle aşmayı ve ilişkideki düşmanlığı büyütmemeyi düşünmek isteyen kişi içindir.",
+    "verses": [
+      "41:34",
+      "28:54",
+      "13:22",
+      "16:90"
+    ],
+    "examples": [
+      "Bana kaba davranan insana aynı kabalıkla dönmek istemiyorum.",
+      "Kırıcı bir hareketin etkisini daha iyi bir davranışla değiştirebilir miyim?",
+      "Aramızdaki düşmanlığın büyümemesi için farklı bir karşılık vermek istiyorum."
+    ],
+    "aliases": [
+      "kötülüğe iyilik",
+      "iyilikle karşılık vermek",
+      "kötülüğü savmak",
+      "düşmanlığı gidermek"
+    ]
+  },
+  {
+    "id": "trust-confidentiality",
+    "title": "Emanet ve güven",
+    "description": "Birine bırakılan para, bilgi veya sorumluluk kötüye kullanıldığında insanlar arasındaki güven zedelenir. Bu konu, kendisine teslim edilen şeyi korumak ve güvenen kişiyi gizlice yarı yolda bırakmamakla ilgilidir.",
+    "verses": [
+      "8:27",
+      "4:58",
+      "23:8",
+      "70:32"
+    ],
+    "examples": [
+      "Birinin korumam için bıraktığı parayı kendi çıkarıma kullanmak istemiyorum.",
+      "Bana güvenip özel bir şeyini teslim eden kişiyi yarı yolda bırakmak istemiyorum.",
+      "Üstlendiğim sorumluluğu kimse izlemediğinde de yerine getirmeliyim."
+    ],
+    "aliases": [
+      "emanet",
+      "emanete ihanet",
+      "güvenilir olmak",
+      "sır saklamak",
+      "hainlik"
+    ]
+  },
+  {
+    "id": "human-equality",
+    "title": "İnsan onuru ve ayrımcılık",
+    "description": "İnsanlar soyları, dilleri veya ait oldukları topluluk yüzünden değersiz görülüp dışlanabilir. Bu arayış, farklılıkları bir üstünlük yarışı yapmadan insanın ortak onurunu ve birbirini tanımanın değerini düşünmekle ilgilidir.",
+    "verses": [
+      "49:13",
+      "30:22",
+      "4:1",
+      "17:70"
+    ],
+    "examples": [
+      "Dilim veya doğduğum yer yüzünden daha değersiz görülmek istemiyorum.",
+      "Kendi topluluğumu başkalarından doğuştan üstün saymanın anlamını sorguluyorum.",
+      "İnsanların renklerini ve soylarını küçümsemeden birbirimizi tanımak istiyorum."
+    ],
+    "aliases": [
+      "ırkçılık",
+      "ayrımcılık",
+      "insan onuru",
+      "eşit köken",
+      "kavim ve kabile"
+    ]
+  },
+  {
+    "id": "freedom-belief",
+    "title": "İnançta zorlama",
+    "description": "Bir insan bir inancı benimsemeye veya değiştirmeye zorlandığında vicdanının özgür olmasını ister. Bu konu, imanı baskıyla kabul ettirmeye çalışmak ve insanın tercihinden kimin sorumlu olduğunu anlamakla ilgilidir.",
+    "verses": [
+      "2:256",
+      "10:99",
+      "18:29",
+      "88:21",
+      "88:22"
+    ],
+    "examples": [
+      "Birini inanmadığı halde inandığını söylemeye zorlamak istemiyorum.",
+      "Baskı altında kabul edilen inancın ne anlamı olduğunu düşünüyorum.",
+      "İnsanları kendi tercihlerini yapmaktan alıkoyarak iman ettirebilir miyim?"
+    ],
+    "aliases": [
+      "dinde zorlama",
+      "inanç özgürlüğü",
+      "zorla inandırmak",
+      "zorla din değiştirmek"
+    ]
+  },
+  {
+    "id": "respect-different-beliefs",
+    "title": "Farklı inançlarla bir arada yaşamak",
+    "description": "Başka bir inanca sahip insanlarla karşılaşmak, onlara nasıl davranılacağı ve inanç konusunun nasıl konuşulacağı sorusunu doğurabilir. Bu arayış, düşmanlık etmeyen kişilere adil ve iyi davranmak ve konuşurken hakaret yerine uygun bir üslup seçmekle ilgilidir.",
+    "verses": [
+      "60:8",
+      "60:9",
+      "6:108",
+      "16:125"
+    ],
+    "examples": [
+      "İnancı benimkinden farklı komşuma iyi davranmak istiyorum.",
+      "Başka insanların kutsal saydıkları şeylere hakaret etmek istemiyorum.",
+      "İnanç konusunu konuşurken kırıcı ve saldırgan olmadan kendimi anlatmak istiyorum."
+    ],
+    "aliases": [
+      "farklı inanç",
+      "birlikte yaşamak",
+      "inanca saygı",
+      "dinlere hakaret",
+      "inançsızlarla ilişki"
+    ]
+  },
+  {
+    "id": "learning-knowledge",
+    "title": "Bilgi edinmek ve öğrenmek",
+    "description": "İnsan bilmediğini fark ettiğinde soru sormaya, okumaya ve anlayışını geliştirmeye ihtiyaç duyar. Bu konu, bilgiyi değerli görmek ve öğrenme isteğini canlı tutmak isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "20:114",
+      "39:9",
+      "58:11",
+      "96:1",
+      "96:4",
+      "96:5"
+    ],
+    "examples": [
+      "Bilmediklerimi fark ettikçe daha çok okumak ve öğrenmek istiyorum.",
+      "Kendimi bilgili saymak yerine anlayışımın artması için dua etmek istiyorum.",
+      "Öğrenmeye ayırdığım emeğin manevi değerini düşünmek istiyorum."
+    ],
+    "aliases": [
+      "ilim",
+      "bilgi",
+      "öğrenmek",
+      "okumak",
+      "eğitim"
+    ]
+  },
+  {
+    "id": "animals",
+    "title": "Hayvanlara ve canlılara bakış",
+    "description": "Günlük hayatta yararlanılan veya doğada görülen hayvanların yalnızca bir eşya gibi görülmesi insanın onlara karşı tutumunu etkileyebilir. İnsan, hayvanları da yeryüzünü paylaşan ve kendi toplulukları bulunan canlılar olarak düşünmek ve diğer canlılarla arasındaki bağı fark etmek isteyebilir.",
+    "verses": [
+      "6:38",
+      "24:41",
+      "24:45",
+      "55:10",
+      "16:5"
+    ],
+    "examples": [
+      "Çevremdeki hayvanların yalnız insanlara yarayan nesneler olmadığını düşünüyorum.",
+      "Kuşları izlerken onların da kendi toplulukları bulunduğunu merak ediyorum.",
+      "Yeryüzünü paylaştığım diğer canlılarla aramdaki bağı düşünmek istiyorum."
+    ],
+    "aliases": [
+      "hayvan",
+      "canlılar",
+      "hayvan toplulukları",
+      "kuşlar",
+      "canlılara bakış"
+    ]
+  },
+  {
+    "id": "environment",
+    "title": "Doğayı ve yaşam dengesini korumak",
+    "description": "İnsanların yaptıkları işler toprağa, denize ve canlıların yaşamına zarar verebilir. Bu konu, yeryüzünü bozmamak, üretime ve canlılara zarar vermemek ve içinde yaşadığı düzenin sınırlarını gözetmek isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "30:41",
+      "7:56",
+      "2:205"
+    ],
+    "examples": [
+      "Kendi kazancım için doğaya verdiğim zararı görmezden gelmek istemiyorum.",
+      "Toprağın ve denizin kirlenmesinde insanların payını düşünmek istiyorum.",
+      "Üretim ve canlı yaşamını yok eden davranışların sorumluluğunu merak ediyorum."
+    ],
+    "aliases": [
+      "çevre",
+      "doğa",
+      "ekolojik denge",
+      "yeryüzünde bozgunculuk",
+      "tabiatı korumak"
+    ]
+  },
+  {
+    "id": "water",
+    "title": "Su ve doğal kaynakların değeri",
+    "description": "Suyun kolayca ulaşılabilir olması insana bu kaynağın tükenmez olduğunu düşündürebilir. Bu arayış, suyun hayat için önemini ve onu kaybetmenin ne anlama geleceğini düşünmek isteyen kişiye ilişkindir.",
+    "verses": [
+      "21:30",
+      "23:18",
+      "67:30",
+      "56:68",
+      "56:69",
+      "56:70"
+    ],
+    "examples": [
+      "Her gün kullandığım suyun bir gün elimden gitmesi ihtimalini düşünüyorum.",
+      "Suyun bütün canlılar için taşıdığı değeri hatırlamak istiyorum.",
+      "İçtiğim suyu sıradan görüp kıymetini unutmak istemiyorum."
+    ],
+    "aliases": [
+      "su",
+      "yağmur",
+      "susuzluk",
+      "içme suyu",
+      "su kaynakları"
+    ]
+  },
+  {
+    "id": "intoxicants-gambling",
+    "title": "İçki ve kumar",
+    "description": "İçki veya kumar alışkanlığı kişinin kendisine, bütçesine ve yakınlarıyla ilişkisine zarar verebilir. Bu konu, bağımlılığa dönüşebilen bu davranışların gündelik hayat ve sorumluluklar üzerindeki etkisini anlamak isteyen kişinin arayışını anlatır.",
+    "verses": [
+      "5:90",
+      "5:91",
+      "2:219"
+    ],
+    "examples": [
+      "İçki yüzünden ailemle aram açılıyor ve sorumluluklarımı aksatıyorum.",
+      "Kumarda daha çok kazanacağım derken elimdekini ve huzurumu kaybediyorum.",
+      "Beni ibadetimden ve sevdiklerimden uzaklaştıran bu alışkanlıkları bırakmak istiyorum."
+    ],
+    "aliases": [
+      "içki",
+      "alkol",
+      "kumar",
+      "sarhoşluk",
+      "şans oyunu"
+    ]
+  },
+  {
+    "id": "sexual-boundaries",
+    "title": "İlişkilerde iffet ve cinsel sömürü",
+    "description": "Bir insan yakın ilişkilerinde sınırlarını korumak ve arzusunun başkasını kullanmaya dönüşmesini önlemek isteyebilir. Bu arayış, cinsel davranışın sorumluluğunu, bakış ve mahremiyet sınırlarını ve bir kişiyi cinsel ilişkiye zorlamanın haksızlığını anlamakla ilgilidir.",
+    "verses": [
+      "17:32",
+      "24:30",
+      "24:31",
+      "24:33",
+      "4:19"
+    ],
+    "examples": [
+      "Arzularımın beni başkasını kullanmaya sürüklemesini istemiyorum.",
+      "Bakışlarıma ve yakın ilişkilerimdeki sınırlarıma dikkat etmek istiyorum.",
+      "Bir insanı istemediği cinsel davranışa zorlamanın haksızlığını düşünüyorum."
+    ],
+    "aliases": [
+      "zina",
+      "iffet",
+      "fuhuş",
+      "harama bakmak",
+      "cinsel sömürü"
+    ]
+  },
+  {
+    "id": "honest-witness",
+    "title": "Şahitlikte gerçeği söylemek",
+    "description": "Bir olaya tanık olan kişi kendi yakını zarar görmesin diye gerçeği gizlemek veya değiştirmek isteyebilir. Bu konu, baskı ve çıkar karşısında doğru şahitlik yapmak ve bildiği gerçeği saklamamakla ilgilidir.",
+    "verses": [
+      "4:135",
+      "5:8",
+      "2:283",
+      "25:72"
+    ],
+    "examples": [
+      "Tanık olduğum olayda yakınımı korumak için gerçeği değiştirirsem ne olur?",
+      "Bildiğim bir şeyi saklamam isteniyor ama doğruyu söylemek istiyorum.",
+      "Baskı altında kalsam da gördüğümü olduğu gibi anlatmaya kararlıyım."
+    ],
+    "aliases": [
+      "şahitlik",
+      "tanıklık",
+      "yalancı şahit",
+      "gerçeği gizlemek",
+      "dürüst tanık"
+    ]
+  },
+  {
+    "id": "time-accountability",
+    "title": "Hayatın hesabını düşünmek",
+    "description": "Günler hızla geçerken insan zamanını neye ayırdığını ve küçük gördüğü davranışlarının değerini sorgulayabilir. Bu arayış, geleceğe ne hazırladığını düşünmek ve yaptığı iyilik ya da kötülüğün sorumluluğunu ciddiye almakla ilgilidir.",
+    "verses": [
+      "103:3",
+      "59:18",
+      "99:7",
+      "99:8"
+    ],
+    "examples": [
+      "Günlerim geçiyor ama yarınım için ne hazırladığımı düşünmüyorum.",
+      "Kimsenin görmediği küçük davranışlarımın da bir karşılığı olduğunu hatırlamak istiyorum.",
+      "Zamanımı nasıl harcadığımın hesabını kendime sormak istiyorum."
+    ],
+    "aliases": [
+      "hesap",
+      "amel",
+      "hayatın hesabı",
+      "zamanın değeri"
+    ]
+  },
+  {
+    "id": "shared-responsibility",
+    "title": "Toplumda ortak sorumluluk",
+    "description": "Birlikte yaşayan insanlar ortak işlerde nasıl karar vereceklerini ve birbirlerine hangi işlerde destek olacaklarını düşünmek zorundadır. Bu konu, iyilik için yardımlaşmak, yanlış bir işte dayanışmaya katılmamak ve toplumsal sorumluluğu paylaşmakla ilgilidir.",
+    "verses": [
+      "5:2",
+      "9:71",
+      "42:38",
+      "4:59"
+    ],
+    "examples": [
+      "Ortak bir işte karar alırken yalnız kendi istediğimi dayatmak istemiyorum.",
+      "Arkadaşlarım yanlış bir şey yaparken onlara destek vermem bekleniyor.",
+      "Çevremde iyiliğin çoğalması için başkalarıyla birlikte çalışmak istiyorum."
+    ],
+    "aliases": [
+      "ortak sorumluluk",
+      "iyilikte yardımlaşmak",
+      "iyiliği emretmek",
+      "toplumsal sorumluluk"
+    ]
+  },
+  {
+    "id": "pilgrimage",
+    "title": "Hac sorumluluğu",
+    "description": "Hacca gitmek isteyen kişi bu yolculuğun kimlere sorumluluk olduğunu ve ibadet sırasında nasıl davranacağını öğrenmek isteyebilir. Bu arayış, haccın çağrısını, ibadetin yerine getirilmesini ve yolculukta gözetilen sınırları anlamakla ilgilidir.",
+    "verses": [
+      "3:97",
+      "22:27",
+      "22:28",
+      "2:196",
+      "2:197"
+    ],
+    "examples": [
+      "Hacca gidebilecek durumda olup olmadığımı ve sorumluluğumu öğrenmek istiyorum.",
+      "Hac yolculuğunda tartışma ve yanlış davranışlardan uzak durmak istiyorum.",
+      "Hac sırasında paylaşmanın ve ibadetin anlamını ayetlerden okumak istiyorum."
+    ],
+    "aliases": [
+      "hac",
+      "umre",
+      "Kâbe",
+      "haccetmek",
+      "hac ibadeti"
+    ]
+  },
+  {
+    "id": "divine-decree",
+    "title": "Kader ve ilahi takdir",
+    "description": "Varlığın bir ölçüyle yaratılması ve musibetlerin Allahın bilgisi ve izni dışında olmaması.",
+    "verses": [
+      "54:49",
+      "57:22",
+      "64:11"
+    ],
+    "examples": [
+      "Başımıza gelecekler Allahın bilgisinde midir?",
+      "Hayatın bir ölçüye göre yaratıldığını anlatan ayetler.",
+      "Başımıza gelenlerin yaratılmadan önce bir kitapta bulunması."
+    ],
+    "aliases": [
+      "kader",
+      "kaza ve kader",
+      "ilahi takdir",
+      "takdir",
+      "alın yazısı"
+    ]
+  },
+  {
+    "id": "reliance-on-god",
+    "title": "Tevekkül ve Allah’a güvenmek",
+    "description": "Karar verip çaba gösterdikten sonra Allaha dayanmak ve güvenmek.",
+    "verses": [
+      "3:159",
+      "65:3"
+    ],
+    "examples": [
+      "Elimden geleni yaptıktan sonra sonucu nasıl karşılamalıyım?",
+      "Her şeyi kontrol etmeye çalışmak yerine Rabbime güvenmek istiyorum.",
+      "Bir karar verdikten sonra Allaha dayanıp güvenmek istiyorum."
+    ],
+    "aliases": [
+      "tevekkül",
+      "Allaha güvenmek",
+      "Allaha dayanmak",
+      "işini Allaha bırakmak"
+    ]
+  },
+  {
+    "id": "hostile-gaze",
+    "title": "Kötü bakış ve hasetten sığınmak",
+    "description": "Kalem suresinde inkârcıların düşmanca bakışları, Felak suresinde hasetçinin şerrinden Allaha sığınma anlatılır.",
+    "verses": [
+      "68:51",
+      "68:52",
+      "113:5"
+    ],
+    "examples": [
+      "İnsanların düşmanca bakışları ve kıskançlığından Allaha sığınmak.",
+      "Nazar ve kem göz arayışıyla ilgili ayetleri okumak istiyorum.",
+      "Haset eden birinin şerrinden Rabbime sığınmak istiyorum."
+    ],
+    "aliases": [
+      "nazar",
+      "kem göz",
+      "kötü bakış",
+      "göz değmesi",
+      "hasetçinin şerri"
+    ]
+  },
+  {
+    "id": "modesty-dress",
+    "title": "Tesettür ve örtünme",
+    "description": "Erkek ve kadınların bakışlarını ve iffetlerini koruması, örtünme ve giysiye ilişkin ayetler.",
+    "verses": [
+      "24:30",
+      "24:31",
+      "33:59",
+      "7:26"
+    ],
+    "examples": [
+      "Giyim ve mahremiyet konusunda kadın ve erkeklere ne öğütleniyor?",
+      "Örtünme ile ilgili ayetler hangileridir?",
+      "Mahrem yerlerin örtülmesi ve takva elbisesi hakkındaki ayet."
+    ],
+    "aliases": [
+      "tesettür",
+      "örtünme",
+      "başörtüsü",
+      "cilbab",
+      "giyim"
+    ]
+  },
+  {
+    "id": "obligatory-alms",
+    "title": "Zekât",
+    "description": "Zekât emri, malı arındırma ve zekâtın verileceği kimseler.",
+    "verses": [
+      "9:60",
+      "2:43",
+      "9:103",
+      "30:39"
+    ],
+    "examples": [
+      "Malımdan kimlere vermem gerektiğini öğrenmek istiyorum.",
+      "Zekâtın kimlere verileceği nerede anlatılıyor?",
+      "Zekâtın malı arındırması ve paylaşma sorumluluğu."
+    ],
+    "aliases": [
+      "zekât",
+      "zekat",
+      "zekât vermek",
+      "zekât kimlere verilir",
+      "malın zekâtı"
+    ]
+  },
+  {
+    "id": "inheritance-shares",
+    "title": "Miras ve miras payları",
+    "description": "Miras bırakılan mallarda kadın ve erkeklerin payları ile borç ve vasiyet sonrası paylaşım.",
+    "verses": [
+      "4:7",
+      "4:11",
+      "4:12",
+      "4:176"
+    ],
+    "examples": [
+      "Vefat edenin geride bıraktığı mal nasıl paylaşılır?",
+      "Çocukların ve eşlerin miras paylarını anlatan ayetler.",
+      "Borç ve vasiyetten sonra mirasçıların haklarını gözetmek."
+    ],
+    "aliases": [
+      "miras",
+      "miras paylaşımı",
+      "miras payları",
+      "varis",
+      "vasiyet"
+    ]
+  },
+  {
+    "id": "moses-pharaoh",
+    "title": "Musa ve Firavun",
+    "description": "Firavunun baskısı, Musa ve Harunun ona gönderilmesi ve denizin yarılması.",
+    "verses": [
+      "28:4",
+      "20:43",
+      "20:44",
+      "26:63",
+      "26:66"
+    ],
+    "examples": [
+      "Musa peygamberin Firavunla mücadelesini okumak istiyorum.",
+      "Denizin yarılması hangi ayetlerde anlatılır?",
+      "Zalim yöneticiye giderken yumuşak söz söyleme öğüdü."
+    ],
+    "aliases": [
+      "Musa",
+      "Mûsâ",
+      "Firavun",
+      "Harun",
+      "denizin yarılması"
+    ]
+  },
+  {
+    "id": "companions-cave",
+    "title": "Ashab-ı Kehf",
+    "description": "İmanlarını koruyarak mağaraya sığınan gençlerin kıssası.",
+    "verses": [
+      "18:9",
+      "18:10",
+      "18:13",
+      "18:14",
+      "18:25"
+    ],
+    "examples": [
+      "İnançları sebebiyle mağaraya sığınan gençler kimlerdi?",
+      "Mağarada uzun yıllar kalanların kıssası.",
+      "Rablerine inanan gençlerin hidayetinin artırılması."
+    ],
+    "aliases": [
+      "Ashab-ı Kehf",
+      "Ashabı Kehf",
+      "mağara arkadaşları",
+      "mağaradaki gençler",
+      "Kehf ehli"
+    ]
+  },
+  {
+    "id": "joseph-story",
+    "title": "Yusuf kıssası",
+    "description": "Yusufun rüyası, iffetini koruması ve sonunda kardeşleriyle karşılaşması.",
+    "verses": [
+      "12:4",
+      "12:23",
+      "12:33",
+      "12:90"
+    ],
+    "examples": [
+      "Yusufun zindanı tercih etmesini anlatan ayet.",
+      "Kardeşleriyle yeniden karşılaşan peygamberin kıssası.",
+      "Haksızlık karşısında iffetini ve sabrını koruyan Yusuf."
+    ],
+    "aliases": [
+      "Yusuf",
+      "Yûsuf",
+      "Yusuf peygamber",
+      "Yusuf kıssası",
+      "Yusuf ve kardeşleri"
+    ]
+  },
+  {
+    "id": "honey-bees",
+    "title": "Bal arısı ve bal",
+    "description": "Bal arısının yuvaları ve balın insanlar için şifa oluşu.",
+    "verses": [
+      "16:68",
+      "16:69"
+    ],
+    "examples": [
+      "Bal arısı hakkında hangi ayetler var?",
+      "Balın şifa oluşunu anlatan ayeti arıyorum.",
+      "Arıların dağlarda ve ağaçlarda yuva yapmaları."
+    ],
+    "aliases": [
+      "arı",
+      "bal arısı",
+      "bal",
+      "kovan",
+      "Nahl"
+    ]
+  },
+  {
+    "id": "spider-house",
+    "title": "Örümcek evi benzetmesi",
+    "description": "Allahtan başka veliler edinmenin örümcek evine benzetilmesi.",
+    "verses": [
+      "29:41"
+    ],
+    "examples": [
+      "Örümcek yuvası hangi konuda örnek veriliyor?",
+      "Kuranda örümcekle ilgili ayeti bulmak istiyorum.",
+      "Allahtan başkasına güvenmeyi dayanıksız bir yuvaya benzeten ayet."
+    ],
+    "aliases": [
+      "örümcek",
+      "örümcek ağı",
+      "örümcek evi",
+      "Ankebut",
+      "dayanıksız ev"
+    ]
+  },
+  {
+    "id": "iron-benefits",
+    "title": "Demirin gücü ve yararları",
+    "description": "Elçiler, kitap, adalet ve insanlar için çeşitli yararlar taşıyan demirin anılması.",
+    "verses": [
+      "57:25"
+    ],
+    "examples": [
+      "Demirden söz eden ayet hangisidir?",
+      "İnsanlar için yararlar ve demirin sertliği.",
+      "Kitap ve ölçüyle birlikte adalet ve demirden söz edilmesi."
+    ],
+    "aliases": [
+      "demir",
+      "Hadid",
+      "demirin indirilmesi",
+      "demirin faydaları"
+    ]
+  },
+  {
+    "id": "cosmos-creation",
+    "title": "Göklerin ve yerin yaratılışı",
+    "description": "Göklerin ve yerin yaratılması, düzeni ve yaratılış üzerine düşünme.",
+    "verses": [
+      "21:30",
+      "51:47",
+      "67:3",
+      "67:4"
+    ],
+    "examples": [
+      "Gökyüzündeki düzen hakkında ayetler okumak istiyorum.",
+      "Göklerin ve yerin başlangıcını anlatan ayetler.",
+      "Yaratılışta bir düzensizlik aramak için göğe bakma çağrısı."
+    ],
+    "aliases": [
+      "evren",
+      "kâinat",
+      "gökler",
+      "gökyüzü",
+      "yaratılış"
+    ]
+  },
+  {
+    "id": "life-testing",
+    "title": "Hayatın imtihanı",
+    "description": "İmanın, hayatın ve karşılaşılan kayıpların sınanma yönü.",
+    "verses": [
+      "29:2",
+      "29:3",
+      "67:2",
+      "2:155"
+    ],
+    "examples": [
+      "İnandığım halde neden zorluklarla karşılaşıyorum?",
+      "Dünya hayatının sınav olmasını anlamak istiyorum.",
+      "Hayatın kimin daha güzel davranacağını sınamak için yaratılması."
+    ],
+    "aliases": [
+      "imtihan",
+      "sınav",
+      "sınanmak",
+      "hayatın amacı",
+      "Allah neden sınar"
+    ]
+  },
+  {
+    "id": "associating-partners",
+    "title": "Şirk ve Allah’a ortak koşmak",
+    "description": "Allaha ortak koşmanın yasaklanması ve Allahın eşsiz birliği.",
+    "verses": [
+      "4:48",
+      "31:13",
+      "112:1",
+      "112:2",
+      "112:3",
+      "112:4"
+    ],
+    "examples": [
+      "Allaha ortak koşmak ne demektir?",
+      "Lokmanın oğluna şirk konusunda öğüdü.",
+      "Allahın hiçbir dengi ve benzeri olmadığını okumak istiyorum."
+    ],
+    "aliases": [
+      "şirk",
+      "müşrik",
+      "Allaha ortak koşmak",
+      "putperestlik",
+      "ortak koşmak"
+    ]
+  },
+  {
+    "id": "god-consciousness",
+    "title": "Takva ve sorumluluk bilinci",
+    "description": "Allaha karşı gelmekten sakınmak ve insanlar arasındaki değerin takvayla ölçülmesi.",
+    "verses": [
+      "2:2",
+      "3:102",
+      "49:13"
+    ],
+    "examples": [
+      "Allah katında insanı değerli kılan nedir?",
+      "Takva sahibi olmayı anlatan ayetleri arıyorum.",
+      "İnsanları soylarına göre değil Allahtan sakınmalarına göre değerlendirmek."
+    ],
+    "aliases": [
+      "takva",
+      "muttaki",
+      "Allahtan sakınmak",
+      "Allah korkusu",
+      "sorumluluk bilinci"
+    ]
+  },
+  {
+    "id": "excellence-goodness",
+    "title": "İhsan ve iyilik yapmak",
+    "description": "İyilik etmek, işleri iyi yapmak ve Allahın iyilik edenlerle beraber olması.",
+    "verses": [
+      "16:90",
+      "2:195",
+      "29:69"
+    ],
+    "examples": [
+      "Yaptığım işi güzel ve hakkıyla yapmaya dair ayetler.",
+      "Allahın iyilik edenlerle beraber olması.",
+      "İyiliği ve yakınlara yardım etmeyi emreden ayet."
+    ],
+    "aliases": [
+      "ihsan",
+      "iyilik",
+      "muhsin",
+      "işini iyi yapmak",
+      "iyilik edenler"
+    ]
+  },
+  {
+    "id": "reading-reflecting-quran",
+    "title": "Kur’an’ı okumak ve düşünmek",
+    "description": "Kuranın yol göstericiliği, dinlenmesi ve ayetleri üzerinde düşünülmesi.",
+    "verses": [
+      "7:204",
+      "17:9",
+      "38:29",
+      "47:24"
+    ],
+    "examples": [
+      "Kuran okunurken nasıl davranmalı?",
+      "Ayetlerin anlamı üzerinde düşünmeye dair ayetler.",
+      "Kuranın insanlara en doğru yolu göstermesi."
+    ],
+    "aliases": [
+      "Kuran okumak",
+      "Kur’an",
+      "Kuran dinlemek",
+      "tedebbür",
+      "ayetleri düşünmek"
+    ]
+  },
+  {
+    "id": "ablution-purification",
+    "title": "Abdest, gusül ve teyemmüm",
+    "description": "Namaz öncesi temizlik ve su bulunmadığında teyemmüm.",
+    "verses": [
+      "5:6",
+      "4:43"
+    ],
+    "examples": [
+      "Su bulamazsam ibadet öncesi nasıl temizlenebilirim?",
+      "Abdestte hangi organların yıkanacağı anlatılıyor?",
+      "Namaza kalkarken yıkanmak ve gusülle temizlenmek."
+    ],
+    "aliases": [
+      "abdest",
+      "gusül",
+      "boy abdesti",
+      "teyemmüm",
+      "cünüplük"
+    ]
+  },
+  {
+    "id": "friday-prayer",
+    "title": "Cuma namazı",
+    "description": "Cuma çağrısı geldiğinde alışverişi bırakıp zikre yönelmek ve namaz sonrası rızık aramak.",
+    "verses": [
+      "62:9",
+      "62:10"
+    ],
+    "examples": [
+      "Cuma günü ezan okununca ne yapılır?",
+      "Cuma namazı ve iş hayatını anlatan ayetler.",
+      "Namaz tamamlanınca yeryüzüne dağılıp Allahın lütfunu aramak."
+    ],
+    "aliases": [
+      "cuma",
+      "cuma namazı",
+      "cuma ezanı",
+      "alışverişi bırakmak"
+    ]
+  },
+  {
+    "id": "night-of-decree",
+    "title": "Kadir Gecesi",
+    "description": "Kuranın indirildiği, bin aydan hayırlı olduğu bildirilen gece.",
+    "verses": [
+      "97:1",
+      "97:2",
+      "97:3",
+      "97:4",
+      "97:5"
+    ],
+    "examples": [
+      "Bin aydan daha hayırlı olan gece.",
+      "Kuranın indirildiği gecenin değerini okumak istiyorum.",
+      "Meleklerin indiği ve tan yerine kadar esenlik olan gece."
+    ],
+    "aliases": [
+      "Kadir Gecesi",
+      "Leyletülkadr",
+      "bin aydan hayırlı gece",
+      "Kadr"
+    ]
+  },
+  {
+    "id": "month-ramadan",
+    "title": "Ramazan ayı",
+    "description": "Kuranın indirildiği ramazan ayı, oruç emri ve hasta ya da yolcular için kolaylık.",
+    "verses": [
+      "2:185"
+    ],
+    "examples": [
+      "Ramazan ayının özelliği nedir?",
+      "Hasta ve yolcunun ramazanda orucu nasıl anlatılır?",
+      "Allahın kolaylık istediği, zorluk istemediği oruç ayeti."
+    ],
+    "aliases": [
+      "ramazan",
+      "Ramazan ayı",
+      "ramazan orucu",
+      "Kuranın indirildiği ay"
+    ]
+  },
+  {
+    "id": "angels",
+    "title": "Meleklere iman",
+    "description": "Meleklere inanmak ve meleklerin elçi olarak anılması.",
+    "verses": [
+      "2:285",
+      "35:1"
+    ],
+    "examples": [
+      "Melekler hakkında ayetler hangileridir?",
+      "Meleklere iman etmek nerede anlatılır?",
+      "Müminlerin Allahın meleklerine inanmasını anlatan ayet."
+    ],
+    "aliases": [
+      "melek",
+      "melekler",
+      "meleklere iman",
+      "kanatlı elçiler"
+    ]
+  },
+  {
+    "id": "jinn",
+    "title": "Cinler",
+    "description": "Cinlerin yaratılışı, Kuran dinleyip iman eden cinler ve kulluk amacı.",
+    "verses": [
+      "72:1",
+      "72:2",
+      "55:15",
+      "51:56"
+    ],
+    "examples": [
+      "Kuranı dinleyip inanan cinleri anlatan ayetler.",
+      "Cinler neden yaratılmıştır?",
+      "Cinlerin insanlarla birlikte kulluk için yaratılmaları."
+    ],
+    "aliases": [
+      "cin",
+      "cinler",
+      "cinlerin yaratılışı",
+      "Cin suresi"
+    ]
+  },
+  {
+    "id": "satan-whispers",
+    "title": "Şeytan ve vesvese",
+    "description": "Şeytanın düşmanlığı, kötülüğe çağırması ve vesveseden Allaha sığınma.",
+    "verses": [
+      "2:168",
+      "2:169",
+      "35:6",
+      "7:200"
+    ],
+    "examples": [
+      "İçime kötülük düşüncesi gelince Allaha sığınmak istiyorum.",
+      "Şeytanın insanları neye çağırdığını anlatan ayetler.",
+      "Şeytanın düşman olduğunu bilip çağrısına uymamak."
+    ],
+    "aliases": [
+      "şeytan",
+      "İblis",
+      "vesvese",
+      "şeytanın adımları",
+      "şeytandan korunmak"
+    ]
+  },
+  {
+    "id": "resurrection",
+    "title": "Ölümden sonra diriliş",
+    "description": "Kıyamet, kabirdekilerin diriltilmesi ve yeniden yaratılış.",
+    "verses": [
+      "22:7",
+      "36:78",
+      "36:79",
+      "75:3",
+      "75:4"
+    ],
+    "examples": [
+      "Çürümüş kemikler nasıl yeniden hayat bulacak?",
+      "Ölümden sonra dirilmek hakkında ayetler.",
+      "İlk defa yaratanın yeniden yaratmaya da gücünün yetmesi."
+    ],
+    "aliases": [
+      "diriliş",
+      "yeniden dirilmek",
+      "ba’s",
+      "öldükten sonra",
+      "kıyamet"
+    ]
+  },
+  {
+    "id": "judgement-scales",
+    "title": "Hesap günü ve amellerin tartılması",
+    "description": "İyilik ve kötülüklerin karşılığının görülmesi, amellerin ağır veya hafif gelmesi.",
+    "verses": [
+      "99:7",
+      "99:8",
+      "101:6",
+      "101:7",
+      "101:8",
+      "101:9"
+    ],
+    "examples": [
+      "En küçük davranışlarımın bile karşılığı var mı?",
+      "Ahirette amellerin tartılması nasıl anlatılır?",
+      "İyilikleri ağır gelenlerle hafif gelenlerin akıbeti."
+    ],
+    "aliases": [
+      "hesap günü",
+      "mizan",
+      "amel terazisi",
+      "mahşer",
+      "amellerin tartılması"
+    ]
+  },
+  {
+    "id": "paradise",
+    "title": "Cennet",
+    "description": "Takva sahiplerine vaat edilen cennet ve cennet nimetleri.",
+    "verses": [
+      "3:133",
+      "47:15",
+      "56:10",
+      "56:11",
+      "56:12"
+    ],
+    "examples": [
+      "Cennetteki nimetleri anlatan ayetler.",
+      "Cennet kimler için hazırlanmıştır?",
+      "Bağışlanmaya ve takva sahipleri için hazırlanmış cennete yönelmek."
+    ],
+    "aliases": [
+      "cennet",
+      "cennet nimetleri",
+      "Naim cennetleri",
+      "cennet ehli"
+    ]
+  },
+  {
+    "id": "hell",
+    "title": "Cehennem",
+    "description": "İnkâr ve azgınlığın sonucu olarak cehennem azabının anılması.",
+    "verses": [
+      "4:56",
+      "67:6",
+      "78:21",
+      "78:22"
+    ],
+    "examples": [
+      "Cehennemden söz eden ayetleri okumak istiyorum.",
+      "Ahiret azabı hakkında neler anlatılıyor?",
+      "Azgınlar için hazırlanan kötü varış yeri."
+    ],
+    "aliases": [
+      "cehennem",
+      "ateş azabı",
+      "cehennem azabı",
+      "ahiret azabı"
+    ]
+  },
+  {
+    "id": "abraham-story",
+    "title": "İbrahim kıssası",
+    "description": "İbrahimin sınanması, putlarla mücadelesi ve ateşten korunması.",
+    "verses": [
+      "2:124",
+      "21:51",
+      "21:58",
+      "21:69"
+    ],
+    "examples": [
+      "İbrahim peygamberin ateşe atılması.",
+      "Putları kıran peygamberin kıssası.",
+      "İbrahimin putlardan büyük olanını bırakması."
+    ],
+    "aliases": [
+      "İbrahim",
+      "İbrahîm",
+      "İbrahim peygamber",
+      "putları kırmak",
+      "ateşin serin olması"
+    ]
+  },
+  {
+    "id": "noah-flood",
+    "title": "Nuh ve tufan",
+    "description": "Nuhun gemi yapması ve tufan sırasında yaşananlar.",
+    "verses": [
+      "11:36",
+      "11:37",
+      "11:42",
+      "11:44"
+    ],
+    "examples": [
+      "Tufan ve gemiyle kurtuluşu okumak istiyorum.",
+      "Nuhun oğlunu gemiye çağırmasını anlatan ayet.",
+      "Suyun çekilmesi ve geminin Cudiye oturması."
+    ],
+    "aliases": [
+      "Nuh",
+      "Nûh",
+      "tufan",
+      "Nuhun gemisi",
+      "Cudi"
+    ]
+  },
+  {
+    "id": "jesus-messiah",
+    "title": "İsa Mesih",
+    "description": "Meryemoğlu İsanın müjdelenmesi, mucizeleri ve peygamberliği.",
+    "verses": [
+      "3:45",
+      "3:49",
+      "4:171"
+    ],
+    "examples": [
+      "İsa peygamberin mucizeleri hangi ayetlerde?",
+      "Meryemoğlu İsanın Allahın elçisi olması.",
+      "İsanın Allahın izniyle hastaları iyileştirmesini okumak istiyorum."
+    ],
+    "aliases": [
+      "İsa",
+      "İsâ",
+      "Mesih",
+      "Meryemoğlu İsa",
+      "İsa peygamber"
+    ]
+  },
+  {
+    "id": "mary",
+    "title": "Meryem",
+    "description": "Meryemin seçilmesi ve kendisine çocuk müjdelenmesi.",
+    "verses": [
+      "3:42",
+      "19:16",
+      "19:20",
+      "19:21"
+    ],
+    "examples": [
+      "Meryeme çocuğunun müjdelenmesini okumak istiyorum.",
+      "Meryemin seçilmiş olmasını anlatan ayet.",
+      "Hiçbir insan dokunmadığı halde Meryeme çocuk müjdelenmesi."
+    ],
+    "aliases": [
+      "Meryem",
+      "Hz Meryem",
+      "Meryemin iffeti",
+      "İsanın annesi"
+    ]
+  },
+  {
+    "id": "luqman-wisdom",
+    "title": "Lokman’ın öğütleri",
+    "description": "Lokmana hikmet verilmesi, şükür, şirkten sakınma, namaz ve sabır öğütleri.",
+    "verses": [
+      "31:12",
+      "31:13",
+      "31:16",
+      "31:17"
+    ],
+    "examples": [
+      "Bir babanın çocuğuna verdiği öğütler.",
+      "Lokmanın oğluna namaz ve sabır hakkında öğütleri.",
+      "Hardal tanesi kadar bir işin bile Allahın bilgisinde olması."
+    ],
+    "aliases": [
+      "Lokman",
+      "Lokmanın öğütleri",
+      "Lokmanın oğluna nasihati",
+      "hikmet"
+    ]
+  },
+  {
+    "id": "companions-elephant",
+    "title": "Fil sahipleri",
+    "description": "Fil sahiplerinin tuzağının boşa çıkarılması ve gönderilen kuşlar.",
+    "verses": [
+      "105:1",
+      "105:2",
+      "105:3",
+      "105:4",
+      "105:5"
+    ],
+    "examples": [
+      "Kuşların taş atmasını anlatan sure.",
+      "Fil sahiplerine ne yapıldığını okumak istiyorum.",
+      "Fil ordusunun tuzağının boşa çıkarılması."
+    ],
+    "aliases": [
+      "Fil suresi",
+      "fil sahipleri",
+      "Ashab-ı Fil",
+      "Ebabil kuşları",
+      "fil ordusu"
+    ]
+  },
+  {
+    "id": "forbidden-foods",
+    "title": "Haram kılınan yiyecekler",
+    "description": "Leş, kan, domuz eti ve Allahtan başkası adına kesilenlerin yasaklanması; zaruret istisnası.",
+    "verses": [
+      "2:173",
+      "5:3",
+      "6:145"
+    ],
+    "examples": [
+      "Yenilmesi yasak olan yiyecekler hangileridir?",
+      "Zorda kalındığında haram yiyecekler hakkında ne söylenir?",
+      "Allahtan başkası adına kesilen hayvanları anlatan ayetler."
+    ],
+    "aliases": [
+      "domuz",
+      "domuz eti",
+      "leş",
+      "haram yiyecekler",
+      "kan"
+    ]
+  },
+  {
+    "id": "lawful-food",
+    "title": "Helal ve temiz rızık",
+    "description": "Helal ve temiz olan yiyeceklerden yararlanmak ve verilen nimete şükretmek.",
+    "verses": [
+      "2:168",
+      "5:88",
+      "16:114"
+    ],
+    "examples": [
+      "Yediklerimin helal ve temiz olmasına ilişkin ayetler.",
+      "Verilen rızık için şükretmek.",
+      "Temiz olan nimetlerden yiyip Allaha şükretmek."
+    ],
+    "aliases": [
+      "helal",
+      "helâl",
+      "temiz gıda",
+      "helal rızık",
+      "helal yemek"
+    ]
+  },
+  {
+    "id": "reflection-signs",
+    "title": "Tefekkür ve yaratılıştaki işaretler",
+    "description": "Göklerin, yerin ve insan hayatının ayetleri üzerinde düşünmek.",
+    "verses": [
+      "3:190",
+      "3:191",
+      "30:21"
+    ],
+    "examples": [
+      "Gece ve gündüzdeki işaretler üzerine düşünmek.",
+      "Yaratılıştan ibret almayı anlatan ayetler.",
+      "Ayakta, otururken ve yatarken Rabbini anıp düşünmek."
+    ],
+    "aliases": [
+      "tefekkür",
+      "düşünmek",
+      "ibret",
+      "yaratılışı düşünmek",
+      "akletmek"
+    ]
+  },
+  {
+    "id": "proportional-response",
+    "title": "Ceza, kısas ve affetmek",
+    "description": "Haksızlığa ölçülü karşılık, kısas ve affetmenin anılması.",
+    "verses": [
+      "16:126",
+      "5:45",
+      "42:40"
+    ],
+    "examples": [
+      "Haksızlığa karşılık verirken sınırı aşmamak.",
+      "Kısas ve hakkından vazgeçmek hakkında ayetler.",
+      "Ceza verirken denk davranmak ve affetmeyi tercih etmek."
+    ],
+    "aliases": [
+      "kısas",
+      "ceza",
+      "misliyle karşılık",
+      "intikam",
+      "cezada ölçü"
+    ]
+  },
+  {
+    "id": "divine-oneness",
+    "title": "Tevhid ve Allah’ın birliği",
+    "description": "Tek ilah olan Allahın eşi ve dengi bulunmaması.",
+    "verses": [
+      "2:163",
+      "112:1",
+      "112:2",
+      "112:3",
+      "112:4"
+    ],
+    "examples": [
+      "Allahın eşi ve benzeri olmadığını anlatan ayetler.",
+      "Tek bir ilaha iman hakkında ayetler.",
+      "Allahın doğurmamış ve doğurulmamış olması."
+    ],
+    "aliases": [
+      "tevhid",
+      "Allah birdir",
+      "Allahın birliği",
+      "bir tek ilah",
+      "İhlas suresi"
+    ]
+  },
+  {
+    "id": "steadfastness",
+    "title": "İstikamet ve dosdoğru olmak",
+    "description": "İman edip dosdoğru yaşamak ve emrolunduğu gibi doğru davranmak.",
+    "verses": [
+      "11:112",
+      "41:30",
+      "46:13"
+    ],
+    "examples": [
+      "İnandığım değerlere uygun bir hayat sürmek istiyorum.",
+      "Emrolunduğun gibi dosdoğru ol ayeti.",
+      "Rabbimiz Allah deyip sonra doğru yaşamaya devam etmek."
+    ],
+    "aliases": [
+      "istikamet",
+      "dosdoğru olmak",
+      "dürüst yaşamak",
+      "doğru yolda kalmak"
+    ]
+  },
+  {
+    "id": "divine-guidance",
+    "title": "Hidayet ve doğru yolu aramak",
+    "description": "Doğru yolu dilemek, Kuranın yol göstericiliği ve hidayetin Allahtan olması.",
+    "verses": [
+      "1:6",
+      "2:2",
+      "28:56",
+      "39:18"
+    ],
+    "examples": [
+      "Doğru yolu bulmak için Rabbime dua etmek.",
+      "Sevdiğim birini zorla doğru yola getirebilir miyim?",
+      "Sözü dinleyip en güzeline uyanların doğruya yönelmesi."
+    ],
+    "aliases": [
+      "hidayet",
+      "doğru yol",
+      "hidayete ermek",
+      "sırat-ı müstakim",
+      "yol gösterici"
+    ]
+  },
+  {
+    "id": "hypocrisy",
+    "title": "Münafıklık ve ikiyüzlülük",
+    "description": "İnancı hakkında yalan söylemek, gösteriş için namaza kalkmak ve münafıkların tutumu.",
+    "verses": [
+      "4:142",
+      "63:1",
+      "63:4"
+    ],
+    "examples": [
+      "Dışarıdan inanmış görünmek ama içten farklı davranmak.",
+      "Münafıkların özelliklerini anlatan ayetler.",
+      "Namaza üşenerek kalkıp insanlara gösteriş yapmayı anlatan ayet."
+    ],
+    "aliases": [
+      "münafık",
+      "münafıklık",
+      "nifak",
+      "ikiyüzlülük",
+      "gösterişçi ibadet"
+    ]
+  },
+  {
+    "id": "sorcery",
+    "title": "Sihir ve büyü",
+    "description": "Sihir öğrenmenin zararları, büyücülerin hilesi ve şerden Allaha sığınma.",
+    "verses": [
+      "2:102",
+      "20:69",
+      "113:4"
+    ],
+    "examples": [
+      "Büyü ve sihirden söz eden ayetler.",
+      "Sihirle ilgili Harut ve Marut kıssasını okumak istiyorum.",
+      "Sihir yoluyla karı kocanın arasını ayırmak isteyenler."
+    ],
+    "aliases": [
+      "sihir",
+      "büyü",
+      "büyücü",
+      "Harut Marut",
+      "düğümlere üflemek"
+    ]
+  },
+  {
+    "id": "joseph-dreams",
+    "title": "Yusuf’un rüyası ve yorumu",
+    "description": "Yusufun gördüğü rüya ve kıssanın sonunda rüyasının gerçekleşmesi.",
+    "verses": [
+      "12:4",
+      "12:6",
+      "12:100"
+    ],
+    "examples": [
+      "On bir yıldızla güneş ve ayın secde ettiği rüya.",
+      "Yusufun rüyasının gerçekleşmesini anlatan ayetler.",
+      "Yusufun gördüğü rüyanın sonunda gerçekleştiğini babasına söylemesi."
+    ],
+    "aliases": [
+      "rüya",
+      "rüya yorumu",
+      "Yusufun rüyası",
+      "on bir yıldız"
+    ]
+  },
+  {
+    "id": "prophets-message",
+    "title": "Peygamberler ve mesajları",
+    "description": "Peygamberlerin Allaha kulluğa çağırması ve Muhammedin elçiliği.",
+    "verses": [
+      "16:36",
+      "21:107",
+      "33:40"
+    ],
+    "examples": [
+      "Peygamberler insanları neye çağırır?",
+      "Muhammedin peygamberlerin sonuncusu olduğunu bildiren ayet.",
+      "Muhammedin âlemlere rahmet olarak gönderilmesi."
+    ],
+    "aliases": [
+      "peygamber",
+      "peygamberlik",
+      "nübüvvet",
+      "risalet",
+      "Muhammed"
+    ]
+  }
+]

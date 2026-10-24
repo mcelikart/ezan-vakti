@@ -5,11 +5,21 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
+        <exclude domain="sharedpref" path="sunrise_alarm_runtime.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_ringing.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_volume_lease.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_data_refresh.xml" />
         <!-- TODO: Use <include> and <exclude> to control what is backed up.
         <include .../>
         <exclude .../>
         -->
     </cloud-backup>
+    <device-transfer>
+        <exclude domain="sharedpref" path="sunrise_alarm_runtime.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_ringing.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_volume_lease.xml" />
+        <exclude domain="sharedpref" path="sunrise_alarm_data_refresh.xml" />
+    </device-transfer>
     <!--
     <device-transfer>
         <include .../>

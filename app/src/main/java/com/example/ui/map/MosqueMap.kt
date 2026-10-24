@@ -85,7 +85,8 @@ internal fun MosqueMap(
     onSelect: (Mosque) -> Unit,
     onStatus: (MapStatus) -> Unit,
     modifier: Modifier = Modifier,
-    recenterKey: Int = 0
+    recenterKey: Int = 0,
+    focusedMosque: Mosque? = null
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -240,6 +241,20 @@ internal fun MosqueMap(
             (centerLongitude - lonDelta).coerceAtLeast(-180.0)
         )
         readyMap?.animateCamera(org.maplibre.android.camera.CameraUpdateFactory.newLatLngBounds(bounds, 28))
+    }
+
+    LaunchedEffect(readyMap, focusedMosque) {
+        val map = readyMap ?: return@LaunchedEffect
+        val target = focusedMosque ?: return@LaunchedEffect
+        if (target.isValid) {
+            map.animateCamera(
+                org.maplibre.android.camera.CameraUpdateFactory.newLatLngZoom(
+                    LatLng(target.latitude, target.longitude),
+                    maxOf(map.cameraPosition.zoom, 16.0)
+                ),
+                500
+            )
+        }
     }
 
     // Never let a silent stall look like a working map.

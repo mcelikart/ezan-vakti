@@ -7,11 +7,9 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
-import android.media.AudioAttributes
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
-import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.compose.ui.graphics.toArgb
 import com.example.MainActivity
@@ -30,31 +28,42 @@ class CountdownService : Service() {
     override fun onCreate() {
         super.onCreate()
         BackgroundServices.armWatchdog(this)
+        PrayerAlertExpiry.clearStaleAlerts(this)
         createNotificationChannel()
         val selectedTheme = selectedTheme()
         val palette = selectedTheme.spec.colors(selectedTheme.spec.prefersDark)
+        val cachedNext = recalculateNextPrayer(com.example.data.PrayerTimeCache.read(this))
+        val savedTarget = getSharedPreferences("countdown_service_prefs", MODE_PRIVATE)
+            .getLong("NEXT_PRAYER_TIME_MILLIS", 0L)
+        val initialTarget = cachedNext?.timeMillis ?: savedTarget.takeIf { it > System.currentTimeMillis() }
         val initialPublic = publicCountdownNotification(
-            title = "Ezan Vakti",
-            targetTimeMillis = null,
+            title = getString(R.string.app_name),
+            targetTimeMillis = initialTarget,
             contentIntent = null,
             accentColor = palette.primary.toArgb()
         )
         val initial = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle("Ezan Vakti")
+            .setSmallIcon(CountdownStatusIcon.create(this,
+                (initialTarget ?: System.currentTimeMillis()) - System.currentTimeMillis()))
+            .setContentTitle(getString(R.string.app_name))
             .setContentText("Vakitler güncelleniyor")
             .setOngoing(true)
             .setAutoCancel(false)
             .setOnlyAlertOnce(true)
+            .setSilent(true)
             .setGroup(COUNTDOWN_GROUP)
             .setGroupSummary(false)
-            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
+            .setSortKey("00_countdown")
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
             .setCategory(NotificationCompat.CATEGORY_STATUS)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPublicVersion(initialPublic)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .setColor(palette.primary.toArgb())
-            .build()
+            .build().apply {
+                flags = flags or android.app.Notification.FLAG_NO_CLEAR
+            }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(1001, initial, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
         } else {
@@ -180,6 +189,7 @@ class CountdownService : Service() {
                         activeCurrentIndex = it.currentIndex
                         diff = activeNextTimeMillis - now
                     }
+                    PrayerAlarmScheduler.scheduleAllPrayerAlarms(applicationContext)
                 }
                 
                 // 15-minute background periodic location check
@@ -294,7 +304,7 @@ class CountdownService : Service() {
                 )
 
                 val notification = NotificationCompat.Builder(this@CountdownService, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notification)
+                    .setSmallIcon(CountdownStatusIcon.create(this@CountdownService, diff))
                     .setContentTitle("$activeNextName vaktine kalan")
                     .setContentText(formatRemaining(diff))
                     .setSubText(currentLocation)
@@ -315,7 +325,7 @@ class CountdownService : Service() {
                     .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
                     .setGroup(COUNTDOWN_GROUP)
                     .setGroupSummary(false)
-                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
+                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                     .setSortKey("00_countdown")
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC) // Shows on lockscreen and Always on Display
                     .setPublicVersion(publicCountdownNotification(
@@ -326,6 +336,7 @@ class CountdownService : Service() {
                     ))
                     .setCategory(NotificationCompat.CATEGORY_STATUS)
                     .setOnlyAlertOnce(true)
+                    .setSilent(true)
                     .build()
 
                 notification.flags = notification.flags or android.app.Notification.FLAG_NO_CLEAR or android.app.Notification.FLAG_ONGOING_EVENT
@@ -334,7 +345,8 @@ class CountdownService : Service() {
                 manager?.notify(1001, notification)
 
                 // SystemUI renders Chronometer every second without waking this service every second.
-                delay(if (diff in 1..30_000L) diff + 250L else 30_000L)
+                val untilPrayer = if (diff > 0L) diff + 50L else 30_000L
+                delay(minOf(30_000L, untilPrayer, CountdownStatusIcon.millisUntilNextMinuteChange(diff)))
             }
         }
 
@@ -362,20 +374,22 @@ class CountdownService : Service() {
         contentIntent: PendingIntent?,
         accentColor: Int
     ): android.app.Notification = NotificationCompat.Builder(this, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_notification)
+        .setSmallIcon(CountdownStatusIcon.create(this,
+            (targetTimeMillis ?: System.currentTimeMillis()) - System.currentTimeMillis()))
         .setContentTitle(title)
         .setContentText(if (targetTimeMillis == null) "Vakitler güncelleniyor" else formatRemaining(targetTimeMillis - System.currentTimeMillis()))
         .setContentIntent(contentIntent)
         .setOngoing(true)
         .setAutoCancel(false)
         .setOnlyAlertOnce(true)
+        .setSilent(true)
         .setShowWhen(targetTimeMillis != null)
         .setWhen(targetTimeMillis ?: System.currentTimeMillis())
         .setUsesChronometer(targetTimeMillis != null)
         .setChronometerCountDown(targetTimeMillis != null)
         .setGroup(COUNTDOWN_GROUP)
         .setGroupSummary(false)
-        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
+        .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
         .setSortKey("00_countdown")
         .setCategory(NotificationCompat.CATEGORY_STATUS)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -471,19 +485,17 @@ class CountdownService : Service() {
                 manager?.deleteNotificationChannel("prayer_countdown_channel_v6")
                 manager?.deleteNotificationChannel("prayer_countdown_system_channel_v1")
                 manager?.deleteNotificationChannel("prayer_countdown_priority_v2")
+                manager?.deleteNotificationChannel("prayer_countdown_live_v3")
             } catch (_: Exception) {}
 
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Ezan Vakti Canlı Geri Sayım",
-                NotificationManager.IMPORTANCE_HIGH
+                "${getString(R.string.app_name)} Canlı Geri Sayım",
+                NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
                 description = "Sonraki vakte kalan süreyi üst bildirim bölümünde sürekli gösterir"
                 setShowBadge(false)
-                setSound(
-                    Settings.System.DEFAULT_NOTIFICATION_URI,
-                    AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
-                )
+                setSound(null, null)
                 enableVibration(false)
                 lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC // Show on lockscreen and Always On Display
             }
@@ -529,7 +541,7 @@ class CountdownService : Service() {
         // A group summary is replaced by alert snippets on Android 7+.
         // Keep the running clock in a dedicated, non-summary group.
         internal const val COUNTDOWN_GROUP = "prayer_countdown_standalone"
-        internal const val CHANNEL_ID = "prayer_countdown_live_v3"
+        internal const val CHANNEL_ID = "prayer_countdown_live_v4_silent"
 
         internal fun formatRemaining(diffMillis: Long): String {
             val totalSeconds = (diffMillis.coerceAtLeast(0L) + 999L) / 1000L

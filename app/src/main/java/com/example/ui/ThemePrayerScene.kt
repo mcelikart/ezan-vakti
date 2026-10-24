@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.HijriDate
 import com.example.data.Timings
 import com.example.ui.theme.*
 import java.util.Date
@@ -32,18 +33,18 @@ private data class ScenePrayer(val name: String, val time: String, val next: Boo
 @Composable
 fun ThemePrayerScene(
     timings: Timings, remainingTime: String, currentAndNext: Pair<String?, String?>?,
-    progress: Float, date: Date = Date()
+    progress: Float, date: Date = Date(), todayHijri: HijriDate? = null
 ) {
     val spec = LocalThemeSpec.current
     val strings = LocalAppStrings.current
     if (spec.id == AppTheme.CLASSIC_EMERALD.specId || spec.scheduleStyle == ScheduleStyle.CLASSIC) {
         Box(Modifier.fillMaxWidth().testTag("composition-DOME")) {
-            HeroStyleGokKubbe(timings, remainingTime, currentAndNext, progress, strings)
+            HeroStyleGokKubbe(timings, remainingTime, currentAndNext, progress, strings, todayHijri = todayHijri)
         }
         return
     }
     Column(Modifier.fillMaxWidth().testTag("composition-DOME")) {
-        HeroStyleGokKubbe(timings, remainingTime, currentAndNext, progress, strings, showPrayerTimes = false)
+        HeroStyleGokKubbe(timings, remainingTime, currentAndNext, progress, strings, showPrayerTimes = false, todayHijri = todayHijri)
         val keys = listOf("İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı")
         val names = listOf(strings.fajr, strings.sunrise, strings.dhuhr, strings.asr, strings.maghrib, strings.isha)
         val times = listOf(timings.Fajr, timings.Sunrise, timings.Dhuhr, timings.Asr, timings.Maghrib, timings.Isha)

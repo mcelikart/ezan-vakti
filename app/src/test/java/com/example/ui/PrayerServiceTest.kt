@@ -24,6 +24,8 @@ class PrayerServiceTest {
         context = ApplicationProvider.getApplicationContext()
         context.getSharedPreferences("alarm_prefs", 0).edit().clear().commit()
         context.getSharedPreferences("prayer_daily_times", 0).edit().clear().commit()
+        context.getSharedPreferences("countdown_service_prefs", 0).edit().clear().commit()
+        context.getSharedPreferences("prayer_alarm_scheduler", 0).edit().clear().commit()
     }
 
     @Test fun countdownImmediatelyEntersForegroundAsIndependentPersistentNotification() {
@@ -42,7 +44,8 @@ class PrayerServiceTest {
             assertEquals(0L, notification.timeoutAfter)
             val channel = controller.get().getSystemService(NotificationManager::class.java)
                 .getNotificationChannel(CountdownService.CHANNEL_ID)
-            assertEquals(NotificationManager.IMPORTANCE_HIGH, channel.importance)
+            assertEquals(NotificationManager.IMPORTANCE_DEFAULT, channel.importance)
+            assertNull(channel.sound)
             assertEquals(Notification.VISIBILITY_PUBLIC, channel.lockscreenVisibility)
         } finally { controller.destroy() }
     }

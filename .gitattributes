@@ -1,0 +1,1 @@
+app/src/main/assets/quran_search/encoder.onnx filter=lfs diff=lfs merge=lfs -text

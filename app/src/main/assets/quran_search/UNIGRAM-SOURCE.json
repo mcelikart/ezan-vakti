@@ -1,0 +1,19 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "source": "https://huggingface.co/intfloat/multilingual-e5-small",
+  "sourceTokenizerSha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+  "vocabularyCount": 250002,
+  "maxPieceCodePoints": 16,
+  "format": "XLU1; big-endian uint32 count; repeated uint32 UTF8 byte length, UTF8 piece, Float64 score; IDs implicit by order",
+  "normalizerFormat": "Unchanged SentencePiece precompiled charsmap: little-endian uint32 Darts byte length; uint32 Darts units; null-terminated UTF8 replacement table",
+  "files": {
+    "unigram-vocab.bin": {
+      "bytes": 5581377,
+      "sha256": "d15c701d04ee3c890ff19505625472e198ee284645fca4c5601f3aed8d2f5e59"
+    },
+    "unigram-normalizer.bin": {
+      "bytes": 237539,
+      "sha256": "0942789e0111452f1cc446f70036e26d24458c3c7858c53cc12ca4d87531279b"
+    }
+  }
+}

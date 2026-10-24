@@ -296,7 +296,8 @@ fun MosqueFinderScreen(
                                         },
                                         onStatus = { mapStatus = it },
                                         modifier = Modifier.fillMaxSize(),
-                                        recenterKey = recenter
+                                        recenterKey = recenter,
+                                        focusedMosque = selectedMosque
                                     )
                                 }
 
@@ -576,9 +577,12 @@ fun MosqueFinderScreen(
                                 mosque = mosque,
                                 rank = index + 1,
                                 isNearest = mosque == nearestOverall,
+                                isSelected = mosque == selectedMosque,
                                 userLat = userLat,
                                 userLng = userLng,
-                                onClick = { onOpenDirections(mosque) },
+                                onClick = {
+                                    selectedMosque = mosque
+                                },
                                 onDriveClick = {
                                     openDrivingDirections(context, mosque.latitude, mosque.longitude, mosque.displayName)
                                 },
@@ -591,7 +595,7 @@ fun MosqueFinderScreen(
                     }
                     item {
                         Text(
-                            text = "OpenStreetMap kayıtları • Mesafeler kuş uçuşudur. Yürüme süreleri ortalama 4,8 km/sa hızla tahmin edilir.",
+                            text = "Doğrulanmış cami kayıtları ve harita verileri • Mesafeler kuş uçuşudur. Yürüme süreleri ortalama 4,8 km/sa hızla hesaplanır.",
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -897,6 +901,7 @@ private fun MosqueRow(
     mosque: Mosque,
     rank: Int,
     isNearest: Boolean,
+    isSelected: Boolean = false,
     userLat: Double,
     userLng: Double,
     onClick: () -> Unit,
@@ -915,15 +920,16 @@ private fun MosqueRow(
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isNearest) {
-                MaterialTheme.colorScheme.surface
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
             } else {
                 MaterialTheme.colorScheme.surface
             }
         ),
         border = BorderStroke(
-            width = if (isNearest) 1.5.dp else 1.dp,
-            color = if (isNearest) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+            width = if (isSelected) 2.dp else if (isNearest) 1.5.dp else 1.dp,
+            color = if (isSelected) MaterialTheme.colorScheme.primary
+            else if (isNearest) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
             else MaterialTheme.colorScheme.outlineVariant
         )
     ) {

@@ -7,6 +7,10 @@ plugins {
   // alias(libs.plugins.google.services)
 }
 
+apply(from = rootProject.file("gradle/versioning.gradle.kts"))
+val applicationVersionName = extra["applicationVersionName"] as String
+val applicationVersionCode = extra["applicationVersionCode"] as Int
+
 android {
   namespace = "com.example"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
@@ -15,8 +19,8 @@ android {
     applicationId = "com.aistudio.ezanvakti.xmpqtr"
     minSdk = 24
     targetSdk = 36
-    versionCode = 6
-    versionName = "5.1"
+    versionCode = applicationVersionCode
+    versionName = applicationVersionName
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -66,11 +70,24 @@ android {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
   }
+  // Only the model needs direct file mapping. Index/tokenizer assets use streams
+  // and may stay compressed inside the APK without changing their contents.
+  androidResources { noCompress += "onnx" }
+  // The direct-download APK includes all four ABIs. Compress native libraries;
+  // Android extracts the device's ABI on installation. No ABI is dropped.
+  packaging { jniLibs { useLegacyPackaging = true } }
   buildFeatures {
     compose = true
     buildConfig = true
   }
   testOptions { unitTests { isIncludeAndroidResources = true } }
+}
+
+// Native Android graphics and two API levels need more than Gradle's 512 MB default.
+// Recycle workers to release Robolectric SDK/native state during the full suite.
+tasks.withType<Test>().configureEach {
+  maxHeapSize = "2g"
+  forkEvery = 8
 }
 
 // Configure the Secrets Gradle Plugin to use .env and .env.example files
@@ -84,6 +101,8 @@ secrets {
 // Some unused dependencies are commented out below instead of being removed.
 // This makes it easy to add them back in the future if needed.
 dependencies {
+  implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
+  testRuntimeOnly("com.microsoft.onnxruntime:onnxruntime:1.22.0")
   implementation(platform(libs.androidx.compose.bom))
   // implementation(platform(libs.firebase.bom))
   implementation(libs.accompanist.permissions)
