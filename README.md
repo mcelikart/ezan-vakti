@@ -1,32 +1,84 @@
 # VakitBox Pro
 
-VakitBox Pro, namaz vakitlerini ve günlük ibadet araçlarını tek bir Android uygulamasında bir araya getirir. Mevcut uygulama ikonu korunmuştur.
+VakitBox Pro; namaz vakitleri, günlük ibadet araçları ve Kur’an kaynaklarını tek bir Android uygulamasında birleştirir. Uygulama Kotlin ve Jetpack Compose ile geliştirilmiştir; mevcut uygulama ikonu korunmuştur.
+
+## Ekran görüntüleri
+
+<p align="center">
+  <img src="screenshots/10_ana_sayfa_5_3_1.png" alt="VakitBox Pro ana sayfası; vakit sayacı, adım sayar ve Sabah Namazı alarmı" width="31%" />
+  <img src="screenshots/11_kuran_5_3_1.png" alt="Kur’an sure listesi ve okuma ekranı" width="31%" />
+  <img src="screenshots/12_moduller_5_3_1.png" alt="Kur’an fihristi ve ezan alarmları dahil uygulama modülleri" width="31%" />
+</p>
 
 ## Özellikler
 
-- Konuma göre namaz vakitleri ve vakte kalan süreyi gösteren ana ekran.
-- Ezan bildirimleri: vakitten 10 dakika önce ve vakit girdiğinde uyarı; sürekli kalan süre bildirimi; vakit bildirimi 5 dakika sonra kapanır.
-- Güneş doğuşuna göre birden fazla günlük alarm. Varsayılan olarak güneşten 30 dakika önce çalar; süre değiştirilebilir. Telefonun varsayılan alarm sesi ve erteleme/kapatma kontrolleri kullanılır.
-- API kullanmadan cihazda çalışan Kur’an fihristi. Konunun anlamına göre ayetleri sıralar; 114 sure ve 6.236 ayet, arama modeliyle birlikte uygulamanın içindedir.
-- Kıble pusulası, Kur’an ve sesli tilavet, imsakiye, hicrî takvim, zikir sayacı, namaz rehberi, adım sayar ve ana ekran araç takımı.
-- Büyük ve okunaklı durum çubuğu sayacı; farklı ekran ölçülerine uyumlu arayüz.
+### Namaz vakitleri ve bildirimler
 
-Kur’an fihristi internet bağlantısı veya API anahtarı istemez. Hava durumu, harita ve isteğe bağlı asistan özellikleri gibi çevrimiçi hizmetler bağlantı gerektirebilir.
+- Seçilen konuma göre günlük namaz vakitleri ve bir sonraki vakte kalan süre.
+- Vakit girmeden 10 dakika önce ve vakit başladığında bildirim.
+- Bildirim alanında sürekli görünen geri sayım; vakit bildirimi geri sayımın altında kalır ve beş dakika sonra otomatik kapanır.
+- Durum çubuğunda büyük, okunaklı ve canlı kalan-süre göstergesi.
+- Konum seçimi ve farklı vakit hesaplama yöntemleri.
+
+### Sabah Namazı alarmı
+
+- Alarm saatini güneş doğuşuna göre her gün yeniler.
+- Varsayılan alarm güneş doğuşundan 30 dakika öncedir; bu süre değiştirilebilir ve birden fazla alarm kurulabilir.
+- Alarm sesi ve erteleme/kapatma kontrolleri Android alarm davranışını izler.
+
+### Çevrimdışı Kur’an fihristi
+
+- Sorguyu yalnızca kelime eşleşmesiyle aramaz; aranan konunun anlamına yakın ayetleri cihazda sıralar.
+- Arama internet bağlantısı, API veya API anahtarı istemez. Model ve arama verileri uygulamayla birlikte gelir.
+- 114 sure ve 6.236 ayet üzerinde çalışır; sonuçlar sure ve ayet bilgisiyle gösterilir.
+
+### Kur’an okuma ve diğer araçlar
+
+- Sure ve ayet listesi, meal/çeviri seçenekleri, sesli tilavet ve kaydedilmiş ayetler.
+- Kıble pusulası, imsakiye ve hicrî takvim.
+- Zikir sayacı, günlük adım sayar, namaz öğrenme rehberi ve kaza namazı takibi.
+- Yakındaki camileri bulma, dua ve sure içerikleri, Esma-ül Hüsna ve zekât hesaplama.
+- Tema seçenekleri, ana ekran araç takımı ve farklı ekran boyutlarına uyumlu arayüz.
+
+Kur’an fihristi tamamen cihazda çalışır. Hava durumu, harita ve isteğe bağlı asistan gibi bazı çevrimiçi özellikler internet bağlantısı gerektirebilir.
 
 ## Kurulum
 
-Uygulamayı yayımlanmış paketlerden indirmek için [GitHub Releases](https://github.com/mcelikart/vakitbox-pro/releases) sayfasını kullanın. Kaynak kodundan derlemek için Android Studio ve JDK 17 gerekir.
+Yayımlanan kurulum paketleri için [GitHub Releases](https://github.com/mcelikart/vakitbox-pro/releases) sayfasına bakın. Kaynak kodunu Android Studio ile açabilir veya JDK 17 ve Android SDK kurulu bir ortamda derleyebilirsiniz.
 
-Arama modeli Git LFS üzerinden saklanır. Depoyu klonladıktan sonra:
+Arama modeli Git LFS ile saklanır. Depoyu klonladıktan sonra model dosyasını indirin:
 
-1. Git LFS'i kurup etkinleştirin: `git lfs install`
-2. Model dosyasını alın: `git lfs pull`
-3. Android Studio'da projeyi açın veya `./gradlew assembleDebug` komutunu çalıştırın.
+```sh
+git lfs install
+git lfs pull
+```
 
-## Sürüm
+Debug APK üretmek için:
 
-Mevcut sürüm **5.3.1 (11)**. Uygulamadaki Hakkında ekranı sürüm ve yapı numarasını gösterir. Sürüm numaralarının nasıl ilerlediği için [VERSIONING.md](VERSIONING.md) dosyasına bakın.
+```sh
+./gradlew assembleDebug
+```
 
-## Veri ve lisanslar
+Minify ve kaynak küçültmesi etkin, telefonda denemeye uygun APK için:
 
-Kur’an metni, arama modeli ve kaynak bilgileri uygulama içindeki `app/src/main/assets/quran_search` dizininde açıklanmıştır. Model ve veri lisanslarını dağıtım koşullarına uygun biçimde koruyun.
+```sh
+./gradlew assemblePreview
+```
+
+`assemblePreview` çıktısı `app/build/outputs/apk/preview/app-preview.apk` konumunda oluşur.
+
+## Geliştirme bilgileri
+
+- Android için Kotlin, Jetpack Compose ve Material 3.
+- Kur’an konu araması için cihazda çalışan ONNX Runtime modeli.
+- Minimum Android sürümü: Android 7.0 (API 24).
+- Sürüm numarası ve Android yapı kodunun tek kaynağı `version.properties` dosyasıdır. Kaynak değişikliklerini paketlerken yama sürümü ve yapı kodu otomatik ilerler; ayrıntılar için [VERSIONING.md](VERSIONING.md) dosyasına bakın.
+- Testler: `./gradlew testDebugUnitTest`.
+
+## Kaynaklar ve lisanslar
+
+Kur’an metni, arama modeli ve kaynak notları `app/src/main/assets/quran_search` altında bulunur. Bu dizindeki lisans ve bildirim dosyalarını dağıtım sırasında koruyun.
+
+## İletişim
+
+Sorular ve geri bildirim için: [mcelik.art@gmail.com](mailto:mcelik.art@gmail.com)
