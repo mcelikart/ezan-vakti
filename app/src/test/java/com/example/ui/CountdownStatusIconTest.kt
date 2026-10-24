@@ -78,7 +78,8 @@ class CountdownStatusIconTest {
         }
         assertTrue("Bold numerals must remain visible", visiblePixels > 250)
         assertTrue("The time must fill the icon width", right - left >= 44)
-        assertTrue("Numerals must occupy at least 21 dp of the 24 dp icon", bottom - top >= 42)
+        assertTrue("Numerals must stay large in a wider proportion", bottom - top >= 35)
+        assertTrue("Numerals must be shorter than the previous stretched treatment", bottom - top < 42)
         assertTrue("Small margins must prevent clipping", top >= 1 && bottom < 47)
         assertTrue("Text must be vertically centered", kotlin.math.abs(top + bottom - 47) <= 2)
         for (x in 0 until bitmap.width) {
@@ -93,7 +94,7 @@ class CountdownStatusIconTest {
             val visibleRows = (0 until bitmap.height).filter { y ->
                 (0 until bitmap.width).any { x -> Color.alpha(bitmap.getPixel(x, y)) > 127 }
             }
-            assertTrue("${CountdownStatusIcon.formatRemaining(millis)} must retain tall numerals", visibleRows.last() - visibleRows.first() >= 41)
+            assertTrue("${CountdownStatusIcon.formatRemaining(millis)} must retain large numerals", visibleRows.last() - visibleRows.first() >= 35)
         }
     }
 

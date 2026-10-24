@@ -208,7 +208,9 @@ internal fun QuranIndexSearchContent(
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize().testTag("quran-index-results"),
-                        contentPadding = PaddingValues(bottom = 24.dp)
+                        contentPadding = PaddingValues(
+                            bottom = com.example.ui.theme.navBarBottomPadding(extra = 24.dp)
+                        )
                     ) {
                         item {
                             Text(

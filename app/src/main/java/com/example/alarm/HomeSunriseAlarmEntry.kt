@@ -3,13 +3,13 @@ package com.example.alarm
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,7 +33,26 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun HomeSunriseAlarmEntry(onClick: () -> Unit) {
+fun HomeStepsAndAlarmRow(
+    onAlarmClick: () -> Unit,
+    stepCounter: @Composable (Modifier) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(Modifier.weight(1f).testTag("home-step-shortcut")) {
+            stepCounter(Modifier.fillMaxWidth())
+        }
+        Box(Modifier.weight(1f).testTag("home-alarm-shortcut")) {
+            HomeSunriseAlarmEntry(onClick = onAlarmClick, modifier = Modifier.fillMaxWidth())
+        }
+    }
+}
+
+@Composable
+fun HomeSunriseAlarmEntry(onClick: () -> Unit, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var revision by remember { mutableIntStateOf(0) }
     DisposableEffect(context) {
@@ -53,18 +72,27 @@ fun HomeSunriseAlarmEntry(onClick: () -> Unit) {
         "Sonraki alarm ${SimpleDateFormat("d MMM • HH:mm", Locale.forLanguageTag("tr-TR")).format(Date(it.triggerAtMillis))}"
     } ?: "Güneşten 30 dk önce • Süreyi değiştirebilirsiniz"
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp)
+        modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)
             .testTag("home-sunrise-alarm").clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Icon(Icons.Default.Alarm, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(28.dp))
-            Column(Modifier.weight(1f)) {
-                Text("Güneş Alarmı", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Icon(Icons.Default.Alarm, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                Text(
+                    "Sabah Namazı Alarmı",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2
+                )
             }
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.primary)
+            Text(
+                subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2
+            )
         }
     }
 }

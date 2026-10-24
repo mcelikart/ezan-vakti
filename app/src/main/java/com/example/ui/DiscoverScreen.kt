@@ -880,7 +880,8 @@ private fun QazaPrayersTab(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp,
+            bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(prayers) { prayer ->
@@ -1009,7 +1010,8 @@ private fun QazaFastingTab(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp,
+            bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
@@ -1147,7 +1149,8 @@ private fun QazaCalculatorTab(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp,
+            bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
@@ -1264,7 +1267,8 @@ private fun QazaHistoryAndStatsTab(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp,
+            bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
@@ -1649,7 +1653,7 @@ fun SurahsScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(top = 16.dp, bottom = 80.dp, start = 20.dp, end = 20.dp),
+                    contentPadding = PaddingValues(top = 16.dp, bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp), start = 20.dp, end = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     // Arabic Section
@@ -1852,7 +1856,8 @@ fun SurahsScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
 
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+                    contentPadding = PaddingValues(start = 24.dp, top = 12.dp, end = 24.dp,
+                        bottom = com.example.ui.theme.navBarBottomPadding(extra = 12.dp))
                 ) {
                     items(currentItems.size) { index ->
                         val surah = currentItems[index]
@@ -1961,7 +1966,8 @@ fun EsmaUlHusnaScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 80.dp),
+                contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp,
+                    bottom = com.example.ui.theme.navBarBottomPadding(extra = 12.dp)),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -2172,7 +2178,8 @@ fun AlarmSettingsScreen(onBack: () -> Unit) {
     SubScreenScaffold(title = "Ezan ve Bildirim Sesleri", onBack = onBack) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(20.dp),
+            contentPadding = PaddingValues(start = 20.dp, top = 20.dp, end = 20.dp,
+                bottom = com.example.ui.theme.navBarBottomPadding(extra = 20.dp)),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
@@ -2837,7 +2844,8 @@ fun ZakatCalcScreen(onBack: () -> Unit) {
     SubScreenScaffold(title = strings.zakatTitle, onBack = onBack) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(20.dp),
+            contentPadding = PaddingValues(start = 20.dp, top = 20.dp, end = 20.dp,
+                bottom = com.example.ui.theme.navBarBottomPadding(extra = 20.dp)),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
@@ -3405,7 +3413,8 @@ fun HadithLibraryScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp,
+                    bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // Show "Hadith of the Day" Banner on "All" tab when search is empty
@@ -5236,7 +5245,7 @@ fun QuranReadingScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                 state = surahsListState,
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.spacedBy(10.dp),
-                                contentPadding = PaddingValues(bottom = 80.dp)
+                                contentPadding = PaddingValues(bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp))
                             ) {
                                 items(filteredSurahs) { surah ->
                                     Card(
@@ -5508,6 +5517,9 @@ fun QuranReadingScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                     } else {
                         LazyColumn(
                             modifier = Modifier.weight(1f),
+                            contentPadding = PaddingValues(
+                                bottom = com.example.ui.theme.navBarBottomPadding(extra = 12.dp)
+                            ),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(savedVerses) { savedVerse ->
@@ -5958,7 +5970,7 @@ fun QuranReadingScreen(viewModel: PrayerViewModel, onBack: () -> Unit) {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(MaterialTheme.colorScheme.background),
-                                contentPadding = PaddingValues(top = 8.dp, bottom = 80.dp, start = 8.dp, end = 12.dp),
+                                contentPadding = PaddingValues(top = 8.dp, bottom = com.example.ui.theme.navBarBottomPadding(extra = 8.dp), start = 8.dp, end = 12.dp),
                                 verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 // Beautiful Besmele Header item (For all Surahs EXCEPT Fâtihah (1) and Tevbe (9))

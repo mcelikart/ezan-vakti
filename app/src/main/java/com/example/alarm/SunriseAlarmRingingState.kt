@@ -77,6 +77,7 @@ class SunriseAlarmRingingState(context: Context) {
                             fromSnooze = item.optBoolean("fromSnooze", false)
                         ),
                         label = item.optString("label", SunriseAlarm.DEFAULT_LABEL).take(80)
+                            .let { if (it == SunriseAlarm.LEGACY_DEFAULT_LABEL) SunriseAlarm.DEFAULT_LABEL else it }
                             .ifBlank { SunriseAlarm.DEFAULT_LABEL },
                         startedAtMillis = start,
                         expiresAtMillis = expires

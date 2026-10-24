@@ -62,7 +62,7 @@ import java.util.TimeZone
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
-/** The common navigation shell reserves the space below this screen. */
+/** The common navigation shell overlays its measured island above this screen's scroll list. */
 @Composable
 fun SunriseAlarmScreen(
     onBack: () -> Unit,
@@ -174,7 +174,7 @@ internal fun SunriseAlarmContent(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, "Geri", tint = MaterialTheme.colorScheme.primary)
                 }
                 Text(
-                    "Güneş Alarmı",
+                    "Sabah Namazı Alarmı",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f).padding(horizontal = 8.dp)
@@ -188,7 +188,10 @@ internal fun SunriseAlarmContent(
             }
             LazyColumn(
                 modifier = Modifier.weight(1f).fillMaxWidth().testTag("sunrise-alarm-list"),
-                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(
+                    start = 20.dp, end = 20.dp, top = 8.dp,
+                    bottom = com.example.ui.theme.navBarBottomPadding(extra = 24.dp)
+                ),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item(key = "permissions") { permissionContent() }

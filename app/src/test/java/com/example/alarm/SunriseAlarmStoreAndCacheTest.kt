@@ -55,6 +55,15 @@ class SunriseAlarmStoreAndCacheTest {
         assertEquals(listOf(SunriseAlarm(id = "good")), SunriseAlarmStore(context).list())
     }
 
+    @Test fun savedDefaultSunriseLabelMigratesToThePrayerAlarmName() {
+        context.getSharedPreferences(SunriseAlarmStore.PREFERENCES, 0).edit()
+            .putString(SunriseAlarmStore.ALARMS,
+                """[{"id":"legacy","minutesBeforeSunrise":30,"enabled":true,"label":"${SunriseAlarm.LEGACY_DEFAULT_LABEL}"}]""")
+            .commit()
+
+        assertEquals(SunriseAlarm.DEFAULT_LABEL, SunriseAlarmStore(context).list().single().label)
+    }
+
     @Test fun noAlarmIsInventedWhenOnlyUndatedOrYesterdaySunriseExists() {
         cache("2027-01-30", "Güneş,07:10")
         context.getSharedPreferences("countdown_service_prefs", 0).edit().putString("ALL_PRAYERS", "Güneş,07:15").commit()

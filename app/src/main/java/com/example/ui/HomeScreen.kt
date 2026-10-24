@@ -290,10 +290,6 @@ fun HomeScreen(
             }
         }
 
-        item(key = "sunrise-alarm-entry") {
-            com.example.alarm.HomeSunriseAlarmEntry(onClick = onNavigateToAlarms)
-        }
-
         if (isLoading && timings == null) {
             item {
                 Box(modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center) {
@@ -401,8 +397,13 @@ fun HomeScreen(
             }
 
             // Compact Pedometer (Adımsayar) Mini Window on Home Screen
-            item(key = "home_steps_mini_widget") {
-                HomeStepsMiniWidget(onNavigateToSteps = onNavigateToSteps)
+            item(key = "home_steps_alarm_shortcuts") {
+                com.example.alarm.HomeStepsAndAlarmRow(onAlarmClick = onNavigateToAlarms) { modifier ->
+                    HomeStepsMiniWidget(
+                        onNavigateToSteps = onNavigateToSteps,
+                        modifier = modifier
+                    )
+                }
             }
 
             spec.sections.forEach { section ->
@@ -2149,7 +2150,8 @@ private fun QuickActionTile(
 
 @Composable
 fun HomeStepsMiniWidget(
-    onNavigateToSteps: () -> Unit
+    onNavigateToSteps: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val store = remember { com.example.steps.StepStore.get(context) }
@@ -2162,10 +2164,6 @@ fun HomeStepsMiniWidget(
     val dailyGoal = remember(revision) {
         com.example.steps.StepCounterService.settings(context).getInt("goal", 6000)
     }
-    val profile = remember(revision, todayKey) {
-        store.profile(todayKey)
-    }
-
     val safeGoal = dailyGoal.coerceAtLeast(1000)
     val progress = (todaySteps.toFloat() / safeGoal.toFloat()).coerceIn(0f, 1f)
     val animatedProgress by animateFloatAsState(
@@ -2173,23 +2171,6 @@ fun HomeStepsMiniWidget(
         animationSpec = tween(durationMillis = 850, easing = FastOutSlowInEasing),
         label = "home_steps_progress"
     )
-
-    val estimate = remember(todaySteps, profile) {
-        com.example.steps.WalkingMetrics.estimate(todaySteps.toLong(), profile)
-    }
-    val distanceKm = remember(todaySteps, estimate) {
-        (estimate?.meters ?: (todaySteps * 0.72)) / 1000.0
-    }
-    val caloriesKcal = remember(todaySteps, estimate) {
-        (estimate?.activeKcal ?: (todaySteps * 0.04)).toInt()
-    }
-
-    val last7Days = remember(revision, todayKey, todaySteps) {
-        (6 downTo 0).map { offset ->
-            val d = com.example.steps.WalkingDates.shift(todayKey, com.example.steps.ReportPeriod.DAY, -offset)
-            store.day(d).toInt()
-        }
-    }
 
     val activeTheme = LocalAppTheme.current
     val isGlass = activeTheme != AppTheme.CLASSIC_EMERALD && activeTheme.spec.isGlass
@@ -2202,9 +2183,9 @@ fun HomeStepsMiniWidget(
         color = if (isGlass) glassSurfaceColor(activeTheme) else MaterialTheme.colorScheme.surface.copy(alpha = 0.94f),
         border = if (isGlass) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.14f)),
         shadowElevation = if (isGlass) 0.dp else 4.dp,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .padding(vertical = 8.dp)
             .then(
                 if (isGlass) {
                     Modifier.glassmorphicCard(theme = activeTheme, shape = widgetShape, border = activeTheme.buttonBorder)
@@ -2217,17 +2198,17 @@ fun HomeStepsMiniWidget(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+                .padding(horizontal = 10.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             // Left: Circular Progress Ring + Step Icon
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier.size(44.dp)
             ) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
-                    val strokeWidth = 6.dp.toPx()
+                    val strokeWidth = 5.dp.toPx()
                     drawArc(
                         color = primaryColor.copy(alpha = 0.15f),
                         startAngle = -90f,
@@ -2250,148 +2231,44 @@ fun HomeStepsMiniWidget(
                         imageVector = Icons.Default.DirectionsWalk,
                         contentDescription = "Adımsayar",
                         tint = primaryColor,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(17.dp)
                     )
                     Text(
                         text = "%${(progress * 100).toInt()}",
-                        fontSize = 9.sp,
+                        fontSize = 8.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(14.dp))
-
-            // Middle: Step count, goal & quick pills (km + kcal)
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Text(
-                        text = "ADIMSAYAR",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 1.sp,
-                        color = primaryColor
-                    )
-                    Surface(
-                        shape = RoundedCornerShape(6.dp),
-                        color = accentEmerald.copy(alpha = 0.14f)
-                    ) {
-                        Text(
-                            text = if (todaySteps >= safeGoal) "Hedef Tamam!" else "Canlı",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = accentEmerald,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(2.dp))
-
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Text(
-                        text = String.format(Locale("tr", "TR"), "%,d", todaySteps),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Black,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "/ ${String.format(Locale("tr", "TR"), "%,d", safeGoal)} adım",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                        modifier = Modifier.padding(bottom = 2.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Place,
-                            contentDescription = null,
-                            tint = primaryColor.copy(alpha = 0.8f),
-                            modifier = Modifier.size(13.dp)
-                        )
-                        Spacer(modifier = Modifier.width(3.dp))
-                        Text(
-                            text = String.format(Locale("tr", "TR"), "%.2f km", distanceKm),
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-                        )
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.LocalFireDepartment,
-                            contentDescription = null,
-                            tint = Color(0xFFF59E0B),
-                            modifier = Modifier.size(13.dp)
-                        )
-                        Spacer(modifier = Modifier.width(3.dp))
-                        Text(
-                            text = "$caloriesKcal kcal",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-                        )
-                    }
-                }
-            }
-
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Right: 7-Day Mini Sparkline Bars + Chevron
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Canvas(
-                    modifier = Modifier
-                        .width(52.dp)
-                        .height(32.dp)
-                ) {
-                    val maxVal = (last7Days.maxOrNull() ?: safeGoal).coerceAtLeast(safeGoal).toFloat()
-                    val count = last7Days.size.coerceAtLeast(1)
-                    val gap = 3.dp.toPx()
-                    val barWidth = ((size.width - gap * (count - 1)) / count).coerceAtLeast(3f)
-                    last7Days.forEachIndexed { index, value ->
-                        val ratio = (value.toFloat() / maxVal).coerceIn(0.12f, 1f)
-                        val barH = size.height * ratio
-                        val x = index * (barWidth + gap)
-                        val isToday = index == last7Days.lastIndex
-                        drawRoundRect(
-                            color = if (isToday) primaryColor else primaryColor.copy(alpha = 0.32f),
-                            topLeft = Offset(x, size.height - barH),
-                            size = Size(barWidth, barH),
-                            cornerRadius = CornerRadius(3.dp.toPx(), 3.dp.toPx())
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Detay",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = primaryColor
-                    )
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "Adımsayar Detayları",
-                        tint = primaryColor,
-                        modifier = Modifier.size(14.dp)
-                    )
-                }
+            // Keep the essentials readable in the narrower side-by-side card.
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "ADIMSAYAR",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.4.sp,
+                    color = primaryColor,
+                    maxLines = 1
+                )
+                Text(
+                    text = String.format(Locale("tr", "TR"), "%,d", todaySteps),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Black,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1
+                )
+                Text(
+                    text = "Hedef ${String.format(Locale("tr", "TR"), "%,d", safeGoal)}",
+                    fontSize = 9.sp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    maxLines = 1
+                )
             }
+
         }
     }
 }

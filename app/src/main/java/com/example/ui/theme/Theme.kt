@@ -803,8 +803,7 @@ fun Modifier.paperLiftShadow(
     }
 }
 
-// Legacy overlay inset. The shared navigation scaffold already reserves its
-// measured bar and provides zero here, so screens retain only their extra gap.
+// Measured floating navigation island height used as trailing scroll padding.
 val LocalNavBarHeight = staticCompositionLocalOf { 0.dp }
 
 @Composable

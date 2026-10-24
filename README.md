@@ -25,7 +25,7 @@ Arama modeli Git LFS üzerinden saklanır. Depoyu klonladıktan sonra:
 
 ## Sürüm
 
-Mevcut sürüm **5.3.0 (10)**. Uygulamadaki Hakkında ekranı sürüm ve yapı numarasını gösterir. Sürüm numaralarının nasıl ilerlediği için [VERSIONING.md](VERSIONING.md) dosyasına bakın.
+Mevcut sürüm **5.3.1 (11)**. Uygulamadaki Hakkında ekranı sürüm ve yapı numarasını gösterir. Sürüm numaralarının nasıl ilerlediği için [VERSIONING.md](VERSIONING.md) dosyasına bakın.
 
 ## Veri ve lisanslar
 

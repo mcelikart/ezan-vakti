@@ -153,7 +153,8 @@ class NavBarInsetScreenshotTest {
     @Config(qualifiers = "w320dp-h800dp-xhdpi", sdk = [36])
     fun nestedAboutScaffoldFinalButtonRemainsReachableAtLargeText() {
         openShell(fontScale = 1.5f, systemBottom = 48.dp) { AboutSubScreen(onBack = {}) }
-        val sources = compose.onNodeWithText("Kaynaklar ve lisanslar").performScrollTo()
+        compose.onNodeWithTag("about-scroll-content").performTouchInput { repeat(3) { swipeUp() } }
+        val sources = compose.onNodeWithText("Kaynaklar ve lisanslar")
         assertAboveBar(sources)
         sources.performClick()
         compose.onNodeWithText("Kapat").assertIsDisplayed()
@@ -196,7 +197,7 @@ class NavBarInsetScreenshotTest {
         compose.runOnIdle { barHeight.value = 144.dp }
         checkLast()
         val tallViewport = compose.onNodeWithTag("ending-list").fetchSemanticsNode().boundsInRoot
-        assertTrue("larger measured bar must shrink content", tallViewport.height < smallViewport.height)
+        assertEquals("the content keeps flowing behind a taller floating island", smallViewport.height, tallViewport.height, 1f)
         compose.runOnIdle { showBar.value = false }
         compose.onNodeWithTag("app-bottom-navigation").assertDoesNotExist()
         val full = compose.onRoot().fetchSemanticsNode().boundsInRoot
@@ -229,7 +230,7 @@ class NavBarInsetScreenshotTest {
         compose.runOnIdle { keyboard.value = 0.dp }
         compose.onNodeWithTag("app-bottom-navigation").assertIsDisplayed()
         val restored = compose.onNodeWithTag("ending-list").getUnclippedBoundsInRoot()
-        assertEquals("dismissed keyboard must restore measured navigation reserve", 112f,
+        assertEquals("dismissed keyboard restores the full-height scrolling layer", 0f,
             (root.bottom - restored.bottom).value, 1f)
     }
 }
@@ -244,7 +245,12 @@ private fun NavigationIsland(height: Dp) {
 
 @Composable
 private fun EndingList() {
-    LazyColumn(Modifier.fillMaxSize().testTag("ending-list")) {
+    LazyColumn(
+        Modifier.fillMaxSize().testTag("ending-list"),
+        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+            bottom = com.example.ui.theme.navBarBottomPadding()
+        )
+    ) {
         items(40) { index ->
             Box(Modifier.fillMaxWidth().height(48.dp).testTag("ending-row-$index")) {
                 Text("Satır $index")

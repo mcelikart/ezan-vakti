@@ -21,8 +21,8 @@ internal object CountdownStatusIcon {
 
     /**
      * SystemUI applies its own foreground tint, so only white and transparency
-     * are used. Tall, bold condensed numerals fill both dimensions without
-     * a frame taking space from the time. Android still controls the small-icon
+     * are used. Bold, wider numerals fill the slot without a frame taking
+     * space from the time. Android still controls the small-icon
      * slot size; app text-size settings cannot enlarge that slot.
      */
     @Synchronized
@@ -62,19 +62,15 @@ internal object CountdownStatusIcon {
         canvas.scale(size / SIZE_DP, size / SIZE_DP)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
             color = Color.WHITE
-            typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+            typeface = Typeface.create("sans-serif", Typeface.BOLD)
             textSize = 100f
         }
-        // A naturally proportioned H:MM is only about 9 dp tall in a 24 dp
-        // icon. Use the actual glyph bounds to make it a tall condensed clock:
-        // the numerals occupy 22 dp vertically while retaining the familiar
-        // hour:minute layout. A larger bitmap alone would not change the size
-        // SystemUI displays, and shrinking the whole line to fit its width
-        // would reintroduce the unreadable strip of tiny digits.
+        // Use the whole available width, while keeping the glyph height closer
+        // to a natural clock proportion than the previous stretched treatment.
         val bounds = Rect()
         paint.getTextBounds(label, 0, label.length, bounds)
         val width = SIZE_DP - 0.5f
-        val height = SIZE_DP - 2f
+        val height = 18.5f
         val scaleX = width / bounds.width()
         val scaleY = height / bounds.height()
         canvas.translate(

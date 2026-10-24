@@ -17,7 +17,8 @@ data class SunriseAlarm(
     companion object {
         const val DEFAULT_MINUTES_BEFORE_SUNRISE = 30
         const val MAX_MINUTES_BEFORE_SUNRISE = 180
-        const val DEFAULT_LABEL = "Güneş alarmı"
+        const val LEGACY_DEFAULT_LABEL = "Güneş alarmı"
+        const val DEFAULT_LABEL = "Sabah namazı alarmı"
     }
 }
 

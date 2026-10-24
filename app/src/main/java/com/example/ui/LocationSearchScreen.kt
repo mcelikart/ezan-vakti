@@ -210,7 +210,9 @@ fun LocationSearchScreen(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            LazyColumn {
+            LazyColumn(contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                bottom = com.example.ui.theme.navBarBottomPadding()
+            )) {
                 if (isSearching) {
                     item {
                         Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {

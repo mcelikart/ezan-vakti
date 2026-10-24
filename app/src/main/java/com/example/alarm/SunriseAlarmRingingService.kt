@@ -169,8 +169,8 @@ class SunriseAlarmRingingService : Service() {
 
         private fun createChannel(context: Context) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-            val channel = NotificationChannel(CHANNEL_ID, "Çalan güneş alarmları", NotificationManager.IMPORTANCE_HIGH).apply {
-                description = "Güneş alarmını kapatma ve erteleme"
+            val channel = NotificationChannel(CHANNEL_ID, "Çalan sabah namazı alarmları", NotificationManager.IMPORTANCE_HIGH).apply {
+                description = "Sabah namazı alarmını kapatma ve erteleme"
                 setSound(null, null) // The player uses the alarm stream, avoiding a second notification sound.
                 enableVibration(false)
                 lockscreenVisibility = Notification.VISIBILITY_PUBLIC

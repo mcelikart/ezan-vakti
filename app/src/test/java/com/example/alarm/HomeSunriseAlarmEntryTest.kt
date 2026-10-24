@@ -6,8 +6,16 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
 import com.example.ui.theme.MyApplicationTheme
+import com.example.alarm.HomeStepsAndAlarmRow
 import com.example.data.PrayerTimeCache
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -59,10 +67,25 @@ class HomeSunriseAlarmEntryTest {
     @Test fun homeEntryExplainsTheDefaultAndOpensAlarmModuleWhenTapped() {
         var openings = 0
         openEntry { openings++ }
-        compose.onNodeWithText("Güneş Alarmı").assertIsDisplayed()
+        compose.onNodeWithText("Sabah Namazı Alarmı").assertIsDisplayed()
         compose.onNodeWithText("Güneşten 30 dk önce • Süreyi değiştirebilirsiniz").assertIsDisplayed()
         compose.onNodeWithTag("home-sunrise-alarm").performClick()
         compose.runOnIdle { assertEquals(1, openings) }
+    }
+
+    @Test fun homeAlarmSitsToTheRightOfTheCompactStepCounter() {
+        compose.setContent {
+            MyApplicationTheme {
+                HomeStepsAndAlarmRow(onAlarmClick = {}) { modifier ->
+                    Box(modifier.height(96.dp).background(Color.Gray).testTag("home-steps-widget"))
+                }
+            }
+        }
+        val steps = compose.onNodeWithTag("home-step-shortcut").fetchSemanticsNode().boundsInRoot
+        val alarm = compose.onNodeWithTag("home-alarm-shortcut").fetchSemanticsNode().boundsInRoot
+        compose.onNodeWithTag("home-sunrise-alarm").assertIsDisplayed()
+        assertTrue("The alarm shortcut should be to the right of the step counter", alarm.left > steps.left)
+        assertEquals("Both shortcuts should share one row", steps.width, alarm.width, 1f)
     }
 
     @Test fun homeImmediatelyShowsActualQueuedSnoozeInsteadOfTomorrowsRegularAlarm() {

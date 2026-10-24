@@ -7,6 +7,8 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,6 +20,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -47,7 +50,10 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
             IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Geri") }
         })
     }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState())) {
+        Column(
+            Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState())
+                .testTag("background-settings-scroll")
+        ) {
             ListItem(headlineContent = { Text("Pil kullanımı") },
                 supportingContent = { Text(if (batteryAllowed) "Kısıtlanmıyor" else "Pil optimizasyonu etkin") },
                 trailingContent = {
@@ -72,6 +78,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
                         else Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}")))
                     }) { Icon(Icons.Default.Settings, "Bildirim ayarları") }
                 })
+            Spacer(Modifier.height(com.example.ui.theme.navBarBottomPadding()))
         }
     }
 }

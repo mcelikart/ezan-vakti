@@ -159,6 +159,7 @@ internal fun CompassContent(azimuth: Float, qiblaAngle: Float, hasSensors: Boole
                     fontWeight = FontWeight.Bold
                 )
             }
+            Spacer(Modifier.height(com.example.ui.theme.navBarBottomPadding()))
         }
     }
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -366,6 +367,7 @@ private fun HijriSettingsSubScreen(
                     Icon(Icons.Default.Add, contentDescription = "Artır")
                 }
             }
+            Spacer(Modifier.height(navBarBottomPadding()))
         }
     }
 }
@@ -397,7 +399,8 @@ private fun CalculationMethodSubScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(bottom = navBarBottomPadding())
         ) {
             items(methods.size) { idx ->
                 val m = methods[idx]
@@ -475,6 +478,7 @@ private fun AutoSilentSubScreen(
                     }
                 )
             }
+            Spacer(Modifier.height(navBarBottomPadding()))
         }
     }
 }
@@ -530,6 +534,7 @@ private fun LanguageSettingsSubScreen(
                     }
                 }
             }
+            Spacer(Modifier.height(navBarBottomPadding()))
         }
     }
 }
@@ -675,7 +680,8 @@ internal fun AboutSubScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(20.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .testTag("about-scroll-content"),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -713,6 +719,7 @@ internal fun AboutSubScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             TextButton(onClick = { showLicenses = true }) { Text("Kaynaklar ve lisanslar") }
+            Spacer(Modifier.height(navBarBottomPadding()))
         }
     }
 }

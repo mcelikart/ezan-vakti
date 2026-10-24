@@ -258,7 +258,7 @@ fun QuranMiraclesScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(bottom = 32.dp)
+            contentPadding = PaddingValues(bottom = com.example.ui.theme.navBarBottomPadding(extra = 32.dp))
         ) {
             // 1. Sleek Search Bar
             item(key = "search_field") {
@@ -860,7 +860,10 @@ private fun MiracleDetailScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp),
+                contentPadding = PaddingValues(
+                    top = 8.dp,
+                    bottom = com.example.ui.theme.navBarBottomPadding(extra = 16.dp)
+                ),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 // 0. Ana Başlık ve Açıklama Kartı (Tam Okunabilir & Sığan Tasarım)

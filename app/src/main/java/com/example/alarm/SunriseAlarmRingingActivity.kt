@@ -150,7 +150,7 @@ internal fun SunriseAlarmRingingContent(
         ) {
             Spacer(Modifier.height(16.dp))
             Icon(Icons.Outlined.Alarm, contentDescription = null, tint = accent, modifier = Modifier.height(36.dp))
-            Text("GÜNEŞ ALARMI", color = accent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp)
+            Text("SABAH NAMAZI ALARMI", color = accent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp)
             BoxWithConstraints(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 val time = clockFormat.format(Date(now))
                 val fontScale = LocalDensity.current.fontScale.coerceAtLeast(1f)

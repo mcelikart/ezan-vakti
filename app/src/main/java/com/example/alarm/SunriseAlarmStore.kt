@@ -34,6 +34,7 @@ class SunriseAlarmStore(context: Context) {
                         minutesBeforeSunrise = item.getInt("minutesBeforeSunrise"),
                         enabled = item.optBoolean("enabled", true),
                         label = item.optString("label", SunriseAlarm.DEFAULT_LABEL).trim().take(80)
+                            .let { if (it == SunriseAlarm.LEGACY_DEFAULT_LABEL) SunriseAlarm.DEFAULT_LABEL else it }
                             .ifBlank { SunriseAlarm.DEFAULT_LABEL }
                     )
                 }.getOrNull() ?: continue
